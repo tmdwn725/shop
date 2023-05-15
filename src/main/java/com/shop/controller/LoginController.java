@@ -2,10 +2,12 @@ package com.shop.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+
 @Controller
-public class MainController {
-    @RequestMapping("/main")
-    public String main() {
-        return "main/main";
+public class LoginController {
+
+    @RequestMapping("/login")
+    public String login() {
+        return "login/login";
     }
 }
