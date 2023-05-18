@@ -8,9 +8,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MemberRepositoryImpl {
     private final JPAQueryFactory queryFactory;
-
     QMember member = QMember.member;
-
     public Member fingByMemberId(String memberId) {
         return queryFactory.selectFrom(member)
                 .where(member.memberId.eq(memberId))
