@@ -43,8 +43,7 @@ public class SecurityConfig {
     public AuthenticationSuccessHandler authenticationSuccessHandler() {
         SavedRequestAwareAuthenticationSuccessHandler authenticationSuccessHandler =
                 new SavedRequestAwareAuthenticationSuccessHandler();
-        authenticationSuccessHandler.setDefaultTargetUrl("/main/main");
-
+        authenticationSuccessHandler.setDefaultTargetUrl("/main");
         return authenticationSuccessHandler;
     }
 

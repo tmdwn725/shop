@@ -28,6 +28,5 @@ public class Member {
         this.memberId = member[0];
         this.name = member[1];
         this.password = member[2];
-
     }
 }

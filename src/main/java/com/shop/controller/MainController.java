@@ -8,4 +8,8 @@ public class MainController {
     public String main() {
         return "main/main";
     }
+    @RequestMapping("/productInfo")
+    public String productInfo(){
+        return "product/product-details";
+    }
 }

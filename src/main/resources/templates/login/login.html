@@ -43,14 +43,20 @@
         <div class="cont_img_back_">
           <img src="https://images.unsplash.com/42/U7Fc1sy5SCUDIu4tlJY3_NY_by_PhilippHenzler_philmotion.de.jpg?ixlib=rb-0.3.5&q=50&fm=jpg&crop=entropy&s=7686972873678f32efaf2cd79671673d" alt="" />
         </div>
+        <form id = "login-form" action="/login" method="post">
         <div class="cont_form_login">
           <a href="#" onclick="hidden_login_and_sign_up()" ><i class="material-icons">&#xE5C4;</i></a>
           <h2>LOGIN</h2>
-          <input type="text" placeholder="Email" />
-          <input type="password" placeholder="Password" />
-          <button class="btn_login" onclick="change_to_login()">LOGIN</button>
+            <input type="text" placeholder="Id" id="memberId" name="memberId"/>
+            <input type="password" placeholder="Password" id="password" name="password"/>
+            <div id="login_change">
+              <button class="btn_login" onclick="change_to_login()">LOGIN</button>
+            </div>
+            <div id="login" style="display: none;">
+              <button class="btn_login" type="submit">LOGIN</button>
+            </div>
         </div>
-
+        </form>
         <div class="cont_form_sign_up">
           <a href="#" onclick="hidden_login_and_sign_up()"><i class="material-icons">&#xE5C4;</i></a>
           <h2>SIGN UP</h2>
@@ -70,5 +76,6 @@
 
 <!-- Js Plugins -->
 <script type="text/javascript" th:src="@{/js/common/login.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery-3.3.1.min.js}"></script>
 </body>
 </html>
