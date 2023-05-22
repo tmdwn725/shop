@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface ProductConfig {
     List<Product> selectProductList();
+    Product selectProduct(Long productSeq);
 }

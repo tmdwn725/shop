@@ -20,7 +20,9 @@ public class MainController {
         return "main/main";
     }
     @RequestMapping("/productInfo")
-    public String productInfo(){
+    public String productInfo(Model model, ProductDTO productDTO){
+        ProductDTO product = productService.selectProductInfo(productDTO.getProductSeq());
+        model.addAttribute("product",product);
         return "product/product-details";
     }
 }

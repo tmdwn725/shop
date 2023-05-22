@@ -19,4 +19,9 @@ public class ProductService {
         List<ProductDTO> list = ModelMapperUtil.mapAll(pr, ProductDTO.class);
         return list;
     }
+    public ProductDTO selectProductInfo(Long productSeq){
+        Product productInfo = productRepository.selectProduct(productSeq);
+        ProductDTO productDTO1 = ModelMapperUtil.map(productInfo, ProductDTO.class);
+        return productDTO1;
+    }
 }
