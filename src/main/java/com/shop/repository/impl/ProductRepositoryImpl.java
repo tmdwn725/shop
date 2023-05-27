@@ -1,11 +1,9 @@
 package com.shop.repository.impl;
 
 import com.querydsl.core.Tuple;
+import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.shop.domain.Product;
-import com.shop.domain.QFile;
-import com.shop.domain.QProduct;
-import com.shop.domain.QProductFile;
+import com.shop.domain.*;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
@@ -16,10 +14,12 @@ public class ProductRepositoryImpl {
     QProduct qProduct = QProduct.product;
     QProductFile qProductFile = QProductFile.productFile;
     QFile qFile = QFile.file;
+    QCode qCode = QCode.code;
     public List<Product> selectProductList(){
         List<Product> productList = queryFactory
                 .select(qProduct)
                 .from(qProduct)
+                .join(qProduct.code,qCode)
                 .join(qProduct.productFileList, qProductFile)
                 .join(qProductFile.file, qFile)
                 .orderBy(qProduct.regDt.desc()) // 최신순으로 정렬

@@ -1,6 +1,8 @@
 package com.shop.controller;
 
+import com.shop.dto.CodeDTO;
 import com.shop.dto.ProductDTO;
+import com.shop.service.CodeService;
 import com.shop.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -13,9 +15,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MainController {
     private final ProductService productService;
+    private final CodeService codeService;
     @RequestMapping("/main")
     public String main(Model model) {
         List<ProductDTO> productList = productService.selectProductList();
+        List<CodeDTO> productClsCdList = codeService.findCdList("1101");
+        model.addAttribute("productClsCdList", productClsCdList);
         model.addAttribute("productList", productList);
         return "main/main";
     }

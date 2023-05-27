@@ -20,6 +20,11 @@ public class Product {
     private Long sellerSeq;
     @Column(name = "product_name")
     private String productName;
+    @Column(name = "product_cls_cd")
+    private String productCldCd;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_cls_cd", referencedColumnName = "cd", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT), insertable = false, updatable = false)
+    private Code code;
     @Column(name = "price")
     private int price;
     @Column(name = "reg_dt")
@@ -28,9 +33,10 @@ public class Product {
     private List<ProductFile> productFileList = new ArrayList<>();
     @Transient
     private String filePth;
-    public void createProduct(Long sellerSeq, String productName, int price, LocalDateTime regDt){
+    public void createProduct(Long sellerSeq, String productName, String productClsCd, int price, LocalDateTime regDt){
         this.sellerSeq = sellerSeq;
         this.productName = productName;
+        this.productCldCd = productClsCd;
         this.price = price;
         this.regDt = regDt;
     }

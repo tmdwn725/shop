@@ -9,12 +9,19 @@ import javax.persistence.*;
 @Table(name = "code")
 public class Code {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
     @Column(name ="cd")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String cd;
     @Column(name ="grp_cd")
     private String grpCd;
     @Column(name = "cd_nm")
     private String cdNm;
+    @Column(name = "eng_cd_nm")
+    private String engCdNm;
+    public void createCd(String ...cd){
+        this.cd = cd[0];
+        this.grpCd = cd[1];
+        this.cdNm = cd[2];
+        this.engCdNm = cd[3];
+    }
 }
