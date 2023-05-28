@@ -4,9 +4,7 @@ import lombok.Getter;
 
 import javax.persistence.*;
 
-@Entity
 @Getter
-@Table(name = "code")
 public class Code {
     @Id
     @Column(name ="cd")

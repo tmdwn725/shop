@@ -66,8 +66,8 @@
                 <div class="col-lg-12">
                     <div class="breadcrumb__links">
                         <a href="./index.html"><i class="fa fa-home"></i> Home</a>
-                        <a href="#">Women’s </a>
-                        <span>Essential structured blazer</span>
+                        <a href="#" th:text="${product.productType.name}">Women’s </a>
+                        <span th:text="${product.productName}"></span>
                     </div>
                 </div>
             </div>
@@ -423,7 +423,6 @@
     <!-- Search End -->
 
     <!-- Js Plugins -->
-    <!-- Js Plugins -->
     <script type="text/javascript" th:src="@{/js/jquery-3.3.1.min.js}"></script>
     <script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
     <script type="text/javascript" th:src="@{/js/jquery.magnific-popup.min.js}"></script>
@@ -434,5 +433,6 @@
     <script type="text/javascript" th:src="@{/js/owl.carousel.min.js}"></script>
     <script type="text/javascript" th:src="@{/js/jquery.nicescroll.min.js}"></script>
     <script type="text/javascript" th:src="@{/js/main.js}"></script>
+    <!-- Js Plugins -->
 </body>
 </html>

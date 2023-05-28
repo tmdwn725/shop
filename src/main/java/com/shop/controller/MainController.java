@@ -1,5 +1,6 @@
 package com.shop.controller;
 
+import com.shop.domain.enums.ProductType;
 import com.shop.dto.CodeDTO;
 import com.shop.dto.ProductDTO;
 import com.shop.service.CodeService;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -19,8 +21,7 @@ public class MainController {
     @RequestMapping("/main")
     public String main(Model model) {
         List<ProductDTO> productList = productService.selectProductList();
-        List<CodeDTO> productClsCdList = codeService.findCdList("1101");
-        model.addAttribute("productClsCdList", productClsCdList);
+        model.addAttribute("productType",Arrays.asList(ProductType.values()));
         model.addAttribute("productList", productList);
         return "main/main";
     }

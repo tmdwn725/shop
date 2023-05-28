@@ -1,5 +1,6 @@
 package com.shop.dto;
 
+import com.shop.domain.enums.ProductType;
 import lombok.Data;
 
 @Data

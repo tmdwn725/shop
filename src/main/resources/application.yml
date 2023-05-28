@@ -32,7 +32,7 @@ logging:
    hibernate:
     type:
      descriptor:
-      #sql: trace #sql 파라미터 확인
+      sql: trace #sql 파라미터 확인
 jwt:
  accessSecretKey: aG91Mjctc2ltcGxlLXNwcmluZy1ib290LWFwaS1qd3QK
  refreshSecretKey: bG91Kjctc2lasG23LXNwcmliZy138lGhLWFwaS1qd3QN

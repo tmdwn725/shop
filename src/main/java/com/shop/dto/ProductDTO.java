@@ -1,6 +1,7 @@
 package com.shop.dto;
 
 import com.shop.domain.ProductFile;
+import com.shop.domain.enums.ProductType;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -15,6 +16,7 @@ public class ProductDTO {
     private String rpImageSeq;
     private int price;
     private LocalDateTime regDt;
+    private ProductType productType;
     private List<ProductFile> productFileList = new ArrayList<>();
     private String filePth;
 }
