@@ -17,10 +17,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MainController {
     private final ProductService productService;
-    private final CodeService codeService;
     @RequestMapping("/main")
     public String main(Model model) {
-        List<ProductDTO> productList = productService.selectProductList();
+        List<ProductDTO> productList = productService.selectProductList(8);
         model.addAttribute("productType",Arrays.asList(ProductType.values()));
         model.addAttribute("productList", productList);
         return "main/main";

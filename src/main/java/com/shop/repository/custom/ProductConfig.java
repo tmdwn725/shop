@@ -5,6 +5,6 @@ import com.shop.domain.Product;
 import java.util.List;
 
 public interface ProductConfig {
-    List<Product> selectProductList();
+    List<Product> selectProductList(int limit);
     Product selectProduct(Long productSeq);
 }

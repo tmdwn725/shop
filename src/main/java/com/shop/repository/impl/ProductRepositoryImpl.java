@@ -14,14 +14,14 @@ public class ProductRepositoryImpl {
     QProduct qProduct = QProduct.product;
     QProductFile qProductFile = QProductFile.productFile;
     QFile qFile = QFile.file;
-    public List<Product> selectProductList(){
+    public List<Product> selectProductList(int limit){
         List<Product> productList = queryFactory
                 .select(qProduct)
                 .from(qProduct)
                 .join(qProduct.productFileList, qProductFile)
                 .join(qProductFile.file, qFile)
                 .orderBy(qProduct.regDt.desc()) // 최신순으로 정렬
-                .limit(8) // 최대 8개만 조회
+                .limit(limit) // 최대 8개만 조회
                 .fetch();
         return productList;
     }

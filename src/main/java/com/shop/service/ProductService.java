@@ -14,8 +14,8 @@ import java.util.List;
 public class ProductService {
     private final ProductRepository productRepository;
 
-    public List<ProductDTO> selectProductList(){
-        List<Product> pr = productRepository.selectProductList();
+    public List<ProductDTO> selectProductList(int limit){
+        List<Product> pr = productRepository.selectProductList(limit);
         List<ProductDTO> list = ModelMapperUtil.mapAll(pr, ProductDTO.class);
         return list;
     }
