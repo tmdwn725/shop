@@ -49,7 +49,6 @@ public enum ProductType implements BaseEnum {
     public Optional<ProductType> getParentCategory() {
         return Optional.ofNullable(parentProductType);
     }
-
     // 자식카테고리 Getter
     public List<ProductType> getChildCategories() {
         return Collections.unmodifiableList(childProductTypes);

@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -24,9 +26,12 @@ public class Member {
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
     private Role role;
+    @OneToMany(mappedBy = "member", cascade = CascadeType.PERSIST)
+    private List<Cart> cartList = new ArrayList<>();
     public void craeteMember(String ... member){
         this.memberId = member[0];
         this.name = member[1];
         this.password = member[2];
+        this.role = Role.USER;
     }
 }

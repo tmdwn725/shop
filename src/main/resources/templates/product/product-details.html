@@ -66,7 +66,8 @@
                 <div class="col-lg-12">
                     <div class="breadcrumb__links">
                         <a href="./index.html"><i class="fa fa-home"></i> Home</a>
-                        <a href="#" th:text="${product.productType.name}">Women’s </a>
+                        <a href="#" th:text="${product.productType.getParentCategory().get().name}"></a>
+                        <a href="#" th:text="${product.productType.name}"></a>
                         <span th:text="${product.productName}"></span>
                     </div>
                 </div>
@@ -123,12 +124,12 @@
                         magni lores eos qui ratione voluptatem sequi nesciunt.</p>
                         <div class="product__details__button">
                             <div class="quantity">
-                                <span>Quantity:</span>
+                                <span>수량:</span>
                                 <div class="pro-qty">
-                                    <input type="text" value="1">
+                                    <input id="quantity" type="text" value="1">
                                 </div>
                             </div>
-                            <a href="#" class="cart-btn"><span class="icon_bag_alt"></span> Add to cart</a>
+                            <a href="javascript:void(0);" onclick="addCart();"class="cart-btn"><span class="icon_bag_alt"></span>장바구니 추가</a>
                             <ul>
                                 <li><a href="#"><span class="icon_heart_alt"></span></a></li>
                                 <li><a href="#"><span class="icon_adjust-horiz"></span></a></li>
@@ -166,21 +167,9 @@
                                 <li>
                                     <span>Available size:</span>
                                     <div class="size__btn">
-                                        <label for="xs-btn" class="active">
-                                            <input type="radio" id="xs-btn">
-                                            xs
-                                        </label>
-                                        <label for="s-btn">
-                                            <input type="radio" id="s-btn">
-                                            s
-                                        </label>
-                                        <label for="m-btn">
-                                            <input type="radio" id="m-btn">
-                                            m
-                                        </label>
-                                        <label for="l-btn">
-                                            <input type="radio" id="l-btn">
-                                            l
+                                        <label th:each="stock : ${product.productStockList}" class="active">
+                                            <input name="size" type="radio" th:id="${stock.productSize}+ '-btn'" th:value="${stock.productStockSeq}">
+                                            [[${stock.productSize}]]
                                         </label>
                                     </div>
                                 </li>
@@ -433,6 +422,7 @@
     <script type="text/javascript" th:src="@{/js/owl.carousel.min.js}"></script>
     <script type="text/javascript" th:src="@{/js/jquery.nicescroll.min.js}"></script>
     <script type="text/javascript" th:src="@{/js/main.js}"></script>
+    <script type="text/javascript" th:src="@{/js/product/productInfo.js}"></script>
     <!-- Js Plugins -->
 </body>
 </html>

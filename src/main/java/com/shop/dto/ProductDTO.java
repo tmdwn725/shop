@@ -1,6 +1,7 @@
 package com.shop.dto;
 
 import com.shop.domain.ProductFile;
+import com.shop.domain.ProductStock;
 import com.shop.domain.enums.ProductType;
 import lombok.Data;
 
@@ -17,6 +18,7 @@ public class ProductDTO {
     private int price;
     private LocalDateTime regDt;
     private ProductType productType;
-    private List<ProductFile> productFileList = new ArrayList<>();
+    private List<ProductFileDTO> productFileList = new ArrayList<>();
+    private List<ProductStock> productStockList = new ArrayList<>();
     private String filePth;
 }

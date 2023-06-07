@@ -5,6 +5,9 @@ import com.shop.domain.Product;
 import com.shop.dto.ProductDTO;
 import com.shop.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,10 +17,13 @@ import java.util.List;
 public class ProductService {
     private final ProductRepository productRepository;
 
-    public List<ProductDTO> selectProductList(int limit){
-        List<Product> pr = productRepository.selectProductList(limit);
-        List<ProductDTO> list = ModelMapperUtil.mapAll(pr, ProductDTO.class);
-        return list;
+    public Page<ProductDTO> selectProductList(int start, int limit){
+        PageRequest pageRequest = PageRequest.of(start-1, limit);
+        Page<Product> result = productRepository.selectProductList(pageRequest);
+        int total = result.getTotalPages();
+        pageRequest = PageRequest.of((total-1), limit);
+        List<ProductDTO> list = ModelMapperUtil.mapAll(result.getContent(), ProductDTO.class);
+        return new PageImpl<>(list, pageRequest, total);
     }
     public ProductDTO selectProductInfo(Long productSeq){
         Product productInfo = productRepository.selectProduct(productSeq);

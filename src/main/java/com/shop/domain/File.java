@@ -18,7 +18,6 @@ public class File {
     private String filePth;
     @Column(name = "file_ext")
     private String fileExt;
-
     public void CreateFile(String ...file){
         this.fileName = file[0];
         this.filePth = file[1];

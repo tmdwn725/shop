@@ -31,6 +31,8 @@ public class Product {
     private LocalDateTime regDt;
     @OneToMany(mappedBy = "product", cascade = CascadeType.PERSIST)
     private List<ProductFile> productFileList = new ArrayList<>();
+    @OneToMany(mappedBy = "product", cascade = CascadeType.PERSIST)
+    private List<ProductStock> productStockList = new ArrayList<>();
     @Transient
     private String filePth;
     public void createProduct(Long sellerSeq, String productName, ProductType productType, int price, LocalDateTime regDt){

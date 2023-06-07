@@ -1,6 +1,8 @@
 package com.shop.service;
 
+import com.shop.common.ModelMapperUtil;
 import com.shop.domain.Member;
+import com.shop.dto.MemberDTO;
 import com.shop.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.User;
@@ -23,5 +25,10 @@ public class MemberService implements UserDetailsService {
                 .password(member.getPassword())
                 .roles(member.getRole().name())
                 .build();
+    }
+
+    public MemberDTO selectMemberById(String id) {
+        MemberDTO dto = ModelMapperUtil.map(memberRepository.fingByMemberId(id), MemberDTO.class);
+        return dto;
     }
 }
