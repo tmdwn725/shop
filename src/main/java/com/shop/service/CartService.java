@@ -1,5 +1,6 @@
 package com.shop.service;
 
+import com.shop.common.ModelMapperUtil;
 import com.shop.domain.Cart;
 import com.shop.domain.Member;
 import com.shop.domain.ProductStock;
@@ -10,6 +11,7 @@ import com.shop.repository.ProductStockRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -24,5 +26,11 @@ public class CartService {
         Optional<ProductStock> productStock = productStockRepository.findById(cartDTO.getProductStockSeq());
         cart.createCart(member, productStock.get(), cartDTO.getQuantity());
         cartRepository.save(cart);
+    }
+    public List<CartDTO> findMyCartList(String memberId){
+        Member member = memberRepository.fingByMemberId(memberId);
+        List<Cart> myCartList = cartRepository.myCartList(member);
+        List<CartDTO> cartList = ModelMapperUtil.mapAll(myCartList,CartDTO.class);
+        return cartList;
     }
 }

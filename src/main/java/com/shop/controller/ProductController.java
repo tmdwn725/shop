@@ -10,6 +10,7 @@ import com.shop.service.MemberService;
 import com.shop.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,10 +40,10 @@ public class ProductController {
         model.addAttribute("product",product);
         return "product/product-details";
     }
-
     @RequestMapping("/addProductCart")
-    public void addProductCart(Model model, CartDTO cartDTO){
+    public ResponseEntity<Void> addProductCart(Model model, CartDTO cartDTO){
         String memberId = SecurityContextHolder.getContext().getAuthentication().getName();
         cartService.addCart(cartDTO, memberId);
+        return ResponseEntity.ok().build();
     }
 }
