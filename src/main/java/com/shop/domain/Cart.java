@@ -19,11 +19,6 @@ public class Cart {
     private ProductStock productStock;
     @Column(name ="quantity")
     private int quantity;
-    @Transient
-    private String productName;
-    @Transient
-    private int price;
-
     public void createCart(Member member, ProductStock productStock, int quantity){
         this.member = member;
         this.productStock = productStock;

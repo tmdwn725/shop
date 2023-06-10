@@ -21,10 +21,9 @@ public class CartRepositoryImpl {
                         qCart.quantity,
                         qCart.member,
                         qCart.productStock,
-                        qCart.productStock.product.productName,
-                        qCart.productStock.product.price))
+                        qCart.productStock.product))
                 .from(qCart)
-                .join(qCart.productStock.product,qProduct)
+                .join(qCart.productStock,qProductStock)
                 .join(qCart.member, qMember)
                 .where(qCart.member.eq(member))
                 .fetch();
