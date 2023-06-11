@@ -83,10 +83,10 @@
                         <table>
                             <thead>
                                 <tr>
-                                    <th>Product</th>
-                                    <th>Price</th>
-                                    <th>Quantity</th>
-                                    <th>Total</th>
+                                    <th>상품</th>
+                                    <th>가격</th>
+                                    <th>수량</th>
+                                    <th>금액</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -108,13 +108,15 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td class="cart__price" th:text="${#numbers.formatDecimal(cartList.productStock.product.price, 0, 'COMMA', 0, 'POINT')} + '원'"></td>
+                                    <td class="cart__price" th:text="${#numbers.formatDecimal(cartList.productStock.product.price, 0, 'COMMA', 0, 'POINT')} + '원'">
+                                    </td>
                                     <td class="cart__quantity">
                                         <div class="pro-qty">
-                                            <input type="text" th:value="${cartList.quantity}">
+                                            <input type="text" th:id="'quantity'+${cartList.cartSeq}" th:name="${cartList.cartSeq}" th:value="${cartList.quantity}">
                                         </div>
                                     </td>
-                                    <td class="cart__total" th:text="${#numbers.formatDecimal(cartList.productStock.product.price, 0, 'COMMA', 0, 'POINT')} + '원'"></td>
+                                    <input type="hidden" th:id="'price'+${cartList.cartSeq}" th:value="${cartList.productStock.product.price}">
+                                    <td class="cart__total" th:id="'total'+${cartList.cartSeq}" th:text="'₩'+${#numbers.formatDecimal(cartList.productStock.product.price * cartList.quantity, 0, 'COMMA', 0, 'POINT')}"></td>
                                     <td class="cart__close"><span class="icon_close"></span></td>
                                 </tr>
                             </tbody>
@@ -148,10 +150,11 @@
                     <div class="cart__total__procced">
                         <h6>Cart total</h6>
                         <ul>
-                            <li>Subtotal <span>$ 750.0</span></li>
-                            <li>Total <span>$ 750.0</span></li>
+                            <input type="hidden" th:id="totalPrice" th:value="${totalPrice}">
+                            <li>Subtotal <span id="totalSubText" th:text="'₩'+${#numbers.formatDecimal(totalPrice, 0, 'COMMA', 0, 'POINT')}"></span></li>
+                            <li>Total <span id="totalText" th:text="'₩'+${#numbers.formatDecimal(totalPrice, 0, 'COMMA', 0, 'POINT')}"></span></li>
                         </ul>
-                        <a href="#" class="primary-btn">Proceed to checkout</a>
+                        <a href="/payment" class="primary-btn">결제하기</a>
                     </div>
                 </div>
             </div>
@@ -242,6 +245,7 @@
     <script type="text/javascript" th:src="@{/js/owl.carousel.min.js}"></script>
     <script type="text/javascript" th:src="@{/js/jquery.nicescroll.min.js}"></script>
     <script type="text/javascript" th:src="@{/js/main.js}"></script>
+    <script type="text/javascript" th:src="@{/js/cart/cart.js}"></script>
 </body>
 
 </html>

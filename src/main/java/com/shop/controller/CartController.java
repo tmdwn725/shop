@@ -22,6 +22,7 @@ public class CartController {
     public String cart(Model model) {
         String memberId = SecurityContextHolder.getContext().getAuthentication().getName();
         List<CartDTO> list =  cartService.findMyCartList(memberId);
+        model.addAttribute("totalPrice",cartService.sumTotalPrice(list));
         model.addAttribute("myCartList",list);
         return "cart/shop-cart";
     }

@@ -33,4 +33,14 @@ public class CartService {
         List<CartDTO> cartList = ModelMapperUtil.mapAll(myCartList,CartDTO.class);
         return cartList;
     }
+
+    public int sumTotalPrice(List<CartDTO> cartList){
+        int total = 0;
+        for(CartDTO cartDTO : cartList){
+            total += cartDTO.getProductStock().getProduct().getPrice() * cartDTO.getQuantity();
+        }
+        return total;
+    }
+
+
 }
