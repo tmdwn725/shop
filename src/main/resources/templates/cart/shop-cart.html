@@ -91,7 +91,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr th:each="cartList : ${myCartList}">
+                                <tr name="cartTr" th:each="cartList : ${myCartList}">
                                     <td class="cart__product__item">
                                         <div style="width:90px;">
                                         <img th:src="${cartList.productStock.product.productFileList[0].file.filePth}" alt="">
@@ -115,6 +115,8 @@
                                             <input type="text" th:id="'quantity'+${cartList.cartSeq}" th:name="${cartList.cartSeq}" th:value="${cartList.quantity}">
                                         </div>
                                     </td>
+                                    <input type="hidden" th:id="'productName'+${cartList.cartSeq}" th:value="${cartList.productStock.product.productName}">
+                                    <input type="hidden" th:id="'size'+${cartList.cartSeq}" th:value="${cartList.productStock.productSize}">
                                     <input type="hidden" th:id="'price'+${cartList.cartSeq}" th:value="${cartList.productStock.product.price}">
                                     <td class="cart__total" th:id="'total'+${cartList.cartSeq}" th:text="'₩'+${#numbers.formatDecimal(cartList.productStock.product.price * cartList.quantity, 0, 'COMMA', 0, 'POINT')}"></td>
                                     <td class="cart__close"><span class="icon_close"></span></td>
@@ -154,7 +156,7 @@
                             <li>Subtotal <span id="totalSubText" th:text="'₩'+${#numbers.formatDecimal(totalPrice, 0, 'COMMA', 0, 'POINT')}"></span></li>
                             <li>Total <span id="totalText" th:text="'₩'+${#numbers.formatDecimal(totalPrice, 0, 'COMMA', 0, 'POINT')}"></span></li>
                         </ul>
-                        <a href="/payment" class="primary-btn">결제하기</a>
+                        <a href="" class="primary-btn" onclick="getPaymentInfo()">결제하기</a>
                     </div>
                 </div>
             </div>
