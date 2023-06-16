@@ -80,6 +80,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="shop__cart__table">
+                        <form id="myCart" method="POST" action="/payment">
                         <table>
                             <thead>
                                 <tr>
@@ -91,7 +92,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr name="cartTr" th:each="cartList : ${myCartList}">
+                                <tr name="cartTr" th:each="cartList, i : ${myCartList}">
                                     <td class="cart__product__item">
                                         <div style="width:90px;">
                                         <img th:src="${cartList.productStock.product.productFileList[0].file.filePth}" alt="">
@@ -112,17 +113,19 @@
                                     </td>
                                     <td class="cart__quantity">
                                         <div class="pro-qty">
-                                            <input type="text" th:id="'quantity'+${cartList.cartSeq}" th:name="${cartList.cartSeq}" th:value="${cartList.quantity}">
+                                            <input type="text" th:name="'cartList[' + ${i.index} + '].quantity'" th:id="'quantity'+${cartList.cartSeq}" th:value="${cartList.quantity}">
                                         </div>
                                     </td>
-                                    <input type="hidden" th:id="'productName'+${cartList.cartSeq}" th:value="${cartList.productStock.product.productName}">
-                                    <input type="hidden" th:id="'size'+${cartList.cartSeq}" th:value="${cartList.productStock.productSize}">
-                                    <input type="hidden" th:id="'price'+${cartList.cartSeq}" th:value="${cartList.productStock.product.price}">
+                                    <input type="hidden" th:name="'cartList[' + ${i.index} + '].productName'" th:id="'productName'+${cartList.cartSeq}" th:value="${cartList.productStock.product.productName}">
+                                    <input type="hidden" th:name="'cartList[' + ${i.index} + '].productSize'" th:id="'size'+${cartList.cartSeq}" th:value="${cartList.productStock.productSize}">
+                                    <input type="hidden" th:name="'cartList[' + ${i.index} + '].price'" th:id="'price'+${cartList.cartSeq}" th:value="${cartList.productStock.product.price}">
                                     <td class="cart__total" th:id="'total'+${cartList.cartSeq}" th:text="'₩'+${#numbers.formatDecimal(cartList.productStock.product.price * cartList.quantity, 0, 'COMMA', 0, 'POINT')}"></td>
                                     <td class="cart__close"><span class="icon_close"></span></td>
                                 </tr>
                             </tbody>
                         </table>
+                            <button type="submit">전송</button>
+                        </form>
                     </div>
                 </div>
             </div>
