@@ -26,7 +26,6 @@ public class MemberService implements UserDetailsService {
                 .roles(member.getRole().name())
                 .build();
     }
-
     public MemberDTO selectMemberById(String id) {
         MemberDTO dto = ModelMapperUtil.map(memberRepository.fingByMemberId(id), MemberDTO.class);
         return dto;

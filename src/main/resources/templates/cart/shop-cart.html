@@ -113,7 +113,9 @@
                                     </td>
                                     <td class="cart__quantity">
                                         <div class="pro-qty">
+                                            <span class="dec qtybtn" th:onclick="'decreaseQuantity(this,' + ${cartList.cartSeq} + ')'">-</span>
                                             <input type="text" th:name="'cartList[' + ${i.index} + '].quantity'" th:id="'quantity'+${cartList.cartSeq}" th:value="${cartList.quantity}">
+                                            <span class="inc qtybtn" th:onclick="'increaseQuantity(this,' + ${cartList.cartSeq} + ')'">+</span>
                                         </div>
                                     </td>
                                     <input type="hidden" th:name="'cartList[' + ${i.index} + '].productName'" th:id="'productName'+${cartList.cartSeq}" th:value="${cartList.productStock.product.productName}">
@@ -124,7 +126,6 @@
                                 </tr>
                             </tbody>
                         </table>
-                            <button type="submit">전송</button>
                         </form>
                     </div>
                 </div>
@@ -159,7 +160,7 @@
                             <li>Subtotal <span id="totalSubText" th:text="'₩'+${#numbers.formatDecimal(totalPrice, 0, 'COMMA', 0, 'POINT')}"></span></li>
                             <li>Total <span id="totalText" th:text="'₩'+${#numbers.formatDecimal(totalPrice, 0, 'COMMA', 0, 'POINT')}"></span></li>
                         </ul>
-                        <a href="" class="primary-btn" onclick="getPaymentInfo()">결제하기</a>
+                        <a href="#" class="primary-btn" onclick="getPaymentInfo()">주문하기</a>
                     </div>
                 </div>
             </div>

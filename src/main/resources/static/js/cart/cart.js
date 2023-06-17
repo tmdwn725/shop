@@ -1,11 +1,10 @@
-function increaseQuantity(element){
+function increaseQuantity(element, cartSeq){
     const input = $(element).prev();
     const value = parseInt(input.val()) + 1;
-    const name = input.attr("name");
-    const total = $("#price"+name).val() * value;
-    const totalPrice = parseInt($("#totalPrice").val()) + parseInt($("#price"+name).val());
+    const total = $("#price"+cartSeq).val() * value;
+    const totalPrice = parseInt($("#totalPrice").val()) + parseInt($("#price"+cartSeq).val());
     const formattedTotal = new Intl.NumberFormat('ko-KR', { style: 'currency', currency: 'KRW' }).format(total);
-    $('#total'+name).text(formattedTotal);
+    $('#total'+cartSeq).text(formattedTotal);
     $("#totalPrice").val(totalPrice);
 
     const totalText = new Intl.NumberFormat('ko-KR', { style: 'currency', currency: 'KRW' }).format(totalPrice);
@@ -13,17 +12,18 @@ function increaseQuantity(element){
     $("#totalText").text(totalText);
 }
 
-function decreaseQuantity(element){
+function decreaseQuantity(element,cartSeq){
     const input = $(element).next();
     let value = parseInt(input.val());
-    const name = input.attr("name");
-    if (value > 1) {
+    if (value > 0) {
         value = value - 1;
+    }else{
+       return;
     }
-    const total = $("#price"+name).val() * value;
-    const totalPrice = parseInt($("#totalPrice").val()) - parseInt($("#price"+name).val());
+    const total = $("#price"+cartSeq).val() * value;
+    const totalPrice = parseInt($("#totalPrice").val()) - parseInt($("#price"+cartSeq).val());
     const formattedTotal =new Intl.NumberFormat('ko-KR', { style: 'currency', currency: 'KRW' }).format(total);
-    $('#total'+name).text(formattedTotal);
+    $('#total'+cartSeq).text(formattedTotal);
     $("#totalPrice").val(totalPrice);
 
     const totalText = new Intl.NumberFormat('ko-KR', { style: 'currency', currency: 'KRW' }).format(totalPrice);
@@ -32,11 +32,6 @@ function decreaseQuantity(element){
 }
 
 function getPaymentInfo(){
-    // input 리스트를 담을 배열 생성
-    var inputList = [];
-
-    // tr 요소들을 순회하며 원하는 name 속성을 가진 input 값을 배열에 추가
     // form 요소 생성
-    var form = document.getElementById("myCart");
-    form.submit();
+    document.getElementById("myCart").submit();
 }

@@ -65,7 +65,7 @@
                 <div class="col-lg-12">
                     <div class="breadcrumb__links">
                         <a href="./index.html"><i class="fa fa-home"></i> Home</a>
-                        <span>Shopping cart</span>
+                        <span>Payment</span>
                     </div>
                 </div>
             </div>
@@ -85,52 +85,30 @@
             <form action="#" class="checkout__form">
                 <div class="row">
                     <div class="col-lg-8">
-                        <h5>Billing detail</h5>
+                        <h5>결제 세부정보</h5>
                         <div class="row">
-                            <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div class="col-lg-12">
                                 <div class="checkout__form__input">
-                                    <p>First Name <span>*</span></p>
-                                    <input type="text">
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6">
-                                <div class="checkout__form__input">
-                                    <p>Last Name <span>*</span></p>
+                                    <p>이름 <span>*</span></p>
                                     <input type="text">
                                 </div>
                             </div>
                             <div class="col-lg-12">
                                 <div class="checkout__form__input">
-                                    <p>Country <span>*</span></p>
-                                    <input type="text">
+                                    <p>주소 <span>*</span></p>
+                                    <input type="text" placeholder="주소">
+                                    <input type="text" placeholder="상세주소">
                                 </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6">
                                 <div class="checkout__form__input">
-                                    <p>Address <span>*</span></p>
-                                    <input type="text" placeholder="Street Address">
-                                    <input type="text" placeholder="Apartment. suite, unite ect ( optinal )">
-                                </div>
-                                <div class="checkout__form__input">
-                                    <p>Town/City <span>*</span></p>
-                                    <input type="text">
-                                </div>
-                                <div class="checkout__form__input">
-                                    <p>Country/State <span>*</span></p>
-                                    <input type="text">
-                                </div>
-                                <div class="checkout__form__input">
-                                    <p>Postcode/Zip <span>*</span></p>
+                                    <p>연락처 <span>*</span></p>
                                     <input type="text">
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6">
                                 <div class="checkout__form__input">
-                                    <p>Phone <span>*</span></p>
-                                    <input type="text">
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6">
-                                <div class="checkout__form__input">
-                                    <p>Email <span>*</span></p>
+                                    <p>이메일 <span>*</span></p>
                                     <input type="text">
                                 </div>
                             </div>
@@ -165,24 +143,25 @@
                         </div>
                         <div class="col-lg-4">
                             <div class="checkout__order">
-                                <h5>Your order</h5>
+                                <h5>주문 목록</h5>
                                 <div class="checkout__order__product">
                                     <ul>
                                         <li>
-                                            <span class="top__text">Product</span>
-                                            <span class="top__text__right">Total</span>
+                                            <span class="top__text">상품</span>
+                                            <span class="top__text__right">총금액</span>
                                         </li>
                                         <li th:each="cartList, i : ${myCartList}">
                                             <!--[[${i.index}]]-->
-                                            [[${cartList.productName}]]
-                                            <span th:text="${cartList.price}"></span>
+                                            [[${i.index+1}]]. [[${cartList.productName}]] × [[${cartList.quantity}]]
+                                            <span th:text="'₩'+${#numbers.formatDecimal(cartList.price * cartList.quantity, 0, 'COMMA', 0, 'POINT')}"></span>
                                         </li>
                                     </ul>
                                 </div>
                                 <div class="checkout__order__total">
                                     <ul>
-                                        <li>Subtotal <span>$ 750.0</span></li>
-                                        <li>Total <span>$ 750.0</span></li>
+                                        <input type="hidden" th:id="totalPrice" th:value="${totalPrice}">
+                                        <li>Subtotal <span th:text="'₩'+${#numbers.formatDecimal(totalPrice, 0, 'COMMA', 0, 'POINT')}"/></li>
+                                        <li>Total <span th:text="'₩'+${#numbers.formatDecimal(totalPrice, 0, 'COMMA', 0, 'POINT')}"/></li>
                                     </ul>
                                 </div>
                                 <div class="checkout__order__widget">
@@ -204,7 +183,7 @@
                                         <span class="checkmark"></span>
                                     </label>
                                 </div>
-                                <button type="submit" class="site-btn">Place oder</button>
+                                <button type="submit" class="site-btn">결제하기</button>
                             </div>
                         </div>
                     </div>
