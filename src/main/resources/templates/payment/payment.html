@@ -90,14 +90,14 @@
                             <div class="col-lg-12">
                                 <div class="checkout__form__input">
                                     <p>이름 <span>*</span></p>
-                                    <input type="text">
+                                    <input type="text" id="memberNm" th:value="${member.name}">
                                 </div>
                             </div>
                             <div class="col-lg-12">
                                 <div class="checkout__form__input">
                                     <p>주소 <span>*</span></p>
-                                    <input type="text" placeholder="주소">
-                                    <input type="text" placeholder="상세주소">
+                                    <input type="text" id="address" placeholder="주소" th:value="${member.address}">
+                                    <input type="text" id="detailAddress" placeholder="상세주소" th:value="${member.detailAddress}">
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6">
@@ -109,7 +109,7 @@
                             <div class="col-lg-6 col-md-6 col-sm-6">
                                 <div class="checkout__form__input">
                                     <p>이메일 <span>*</span></p>
-                                    <input type="text">
+                                    <input type="text" id="email" th:value="${member.email}">
                                 </div>
                             </div>
                             <div class="col-lg-12">
@@ -275,6 +275,8 @@
         <script type="text/javascript" th:src="@{/js/owl.carousel.min.js}"></script>
         <script type="text/javascript" th:src="@{/js/jquery.nicescroll.min.js}"></script>
         <script type="text/javascript" th:src="@{/js/main.js}"></script>
+        <!--아임포트 라이브러리-->
+        <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
         <!-- Js Plugins -->
     </body>
 
