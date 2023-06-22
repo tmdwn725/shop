@@ -29,6 +29,8 @@ public class Member {
     private String address;
     @Column(name = "detail_address")
     private String detailAddress;
+    @Column(name = "tel_no")
+    private String telNo;
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -41,6 +43,7 @@ public class Member {
         this.email = member[3];
         this.address = member[4];
         this.detailAddress = member[5];
+        this.telNo = member[5];
         this.role = Role.USER;
     }
 }

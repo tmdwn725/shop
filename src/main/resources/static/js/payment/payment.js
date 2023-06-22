@@ -1,10 +1,12 @@
-function iamport(){
+function getPayment(){
     //가맹점 식별코드
     IMP.init("imp17552170");
+    const totalPrice = $("#totalPrice").val();
     IMP.request_pay({
-        pg : 'kcp',
-        pay_method : 'card',
+        pg : 'kakao', // pg사
+        pay_method : 'kakaopay', 결제수단
         merchant_uid : 'merchant_' + new Date().getTime(),
+        amount: totalPrice
     }, function(res) {
 
         // 결제검증
