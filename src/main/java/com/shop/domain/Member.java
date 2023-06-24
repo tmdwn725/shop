@@ -43,7 +43,7 @@ public class Member {
         this.email = member[3];
         this.address = member[4];
         this.detailAddress = member[5];
-        this.telNo = member[5];
+        this.telNo = member[6];
         this.role = Role.USER;
     }
 }

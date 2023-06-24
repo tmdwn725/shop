@@ -12,6 +12,7 @@ public class MemberDTO {
     private String email;
     private String address;
     private String detailAddress;
+    private String telNo;
     private String password;
     private String authority;
     private Role role;

@@ -1,5 +1,6 @@
 package com.shop.domain;
 
+import com.querydsl.core.types.Order;
 import lombok.Getter;
 
 import javax.persistence.*;
