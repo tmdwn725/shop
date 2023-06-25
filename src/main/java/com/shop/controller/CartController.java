@@ -1,13 +1,16 @@
 package com.shop.controller;
 
+import com.shop.domain.Cart;
 import com.shop.domain.enums.ProductType;
 import com.shop.dto.CartDTO;
 import com.shop.dto.ProductDTO;
 import com.shop.service.CartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -25,5 +28,11 @@ public class CartController {
         model.addAttribute("totalPrice",cartService.sumTotalPrice(list));
         model.addAttribute("myCartList",list);
         return "cart/shop-cart";
+    }
+    @Transactional
+    @RequestMapping("/modProductQuantity")
+    public ResponseEntity<Void> modProductQuantity(Model model, CartDTO cart) {
+        long result =  cartService.updateProductQuantity(cart);
+        return ResponseEntity.ok().build();
     }
 }

@@ -28,4 +28,10 @@ public class CartRepositoryImpl {
                 .where(qCart.member.eq(member))
                 .fetch();
     }
+
+    public long updateProductQuantity(Long cartSeq, int quantity){
+        return queryFactory.update(qCart).where(qCart.cartSeq.eq(cartSeq))
+                .set(qCart.quantity, quantity)
+                .execute();
+    }
 }

@@ -42,5 +42,7 @@ public class CartService {
         return total;
     }
 
-
+    public long updateProductQuantity(CartDTO cartDTO){
+        return cartRepository.updateProductQuantity(cartDTO.getCartSeq(), cartDTO.getQuantity());
+    }
 }

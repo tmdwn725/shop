@@ -1,4 +1,5 @@
 function getPayment(){
+    for i 
     //가맹점 식별코드
     IMP.init("imp17552170");
     const memberNm = $("#memberNm").val();
@@ -17,10 +18,25 @@ function getPayment(){
         buyer_name : memberNm,
         buyer_tel : telNo,
         buyer_addr : address,
-        buyer_postcode : '123-456'
+        buyer_postcode : '123-456',
+        m_redirect_url : 'http://localhost:8081/main'
     }, function(rsp) { // callback 로직
     	 if ( rsp.success ) {
-            var msg = '결제가 완료되었습니다.';
+    	    var msg = '결제가 완료되었습니다.';
+    	    $.ajax({
+                type: "POST",
+                url: "/saveOrderInfo",
+                data:{
+                    memberId : 'sjmoon',
+                    totalPrice : totalPrice,
+                    paymentType : 'C',
+                    productSeqList : productSeqList,
+                },
+                dataType: "json",
+                success: function(){
+                }
+            });
+
         } else {
             var msg = '결제에 실패하였습니다.';
         }

@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface CartConfig {
     List<Cart> myCartList(Member member);
+    long updateProductQuantity(Long cartSeq, int quantity);
 }
