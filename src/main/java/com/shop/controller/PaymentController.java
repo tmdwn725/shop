@@ -17,10 +17,11 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("/payment")
 public class PaymentController {
     private final PaymentService paymentService;
     private final MemberService memberService;
-    @RequestMapping(value = "/payment", method = {RequestMethod.POST, RequestMethod.GET})
+    @RequestMapping(value = "/getPaymentInfo", method = {RequestMethod.POST, RequestMethod.GET})
     public String getPaymentInfo(Model model, @ModelAttribute("CartDTO") CartDTO cartDTO){
         String memberId = SecurityContextHolder.getContext().getAuthentication().getName();
         MemberDTO member = memberService.selectMemberById(memberId);
