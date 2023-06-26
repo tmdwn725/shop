@@ -10,6 +10,7 @@ import com.shop.repository.MemberRepository;
 import com.shop.repository.ProductStockRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -41,8 +42,14 @@ public class CartService {
         }
         return total;
     }
-
+    @Transactional
     public long updateProductQuantity(CartDTO cartDTO){
         return cartRepository.updateProductQuantity(cartDTO.getCartSeq(), cartDTO.getQuantity());
+    }
+
+    @Transactional
+    public void deleteCartInfo(CartDTO cartDTO){
+        Cart cart = cartRepository.findById(cartDTO.getCartSeq()).get();
+        cartRepository.delete(cart);
     }
 }

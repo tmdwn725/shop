@@ -19,9 +19,10 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("/cart")
 public class CartController {
     private final CartService cartService;
-    @RequestMapping("/cart")
+    @RequestMapping("/getCartInfo")
     public String cart(Model model) {
         String memberId = SecurityContextHolder.getContext().getAuthentication().getName();
         List<CartDTO> list =  cartService.findMyCartList(memberId);
@@ -29,10 +30,15 @@ public class CartController {
         model.addAttribute("myCartList",list);
         return "cart/shop-cart";
     }
-    @Transactional
     @RequestMapping("/modProductQuantity")
-    public ResponseEntity<Void> modProductQuantity(Model model, CartDTO cart) {
+    public ResponseEntity<Void> modProductQuantity(CartDTO cart) {
         long result =  cartService.updateProductQuantity(cart);
+        return ResponseEntity.ok().build();
+    }
+    @Transactional
+    @RequestMapping("/removeCartInfo")
+    public ResponseEntity<Void> removeCartInfo(CartDTO cart) {
+        cartService.deleteCartInfo(cart);
         return ResponseEntity.ok().build();
     }
 }

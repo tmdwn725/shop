@@ -1,5 +1,6 @@
 package com.shop.domain;
 
+import lombok.Builder;
 import lombok.Getter;
 
 import javax.persistence.*;

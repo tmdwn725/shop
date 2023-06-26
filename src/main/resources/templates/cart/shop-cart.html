@@ -80,7 +80,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="shop__cart__table">
-                        <form id="myCart" method="POST" action="/payment">
+                        <form id="myCart" method="POST" action="/payment/getPaymentInfo">
                         <table>
                             <thead>
                                 <tr>
@@ -95,7 +95,7 @@
                                 <tr name="cartTr" th:each="cartList, i : ${myCartList}">
                                     <td class="cart__product__item">
                                         <div style="width:90px;">
-                                        <img th:src="${cartList.productStock.product.productFileList[0].file.filePth}" alt="">
+                                        <img th:src="'/' + ${cartList.productStock.product.productFileList[0].file.filePth}" alt="">
                                         </div>
                                         <div class="cart__product__item__title">
                                             <h6 th:text="${cartList.productStock.product.productName}"></h6>
@@ -124,7 +124,7 @@
                                     <input type="hidden" th:name="'cartList[' + ${i.index} + '].productSize'" th:id="'size'+${cartList.cartSeq}" th:value="${cartList.productStock.productSize}">
                                     <input type="hidden" th:name="'cartList[' + ${i.index} + '].price'" th:id="'price'+${cartList.cartSeq}" th:value="${cartList.productStock.product.price}">
                                     <td class="cart__total" th:id="'total'+${cartList.cartSeq}" th:text="'₩'+${#numbers.formatDecimal(cartList.productStock.product.price * cartList.quantity, 0, 'COMMA', 0, 'POINT')}"></td>
-                                    <td class="cart__close"><span class="icon_close" th:onclick="'removeCartInfo('${cartList.cartSeq}')'"></span></td>
+                                    <td class="cart__close"><span class="icon_close" th:onclick="'removeCartInfo(' + ${cartList.cartSeq} + ')'"></span></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -175,7 +175,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-2 col-md-4 col-sm-4 p-0">
-                    <div class="instagram__item set-bg" data-setbg="img/instagram/insta-1.jpg">
+                    <div class="instagram__item set-bg" data-setbg="/img/instagram/insta-1.jpg">
                         <div class="instagram__text">
                             <i class="fa fa-instagram"></i>
                             <a href="#">@ ashion_shop</a>
@@ -183,7 +183,7 @@
                     </div>
                 </div>
                 <div class="col-lg-2 col-md-4 col-sm-4 p-0">
-                    <div class="instagram__item set-bg" data-setbg="img/instagram/insta-2.jpg">
+                    <div class="instagram__item set-bg" data-setbg="/img/instagram/insta-2.jpg">
                         <div class="instagram__text">
                             <i class="fa fa-instagram"></i>
                             <a href="#">@ ashion_shop</a>
@@ -191,7 +191,7 @@
                     </div>
                 </div>
                 <div class="col-lg-2 col-md-4 col-sm-4 p-0">
-                    <div class="instagram__item set-bg" data-setbg="img/instagram/insta-3.jpg">
+                    <div class="instagram__item set-bg" data-setbg="/img/instagram/insta-3.jpg">
                         <div class="instagram__text">
                             <i class="fa fa-instagram"></i>
                             <a href="#">@ ashion_shop</a>
@@ -199,7 +199,7 @@
                     </div>
                 </div>
                 <div class="col-lg-2 col-md-4 col-sm-4 p-0">
-                    <div class="instagram__item set-bg" data-setbg="img/instagram/insta-4.jpg">
+                    <div class="instagram__item set-bg" data-setbg="/img/instagram/insta-4.jpg">
                         <div class="instagram__text">
                             <i class="fa fa-instagram"></i>
                             <a href="#">@ ashion_shop</a>
@@ -207,7 +207,7 @@
                     </div>
                 </div>
                 <div class="col-lg-2 col-md-4 col-sm-4 p-0">
-                    <div class="instagram__item set-bg" data-setbg="img/instagram/insta-5.jpg">
+                    <div class="instagram__item set-bg" data-setbg="/img/instagram/insta-5.jpg">
                         <div class="instagram__text">
                             <i class="fa fa-instagram"></i>
                             <a href="#">@ ashion_shop</a>
@@ -215,7 +215,7 @@
                     </div>
                 </div>
                 <div class="col-lg-2 col-md-4 col-sm-4 p-0">
-                    <div class="instagram__item set-bg" data-setbg="img/instagram/insta-6.jpg">
+                    <div class="instagram__item set-bg" data-setbg="/img/instagram/insta-6.jpg">
                         <div class="instagram__text">
                             <i class="fa fa-instagram"></i>
                             <a href="#">@ ashion_shop</a>

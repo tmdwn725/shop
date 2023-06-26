@@ -1,5 +1,4 @@
 function getPayment(){
-    for i 
     //가맹점 식별코드
     IMP.init("imp17552170");
     const memberNm = $("#memberNm").val();

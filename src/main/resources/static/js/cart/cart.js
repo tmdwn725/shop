@@ -1,3 +1,6 @@
+/**
+상품수 증가
+*/
 function increaseQuantity(element, cartSeq){
     const input = $(element).prev();
     const value = parseInt(input.val()) + 1;
@@ -14,6 +17,9 @@ function increaseQuantity(element, cartSeq){
     creaseProductQuantity(cartSeq, value);
 }
 
+/**
+상품수 감소
+*/
 function decreaseQuantity(element,cartSeq){
     const input = $(element).next();
     let value = parseInt(input.val());
@@ -36,14 +42,32 @@ function decreaseQuantity(element,cartSeq){
     creaseProductQuantity(cartSeq, value);
 }
 
+/**
+장바구니 삭제
+*/
 function removeCartInfo(cartSeq){
 
+    $.ajax({
+        url: "/cart/removeCartInfo",
+        type: "DELETE",
+        data:{ cartSeq : cartSeq },
+        success: function(response) {
+          // 성공한 경우 해당 페이지로 리다이렉트
+          window.location.href = "http://localhost:8081/cart/getCartInfo";
+        },
+        error: function(xhr, status, error) {
+            alert("삭제에 실패했습니다.");
+        }
+        });
 }
 
+/**
+상품수 변경
+*/
 function creaseProductQuantity(cartSeq, quantity){
     $.ajax({
         type: "POST",
-        url: "/modProductQuantity",
+        url: "/cart/modProductQuantity",
         data:{
             cartSeq : cartSeq,
             quantity : quantity
