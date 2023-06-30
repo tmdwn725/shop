@@ -2,7 +2,6 @@ package com.shop.domain;
 
 import com.shop.common.enumConvert.ProductTypeConverter;
 import com.shop.domain.enums.ProductType;
-import com.shop.dto.Role;
 import lombok.Getter;
 
 import javax.persistence.*;

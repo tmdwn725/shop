@@ -3,6 +3,7 @@ package com.shop.repository.impl;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Projections;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.shop.domain.*;
 import lombok.RequiredArgsConstructor;
@@ -20,21 +21,38 @@ public class ProductRepositoryImpl {
     QProductFile qProductFile = QProductFile.productFile;
     QFile qFile = QFile.file;
 
-    public Page<Product> selectProductList(Pageable pageable){
-        QueryResults<Product> productList = queryFactory
+    /**
+     * 상품목록조회
+     * @param pageable
+     * @return
+     */
+    public Page<Product> selectProductList(Pageable pageable, Long sellerSeq){
+        JPAQuery<Product> productList = queryFactory
                 .select(qProduct)
                 .from(qProduct)
                 .join(qProduct.productFileList, qProductFile)
                 .join(qProductFile.file, qFile)
-                .orderBy(qProduct.regDt.desc(), qProduct.productSeq.asc()) // 최신순으로 정렬
+                .orderBy(qProduct.regDt.desc(), qProduct.productSeq.asc()); // 최신순으로 정렬
+
+        if (sellerSeq > 0) {
+            productList = productList.where(qProduct.sellerSeq.eq(sellerSeq));
+        }
+
+        List<Product> content = productList
                 .offset(pageable.getOffset())
-                .limit(pageable.getPageSize()) // 최대 8개만 조회
-                .fetchResults();
-        List<Product> content = productList.getResults();
-        long total = productList.getTotal();
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        long total = productList.fetchCount();
+
         return new PageImpl<>(content, pageable, total);
     }
 
+    /**
+     * 상품정보조회
+     * @param productSeq
+     * @return
+     */
     public Product selectProduct(Long productSeq){
         Product productInfo = queryFactory
                 .selectFrom(qProduct)

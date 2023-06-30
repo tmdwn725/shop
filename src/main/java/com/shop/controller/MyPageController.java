@@ -1,6 +1,5 @@
 package com.shop.controller;
 
-import com.shop.domain.enums.ProductType;
 import com.shop.dto.MemberDTO;
 import com.shop.dto.ProductDTO;
 import com.shop.service.MemberService;
@@ -12,21 +11,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.Arrays;
-
 @Controller
 @RequiredArgsConstructor
-public class MainController {
+@RequestMapping("/myPage")
+public class MyPageController {
     private final MemberService memberService;
     private final ProductService productService;
-    @RequestMapping("/main")
-    public String main(Model model) {
+    @RequestMapping("/getMyProductList")
+    public String getMyProductList(Model model){
         String memberId = SecurityContextHolder.getContext().getAuthentication().getName();
         MemberDTO member = memberService.selectMemberById(memberId);
-        Page<ProductDTO> productList = productService.selectProductList(1,8);
-        model.addAttribute("member",member);
-        model.addAttribute("productType",Arrays.asList(ProductType.values()));
-        model.addAttribute("productList", productList.getContent());
-        return "main/main";
+        Page<ProductDTO> myProductList = productService.selectMyProductList(1,10, member.getMemberSeq());
+        model.addAttribute("myProductList", myProductList);
+        return "myPage/myProductList";
     }
 }
