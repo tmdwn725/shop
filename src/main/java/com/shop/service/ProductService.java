@@ -43,6 +43,13 @@ public class ProductService {
         return productDTO1;
     }
 
+    /**
+     * 내 상품관리목록 조회
+     * @param start
+     * @param limit
+     * @param MemberSeq
+     * @return
+     */
     public Page<ProductDTO> selectMyProductList(int start, int limit, Long MemberSeq){
         PageRequest pageRequest = PageRequest.of(start-1, limit);
         Page<Product> result = productRepository.selectProductList(pageRequest, MemberSeq);

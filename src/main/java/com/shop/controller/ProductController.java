@@ -14,12 +14,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Arrays;
-import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -40,6 +38,13 @@ public class ProductController {
         model.addAttribute("product",product);
         return "product/product-details";
     }
+
+    /**
+     * 장바구니 추가
+     * @param model
+     * @param cartDTO
+     * @return
+     */
     @RequestMapping("/addProductCart")
     public ResponseEntity<Void> addProductCart(Model model, CartDTO cartDTO){
         String memberId = SecurityContextHolder.getContext().getAuthentication().getName();

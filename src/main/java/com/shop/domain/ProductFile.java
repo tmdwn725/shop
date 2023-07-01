@@ -1,5 +1,6 @@
 package com.shop.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 
 import javax.persistence.*;
@@ -14,6 +15,7 @@ public class ProductFile {
     private Long productFileSeq;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_seq")
+    @JsonBackReference
     private Product product;
     @Column(name ="file_cls_cd")
     private String fileClsCd;

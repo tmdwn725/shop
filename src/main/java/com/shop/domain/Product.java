@@ -1,8 +1,11 @@
 package com.shop.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.shop.common.enumConvert.ProductTypeConverter;
 import com.shop.domain.enums.ProductType;
 import lombok.Getter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -29,8 +32,10 @@ public class Product {
     @Column(name = "reg_dt")
     private LocalDateTime regDt;
     @OneToMany(mappedBy = "product", cascade = CascadeType.PERSIST)
+    @JsonManagedReference
     private List<ProductFile> productFileList = new ArrayList<>();
     @OneToMany(mappedBy = "product", cascade = CascadeType.PERSIST)
+    @JsonManagedReference
     private List<ProductStock> productStockList = new ArrayList<>();
     @Transient
     private String filePth;

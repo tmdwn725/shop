@@ -4,6 +4,7 @@ import com.shop.domain.ProductFile;
 import com.shop.domain.ProductStock;
 import com.shop.domain.enums.ProductType;
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -19,6 +20,6 @@ public class ProductDTO {
     private LocalDateTime regDt;
     private ProductType productType;
     private List<ProductFileDTO> productFileList = new ArrayList<>();
-    private List<ProductStock> productStockList = new ArrayList<>();
+    private List<ProductStockDTO> productStockList = new ArrayList<>();
     private String filePth;
 }

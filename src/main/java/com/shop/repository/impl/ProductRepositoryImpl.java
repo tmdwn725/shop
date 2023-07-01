@@ -1,9 +1,8 @@
 package com.shop.repository.impl;
 
 import com.querydsl.core.QueryResults;
-import com.querydsl.core.Tuple;
-import com.querydsl.core.types.Projections;
-import com.querydsl.jpa.impl.JPAQuery;
+import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.NumberPath;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.shop.domain.*;
 import lombok.RequiredArgsConstructor;
@@ -27,24 +26,17 @@ public class ProductRepositoryImpl {
      * @return
      */
     public Page<Product> selectProductList(Pageable pageable, Long sellerSeq){
-        JPAQuery<Product> productList = queryFactory
-                .select(qProduct)
-                .from(qProduct)
+        QueryResults<Product> productList = queryFactory
+                .selectFrom(qProduct)
                 .join(qProduct.productFileList, qProductFile)
                 .join(qProductFile.file, qFile)
-                .orderBy(qProduct.regDt.desc(), qProduct.productSeq.asc()); // 최신순으로 정렬
-
-        if (sellerSeq > 0) {
-            productList = productList.where(qProduct.sellerSeq.eq(sellerSeq));
-        }
-
-        List<Product> content = productList
+                .where(eqSellerSeq(sellerSeq))
+                .orderBy(qProduct.regDt.desc(), qProduct.productSeq.asc()) // 최신순으로 정렬
                 .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .fetch();
-
-        long total = productList.fetchCount();
-
+                .limit(pageable.getPageSize()) // 최대 8개만 조회
+                .fetchResults();
+        List<Product> content = productList.getResults();
+        long total = productList.getTotal();
         return new PageImpl<>(content, pageable, total);
     }
 
@@ -62,5 +54,12 @@ public class ProductRepositoryImpl {
                 .where(qProduct.productSeq.eq(productSeq))
                 .fetchOne();
         return productInfo;
+    }
+
+    private BooleanExpression eqSellerSeq(long sellerSeq) {
+        if (sellerSeq == 0) {
+            return null;
+        }
+        return qProduct.sellerSeq.eq(sellerSeq);
     }
 }

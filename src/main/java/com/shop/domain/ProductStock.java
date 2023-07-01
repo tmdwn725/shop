@@ -1,5 +1,6 @@
 package com.shop.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.querydsl.core.types.Order;
 import lombok.Getter;
 
@@ -17,6 +18,7 @@ public class ProductStock {
     private Long productStockSeq;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_seq")
+    @JsonBackReference
     private Product product;
     @Column(name ="product_size")
     private String productSize;

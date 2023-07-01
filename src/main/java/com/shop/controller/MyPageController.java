@@ -17,6 +17,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class MyPageController {
     private final MemberService memberService;
     private final ProductService productService;
+
+    /**
+     * 내 상품관리목록 조회
+     * @param model
+     * @return
+     */
     @RequestMapping("/getMyProductList")
     public String getMyProductList(Model model){
         String memberId = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -24,5 +30,20 @@ public class MyPageController {
         Page<ProductDTO> myProductList = productService.selectMyProductList(1,10, member.getMemberSeq());
         model.addAttribute("myProductList", myProductList);
         return "myPage/myProductList";
+    }
+
+    /**
+     * 내상품상세정보 조회
+     * @param model
+     * @param product
+     * @return
+     */
+    @RequestMapping("/getMyProductInfo")
+    public String getMyProductInfo(Model model, ProductDTO product){
+        String memberId = SecurityContextHolder.getContext().getAuthentication().getName();
+        MemberDTO member = memberService.selectMemberById(memberId);
+        ProductDTO productDTO = productService.selectProductInfo(product.getProductSeq());
+        model.addAttribute("product", productDTO);
+        return "myPage/myProductInfo";
     }
 }
