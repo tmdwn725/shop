@@ -12,6 +12,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 @Service
 @RequiredArgsConstructor
@@ -30,4 +32,7 @@ public class MemberService implements UserDetailsService {
         MemberDTO dto = ModelMapperUtil.map(memberRepository.fingByMemberId(id), MemberDTO.class);
         return dto;
     }
+
+    
+
 }

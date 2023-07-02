@@ -20,6 +20,6 @@ public class ProductDTO {
     private LocalDateTime regDt;
     private ProductType productType;
     private List<ProductFileDTO> productFileList = new ArrayList<>();
-    private List<ProductStockDTO> productStockList = new ArrayList<>();
+    private List<ProductStock> productStockList = new ArrayList<>();
     private String filePth;
 }
