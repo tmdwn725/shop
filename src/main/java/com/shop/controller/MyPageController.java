@@ -49,6 +49,7 @@ public class MyPageController {
         ProductDTO productDTO = productService.selectProductInfo(product.getProductSeq());
         model.addAttribute("product", productDTO);
         model.addAttribute("productType", Arrays.asList(ProductType.values()));
+        model.addAttribute("myProductType",product.getProductType());
         model.addAttribute("sizeType", Arrays.asList(SizeType.values()));
         return "myPage/myProductInfo";
     }

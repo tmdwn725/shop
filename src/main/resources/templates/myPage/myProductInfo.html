@@ -101,34 +101,83 @@
                             </div>
                         </div>
                         <div class="col-lg-12">
-                            <p>상품 <span>*</span></p>
+                            <p>상품사진 <span>*</span></p>
                         </div>
                         <div class="col-lg-3 col-md-4 col-sm-4">
                             <input type="file" id="file-img1" class="real-upload" accept="image/*" required multiple>
-                            <div class="upload" id="upload-img1"></div>
+                            <div class="upload" id="upload-img1">
+                                <img th:if="${product.productFileList.size > 0}" th:src="'/' +${product.productFileList[0].file.filePth}" alt="">
+                            </div>
                         </div>
                        <div class="col-lg-3 col-md-4 col-sm-4">
                             <input type="file" id="file-img2" class="real-upload1" accept="image/*" required multiple>
-                            <div class="upload" id="upload-img2"></div>
+                            <div class="upload1" id="upload-img2">
+                                <img th:if="${product.productFileList.size > 1}" th:src="'/' +${product.productFileList[1].file.filePth}" alt="">
+                            </div>
                         </div>
                         <div class="col-lg-3 col-md-4 col-sm-4">
                             <input type="file" id="file-img3" class="real-upload2" accept="image/*" required multiple>
-                            <div class="upload" id="upload-img3"></div>
+                            <div class="upload2" id="upload-img3">
+                                <img th:if="${product.productFileList.size > 2}" th:src="'/' +${product.productFileList[2].file.filePth}" alt="">
+                            </div>
                         </div>
                         <div class="col-lg-3 col-md-4 col-sm-4">
                             <input type="file" id="file-img4" class="real-upload3" accept="image/*" required multiple>
-                            <div class="upload" id="upload-img4"></div>
+                            <div class="upload3" id="upload-img4">
+                                <img th:if="${product.productFileList.size > 3}" th:src="'/' +${product.productFileList[3].file.filePth}" alt="">
+                            </div>
                         </div>
                         <div class="col-lg-12"><p/></div>
+                        <br/>
                         <div class="col-lg-12">
                             <p>상품 상세 설명</p>
                         </div>
                         <div class="col-lg-12">
-                            <input type="text">
+                            <textarea class="product-detail"></textarea>
+                        </div>
+                        <div class="col-lg-12"><p/></div>
+                        <br/>
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div class="checkout__form__input">
+                                <p>상품종류 <span>*</span></p>
+                                <select class="form-select" id="productYpe" onchange="onProductTypeChange(this.value)">
+                                    <option value=""> == 상품 종류 == </option>
+                                    <option th:each="productType : ${productType}"
+                                            th:if="${productType.getParentCategory().isEmpty()}"
+                                            th:value="${productType}"
+                                            th:text="${productType.value}"
+                                            th:selected="${productType.code} == 'O'">
+                                    </option>
+                                </select>
+                            </div>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6">
                             <div class="checkout__form__input">
-                                <p>Phone <span>*</span></p>
+                                <p>상품상세종류 <span>*</span></p>
+                                <select class="form-select" id="productDetailType">
+                                    <option value=""> == 먼저 상품 종류를 선택하세요 == </option>
+                                    <option th:each="productType : ${productType}" display="none"
+                                            th:unless="${productType.getParentCategory().isEmpty()}"
+                                            th:value="${productType.code}"
+                                            th:name="${productType.getParentCategory().get()}"
+                                            th:text="${productType.value}">
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="checkout" style="display: inline-block;">
+                                <p>사이즈 <span>*</span></p>
+                                <div th:each="sizeType : ${sizeType}" style="display: inline-block;">
+                                    <span th:text="${sizeType.code} + ': '"></span>
+                                    <input type="number" style="width: 60px;" min="0" max="100" value="0">
+                                    <span>개&nbsp;&nbsp;</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div class="checkout__form__input">
+                                <p>상품종류 <span>*</span></p>
                                 <input type="text">
                             </div>
                         </div>

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Arrays;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -50,5 +51,10 @@ public class ProductController {
         String memberId = SecurityContextHolder.getContext().getAuthentication().getName();
         cartService.addCart(cartDTO, memberId);
         return ResponseEntity.ok().build();
+    }
+
+    @RequestMapping("/getChildProductType")
+    public List<ProductType> getChildProductType(@RequestParam("parentProductType") ProductType parentProductType) {
+        return parentProductType.getChildCategories();
     }
 }
