@@ -1,5 +1,7 @@
 package com.shop.controller;
 
+import com.shop.domain.enums.ProductType;
+import com.shop.domain.enums.SizeType;
 import com.shop.dto.MemberDTO;
 import com.shop.dto.ProductDTO;
 import com.shop.service.MemberService;
@@ -10,6 +12,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.Arrays;
 
 @Controller
 @RequiredArgsConstructor
@@ -44,6 +48,8 @@ public class MyPageController {
         MemberDTO member = memberService.selectMemberById(memberId);
         ProductDTO productDTO = productService.selectProductInfo(product.getProductSeq());
         model.addAttribute("product", productDTO);
+        model.addAttribute("productType", Arrays.asList(ProductType.values()));
+        model.addAttribute("sizeType", Arrays.asList(SizeType.values()));
         return "myPage/myProductInfo";
     }
 }
