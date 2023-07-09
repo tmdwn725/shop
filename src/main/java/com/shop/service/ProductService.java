@@ -54,7 +54,9 @@ public class ProductService {
         PageRequest pageRequest = PageRequest.of(start-1, limit);
         Page<Product> result = productRepository.selectProductList(pageRequest, MemberSeq);
         int total = result.getTotalPages();
-        pageRequest = PageRequest.of((total-1), limit);
+        if (total > 0) {
+            pageRequest = PageRequest.of((total-1), limit);
+        }
         List<ProductDTO> list = ModelMapperUtil.mapAll(result.getContent(), ProductDTO.class);
         return new PageImpl<>(list, pageRequest, total);
     }

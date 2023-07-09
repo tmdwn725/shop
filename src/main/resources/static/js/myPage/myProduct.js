@@ -59,18 +59,9 @@ realUpload1.addEventListener('change', getImageFiles);
 realUpload2.addEventListener('change', getImageFiles);
 realUpload3.addEventListener('change', getImageFiles);
 
-function getChildProductTypes(parentProductType) {
-  return $.ajax({
-    url: '/getProductTypes',
-    method: 'GET',
-    data: { parentProductType: parentProductType },
-    dataType: 'json'
-  });
-}
-
 // Selectbox 이벤트 핸들러
 function onProductTypeChange(value) {
-    const options = $('#productDetailType option');
+    const options = $('#product-detail-type option');
 
     for(var i = 0; i < options.length; i++) {
         var option = options[i];
@@ -83,8 +74,43 @@ function onProductTypeChange(value) {
         }
     }
 
-    const selectBox = $('#productDetailType'); // Selectbox의 ID를 선택
+    const selectBox = $('#product-detail-type'); // Selectbox의 ID를 선택
 
     // 가장 위에 있는 옵션을 선택
     selectBox.prop('selectedIndex', 0);
+}
+
+function saveProductInfo() {
+    const name = $("#product-name").val();
+    const content = $("#product-content").val();
+    const price = $("#product-price").val();
+    const imagePath = $("#upload-img1 img").attr("src");
+    const type = $("#product-type").val();
+    const detailType = $("#product-detail-type").val();
+    let sizeType = {};
+
+    $('input[name="product-size"]').each(function() {
+      const id = $(this).attr('id');
+      const value = $(this).val();
+      sizeTypeList[id] = value;
+    });
+
+    console.log(sizeTypeList);
+
+    $.ajax({
+        type: "POST",
+        url: "/myPage/saveMyProduct",
+        data:{
+            productName : name,
+            productContent : content,
+            price : price,
+            filePth : imagePath,
+            productType : detailType,
+            sizeTypes : sizeType
+        },
+        dataType: "json",
+        success: function(res){
+            alert("등록되었습니다.");
+        }
+    });
 }

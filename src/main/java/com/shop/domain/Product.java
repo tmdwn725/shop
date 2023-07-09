@@ -24,6 +24,8 @@ public class Product {
     private Long sellerSeq;
     @Column(name = "product_name")
     private String productName;
+    @Column(name = "product_content")
+    private String productContent;
     @Convert(converter = ProductTypeConverter.class)
     @Column(name = "product_type")
     private ProductType productType;
@@ -39,9 +41,10 @@ public class Product {
     private List<ProductStock> productStockList = new ArrayList<>();
     @Transient
     private String filePth;
-    public void createProduct(Long sellerSeq, String productName, ProductType productType, int price, LocalDateTime regDt){
+    public void createProduct(Long sellerSeq, String productName ,String productContent, ProductType productType, int price, LocalDateTime regDt){
         this.sellerSeq = sellerSeq;
         this.productName = productName;
+        this.productContent = productContent;
         this.productType = productType;
         this.price = price;
         this.regDt = regDt;

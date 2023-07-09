@@ -2,12 +2,15 @@ package com.shop.controller;
 
 import com.shop.domain.enums.ProductType;
 import com.shop.domain.enums.SizeType;
+import com.shop.dto.CartDTO;
+import com.shop.dto.FileDTO;
 import com.shop.dto.MemberDTO;
 import com.shop.dto.ProductDTO;
 import com.shop.service.MemberService;
 import com.shop.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -46,11 +49,23 @@ public class MyPageController {
     public String getMyProductInfo(Model model, ProductDTO product){
         String memberId = SecurityContextHolder.getContext().getAuthentication().getName();
         MemberDTO member = memberService.selectMemberById(memberId);
-        ProductDTO productDTO = productService.selectProductInfo(product.getProductSeq());
+        ProductDTO productDTO = new ProductDTO();
+        ProductType myProductType = null;
+
+        if(product.getProductSeq() > 0){
+            productDTO = productService.selectProductInfo(product.getProductSeq());
+            myProductType = product.getProductType();
+        }
+
         model.addAttribute("product", productDTO);
+        model.addAttribute("myProductType",myProductType);
         model.addAttribute("productType", Arrays.asList(ProductType.values()));
-        model.addAttribute("myProductType",product.getProductType());
         model.addAttribute("sizeType", Arrays.asList(SizeType.values()));
         return "myPage/myProductInfo";
+    }
+    @RequestMapping("/saveMyProduct")
+    public ResponseEntity<Void> saveMyProduct(ProductDTO productDTO, FileDTO fileDTO) {
+        System.out.println(productDTO.getProductContent());
+        return ResponseEntity.ok().build();
     }
 }

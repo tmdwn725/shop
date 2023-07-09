@@ -46,7 +46,6 @@ function decreaseQuantity(element,cartSeq){
 장바구니 삭제
 */
 function removeCartInfo(cartSeq){
-
     $.ajax({
         url: "/cart/removeCartInfo",
         type: "DELETE",
@@ -58,7 +57,7 @@ function removeCartInfo(cartSeq){
         error: function(xhr, status, error) {
             alert("삭제에 실패했습니다.");
         }
-        });
+    });
 }
 
 /**
