@@ -120,8 +120,7 @@
                         <div class="product__details__price" th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + '원'">
                             <span th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + '원'"></span>
                         </div>
-                        <p>Nemo enim ipsam voluptatem quia aspernatur aut odit aut loret fugit, sed quia consequuntur
-                        magni lores eos qui ratione voluptatem sequi nesciunt.</p>
+                        <p th:text="${product.productContent}"></p>
                         <div class="product__details__button">
                             <div class="quantity">
                                 <span>수량:</span>

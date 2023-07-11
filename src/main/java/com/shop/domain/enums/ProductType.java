@@ -1,6 +1,8 @@
 package com.shop.domain.enums;
 
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public enum ProductType implements BaseEnum {
     OUTER("O", "아우터", null),
@@ -30,6 +32,9 @@ public enum ProductType implements BaseEnum {
     private final ProductType parentProductType;
     private final List<ProductType> childProductTypes;
 
+    private static final Map<String,String> codeMap
+            = Collections.unmodifiableMap(Stream.of(values()).collect(Collectors.toMap(ProductType::getCode, ProductType::name)));
+
     ProductType(String code, String value, ProductType parentProductType){
         this.code = code;
         this.value = value;
@@ -52,5 +57,8 @@ public enum ProductType implements BaseEnum {
     // 자식카테고리 Getter
     public List<ProductType> getChildCategories() {
         return Collections.unmodifiableList(childProductTypes);
+    }
+    public static ProductType of(String code){
+        return ProductType.valueOf(codeMap.get(code));
     }
 }

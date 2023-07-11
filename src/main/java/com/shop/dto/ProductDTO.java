@@ -17,13 +17,14 @@ import java.util.Map;
 @Data
 public class ProductDTO {
     private Long productSeq;
-    private String sellerSeq;
+    private Long sellerSeq;
     private String productName;
     private String productContent;
     private String rpImageSeq;
     private int price;
     private LocalDateTime regDt;
     private ProductType productType;
+    private String productTypeCd;
     private List<ProductFileDTO> productFileList = new ArrayList<>();
     private List<ProductStock> productStockList = new ArrayList<>();
     private String filePth;

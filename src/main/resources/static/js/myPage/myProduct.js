@@ -92,10 +92,10 @@ function saveProductInfo() {
     $('input[name="product-size"]').each(function() {
       const id = $(this).attr('id');
       const value = $(this).val();
-      sizeTypeList[id] = value;
+      sizeType[id] = value;
     });
 
-    console.log(sizeTypeList);
+    console.log(sizeType);
 
     $.ajax({
         type: "POST",
@@ -104,8 +104,8 @@ function saveProductInfo() {
             productName : name,
             productContent : content,
             price : price,
-            filePth : imagePath,
-            productType : detailType,
+            filePth : "/img/product/related/rp-4.jpg",
+            productTypeCd : detailType,
             sizeTypes : sizeType
         },
         dataType: "json",

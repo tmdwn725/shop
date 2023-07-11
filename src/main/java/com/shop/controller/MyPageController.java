@@ -65,7 +65,11 @@ public class MyPageController {
     }
     @RequestMapping("/saveMyProduct")
     public ResponseEntity<Void> saveMyProduct(ProductDTO productDTO, FileDTO fileDTO) {
-        System.out.println(productDTO.getProductContent());
+        String memberId = SecurityContextHolder.getContext().getAuthentication().getName();
+        MemberDTO member = memberService.selectMemberById(memberId);
+        productDTO.setProductType(ProductType.of(productDTO.getProductTypeCd()));
+        productDTO.setSellerSeq(member.getMemberSeq());
+        productService.saveProductInfo(productDTO, fileDTO);
         return ResponseEntity.ok().build();
     }
 }
