@@ -121,7 +121,7 @@
                                     <td class="cart__quantity" th:text="${product.productType.name}"/>
                                     <td>판매중</td>
                                     <td class="product-reg-dt" th:text="${#temporals.format(product.regDt, 'yyyy-MM-dd')}"/>
-                                    <td class="cart__close"><span class="icon_close"></span></td>
+                                    <td class="cart__close"><span class="icon_close" th:onclick="'removeMyProduct(' + ${product.productSeq} + ')'"></span></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -227,6 +227,7 @@
     <script type="text/javascript" th:src="@{/js/owl.carousel.min.js}"></script>
     <script type="text/javascript" th:src="@{/js/jquery.nicescroll.min.js}"></script>
     <script type="text/javascript" th:src="@{/js/main.js}"></script>
+    <script type="text/javascript" th:src="@{/js/myPage/myProduct.js}"></script>
 </body>
 
 </html>

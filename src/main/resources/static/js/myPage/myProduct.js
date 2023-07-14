@@ -114,3 +114,11 @@ function saveProductInfo() {
         }
     });
 }
+
+function removeMyProduct(productSeq){
+    if (confirm("상품 정보를 삭제하시겠습니까?")) {
+        // 취소(아니오) 버튼 클릭 시 이벤트
+    } else {
+        //
+    }
+}
