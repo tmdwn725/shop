@@ -1,5 +1,6 @@
 package com.shop.controller;
 
+import com.shop.domain.Cart;
 import com.shop.domain.enums.ProductType;
 import com.shop.domain.enums.SizeType;
 import com.shop.dto.CartDTO;
@@ -70,6 +71,12 @@ public class MyPageController {
         productDTO.setProductType(ProductType.of(productDTO.getProductTypeCd()));
         productDTO.setSellerSeq(member.getMemberSeq());
         productService.saveProductInfo(productDTO, fileDTO);
+        return ResponseEntity.ok().build();
+    }
+
+    @RequestMapping("/removeProduct")
+    public ResponseEntity<Void> removeProduct(ProductDTO product) {
+        productService.removeProduct(product);
         return ResponseEntity.ok().build();
     }
 }

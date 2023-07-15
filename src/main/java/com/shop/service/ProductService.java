@@ -16,6 +16,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -75,6 +76,11 @@ public class ProductService {
         return new PageImpl<>(list, pageRequest, total);
     }
 
+    /**
+     * 상품정보 저장
+     * @param productDTO
+     * @param fileDTO
+     */
     public void saveProductInfo(ProductDTO productDTO, FileDTO fileDTO){
         // 현재 날짜와 시간 취득
         LocalDateTime nowdatetime = LocalDateTime.now();
@@ -97,5 +103,19 @@ public class ProductService {
         ProductFile productFile = new ProductFile();
         productFile.createProductFile(product,"030101",file);
         productFileRepository.save(productFile);
+    }
+
+    /**
+     * 상품정보 삭제
+     * @param productDTO
+     */
+    @Transactional
+    public void removeProduct(ProductDTO productDTO){
+        Product product = productRepository.findById(productDTO.getProductSeq()).get();
+        List<ProductStock> productStockList = product.getProductStockList();
+        fileRepository.delete(product.getProductFileList().get(0).getFile());
+        productFileRepository.deleteAll(product.getProductFileList());
+        productStockRepository.deleteAll(productStockList);
+        productRepository.delete(product);
     }
 }
