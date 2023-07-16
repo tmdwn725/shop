@@ -48,8 +48,6 @@ public class MyPageController {
      */
     @RequestMapping("/getMyProductInfo")
     public String getMyProductInfo(Model model, ProductDTO product){
-        String memberId = SecurityContextHolder.getContext().getAuthentication().getName();
-        MemberDTO member = memberService.selectMemberById(memberId);
         ProductDTO productDTO = new ProductDTO();
         ProductType myProductType = null;
 
@@ -64,6 +62,13 @@ public class MyPageController {
         model.addAttribute("sizeType", Arrays.asList(SizeType.values()));
         return "myPage/myProductInfo";
     }
+
+    /**
+     * 내 상품 등록
+     * @param productDTO
+     * @param fileDTO
+     * @return
+     */
     @RequestMapping("/saveMyProduct")
     public ResponseEntity<Void> saveMyProduct(ProductDTO productDTO, FileDTO fileDTO) {
         String memberId = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -74,6 +79,11 @@ public class MyPageController {
         return ResponseEntity.ok().build();
     }
 
+    /**
+     * 내 상품 삭제
+     * @param product
+     * @return
+     */
     @RequestMapping("/removeProduct")
     public ResponseEntity<Void> removeProduct(ProductDTO product) {
         productService.removeProduct(product);

@@ -81,6 +81,11 @@ function onProductTypeChange(value) {
 }
 
 function saveProductInfo() {
+    let seq = $("#product-seq").val()
+    if(seq == ''){
+        seq = 0;
+    }
+    alert(seq);
     const name = $("#product-name").val();
     const content = $("#product-content").val();
     const price = $("#product-price").val();
@@ -96,21 +101,4 @@ function saveProductInfo() {
     });
 
     console.log(sizeType);
-
-    $.ajax({
-        type: "POST",
-        url: "/myPage/saveMyProduct",
-        data:{
-            productName : name,
-            productContent : content,
-            price : price,
-            filePth : "/img/product/related/rp-4.jpg",
-            productTypeCd : detailType,
-            sizeTypes : sizeType
-        },
-        dataType: "json",
-        success: function(res){
-            alert("등록되었습니다.");
-        }
-    });
 }

@@ -88,6 +88,7 @@
                 <div>
                     <h5>Billing detail</h5>
                     <div class="row">
+                        <input id="product-seq" type="hidden"  th:value="${product.productSeq}">
                         <div class="col-lg-9 col-md-6 col-sm-6">
                             <div class="checkout__form__input">
                                 <p>상품명 <span>*</span></p>
@@ -146,7 +147,7 @@
                                             th:if="${productType.getParentCategory().isEmpty()}"
                                             th:value="${productType}"
                                             th:text="${productType.value}"
-                                            th:selected="${productType.code} == 'O'">
+                                            th:selected="${productType.code} == ${product.productType.getParentCategory()}">
                                     </option>
                                 </select>
                             </div>

@@ -3,30 +3,34 @@ package com.shop.controller;
 import com.shop.dto.CartDTO;
 import com.shop.dto.MemberDTO;
 import com.shop.service.MemberService;
-import com.shop.service.PaymentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
-import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/payment")
 public class PaymentController {
-    private final PaymentService paymentService;
     private final MemberService memberService;
+
+    /**
+     * 상품 결제창 조회
+     * @param model
+     * @param cartDTO
+     * @return
+     */
     @RequestMapping(value = "/getPaymentInfo", method = {RequestMethod.POST, RequestMethod.GET})
     public String getPaymentInfo(Model model, @ModelAttribute("CartDTO") CartDTO cartDTO){
         String memberId = SecurityContextHolder.getContext().getAuthentication().getName();
         MemberDTO member = memberService.selectMemberById(memberId);
-        int totalPrice = paymentService.getTotalPrice(cartDTO.getCartList());
-
+        // 총 가격
+        int totalPrice = cartDTO.getCartList().stream()
+                            .mapToInt(cart -> cart.getPrice() * cart.getQuantity())
+                            .sum();
         model.addAttribute("member", member);
         model.addAttribute("myCartList",cartDTO.getCartList());
         model.addAttribute("totalPrice",totalPrice);

@@ -13,7 +13,5 @@ function removeMyProduct(productSeq){
                 alert("삭제에 실패했습니다.");
             }
         });
-    } else {
-        //
     }
 }

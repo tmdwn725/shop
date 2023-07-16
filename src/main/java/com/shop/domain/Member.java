@@ -1,5 +1,6 @@
 package com.shop.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.shop.dto.Role;
 import lombok.Data;
 import lombok.Getter;
@@ -34,6 +35,7 @@ public class Member {
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
     private Role role;
+    @JsonManagedReference
     @OneToMany(mappedBy = "member", cascade = CascadeType.PERSIST)
     private List<Cart> cartList = new ArrayList<>();
     public void craeteMember(String ... member){

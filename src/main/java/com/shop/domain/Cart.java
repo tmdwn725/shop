@@ -1,5 +1,6 @@
 package com.shop.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -12,9 +13,11 @@ public class Cart {
     @Column(name ="cart_seq")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long cartSeq;
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_seq")
     private Member member;
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_stock_seq")
     private ProductStock productStock;

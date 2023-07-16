@@ -19,9 +19,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -88,12 +87,15 @@ public class ProductService {
         product.createProduct(productDTO.getSellerSeq(), productDTO.getProductName(), productDTO.getProductContent(), productDTO.getProductType(), productDTO.getPrice(),nowdatetime);
         productRepository.save(product);
 
-        List<ProductStock> productStockList =  new ArrayList<>();
-        for(Map.Entry<String,String> entry :  productDTO.getSizeTypes().entrySet()){
-            ProductStock ps = new ProductStock();
-            ps.createProductStock(product,entry.getKey(),Integer.parseInt(entry.getValue()));
-            productStockList.add(ps);
-        }
+        List<ProductStock> productStockList = productDTO.getSizeTypes().entrySet().stream()
+                .map(entry -> {
+                    String sizeType = entry.getKey();
+                    String quantity = entry.getValue();
+                    ProductStock ps = new ProductStock();
+                    ps.createProductStock(product, sizeType, Integer.parseInt(quantity));
+                    return ps;
+                })
+                .collect(Collectors.toList());
         productStockRepository.saveAll(productStockList);
 
         File file = new File();
