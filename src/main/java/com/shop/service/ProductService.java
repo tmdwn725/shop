@@ -53,8 +53,8 @@ public class ProductService {
      */
     public ProductDTO selectProductInfo(Long productSeq){
         Product productInfo = productRepository.selectProduct(productSeq);
-        ProductDTO productDTO1 = ModelMapperUtil.map(productInfo, ProductDTO.class);
-        return productDTO1;
+        ProductDTO product = ModelMapperUtil.map(productInfo, ProductDTO.class);
+        return product;
     }
 
     /**
