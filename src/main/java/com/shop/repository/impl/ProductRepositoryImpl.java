@@ -62,4 +62,14 @@ public class ProductRepositoryImpl {
         }
         return qProduct.sellerSeq.eq(sellerSeq);
     }
+
+    public void updateProductInfo(Product product){
+        queryFactory.update(qProduct)
+                .set(qProduct.productName, product.getProductName())
+                .set(qProduct.productContent, product.getProductContent())
+                .set(qProduct.price, product.getPrice())
+                .set(qProduct.productType, product.getProductType())
+                .where(qProduct.productSeq.eq(product.getProductSeq()))
+                .execute();
+    }
 }

@@ -53,7 +53,7 @@ public class MyPageController {
 
         if(product.getProductSeq() > 0){
             productDTO = productService.selectProductInfo(product.getProductSeq());
-            myProductType = product.getProductType();
+            myProductType = productDTO.getProductType();
         }
 
         model.addAttribute("product", productDTO);

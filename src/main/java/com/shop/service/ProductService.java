@@ -85,26 +85,31 @@ public class ProductService {
         LocalDateTime nowdatetime = LocalDateTime.now();
         Product product = new Product();
         product.createProduct(productDTO.getSellerSeq(), productDTO.getProductName(), productDTO.getProductContent(), productDTO.getProductType(), productDTO.getPrice(),nowdatetime);
-        productRepository.save(product);
+        if(product.getProductSeq() > 0){
+            // 상품정보 수정
+            productRepository.updateProductInfo(product);
+        }else{
+            // 상품정보 등록
+            productRepository.save(product);
+            List<ProductStock> productStockList = productDTO.getSizeTypes().entrySet().stream()
+                    .map(entry -> {
+                        String sizeType = entry.getKey();
+                        String quantity = entry.getValue();
+                        ProductStock ps = new ProductStock();
+                        ps.createProductStock(product, sizeType, Integer.parseInt(quantity));
+                        return ps;
+                    })
+                    .collect(Collectors.toList());
+            productStockRepository.saveAll(productStockList);
 
-        List<ProductStock> productStockList = productDTO.getSizeTypes().entrySet().stream()
-                .map(entry -> {
-                    String sizeType = entry.getKey();
-                    String quantity = entry.getValue();
-                    ProductStock ps = new ProductStock();
-                    ps.createProductStock(product, sizeType, Integer.parseInt(quantity));
-                    return ps;
-                })
-                .collect(Collectors.toList());
-        productStockRepository.saveAll(productStockList);
+            File file = new File();
+            file.CreateFile("파일", productDTO.getFilePth(),"jpg");
+            fileRepository.save(file);
 
-        File file = new File();
-        file.CreateFile("파일", productDTO.getFilePth(),"jpg");
-        fileRepository.save(file);
-
-        ProductFile productFile = new ProductFile();
-        productFile.createProductFile(product,"030101",file);
-        productFileRepository.save(productFile);
+            ProductFile productFile = new ProductFile();
+            productFile.createProductFile(product,"030101",file);
+            productFileRepository.save(productFile);
+        }
     }
 
     /**
