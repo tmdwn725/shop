@@ -5,6 +5,7 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.NumberPath;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.shop.domain.*;
+import com.shop.repository.custom.ProductConfig;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -13,7 +14,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 @RequiredArgsConstructor
-public class ProductRepositoryImpl {
+public class ProductRepositoryImpl implements ProductConfig {
     private final JPAQueryFactory queryFactory;
     QProduct qProduct = QProduct.product;
     QProductStock qProductStock = QProductStock.productStock;

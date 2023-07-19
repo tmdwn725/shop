@@ -3,12 +3,13 @@ package com.shop.repository.impl;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.shop.domain.*;
+import com.shop.repository.custom.CartConfig;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
 @RequiredArgsConstructor
-public class CartRepositoryImpl {
+public class CartRepositoryImpl implements CartConfig {
     private final JPAQueryFactory queryFactory;
     QCart qCart = QCart.cart;
     QMember qMember = QMember.member;
