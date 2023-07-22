@@ -28,8 +28,6 @@ import java.util.Map;
 @RequestMapping("/myPage")
 public class MyPageController {
 
-    @Value("${image.upload.path}")
-    private String imageUploadPath;
     private final MemberService memberService;
     private final ProductService productService;
 
@@ -76,16 +74,15 @@ public class MyPageController {
      * @return
      */
     @RequestMapping("/saveMyProduct")
-    public ResponseEntity<Void> saveMyProduct(ProductDTO productDTO, FileDTO fileDTO, @RequestParam Map<String, String> sizeMap
+    public ResponseEntity<Void> saveMyProduct(ProductDTO productDTO
             , @RequestParam("file-img1") MultipartFile file1, @RequestParam("file-img2") MultipartFile file2
             , @RequestParam("file-img3") MultipartFile file3, @RequestParam("file-img4") MultipartFile file4) throws IOException {
         String memberId = SecurityContextHolder.getContext().getAuthentication().getName();
         MemberDTO member = memberService.selectMemberById(memberId);
-        File destFile = new File(imageUploadPath + "/" + file1.getOriginalFilename());
-        file1.transferTo(destFile);
         productDTO.setProductType(ProductType.of(productDTO.getProductTypeCd()));
         productDTO.setSellerSeq(member.getMemberSeq());
-        productService.saveProductInfo(productDTO, fileDTO);
+        MultipartFile[] fileList = {file1, file2, file3, file4};
+        productService.saveProductInfo(productDTO, fileList);
         return ResponseEntity.ok().build();
     }
 

@@ -105,18 +105,20 @@ function saveProductInfo() {
     let formData = new FormData(imageForm);
     let sizeType = {};
 
-    $('input[name="product-size"]').each(function() {
-      const id = $(this).attr('id');
-      const value = $(this).val();
-      sizeType[id] = value;
-    });
-
-    console.log(sizeType);
-
     formData.append("productName", name);
     formData.append("productContent", content);
     formData.append("price", price);
     formData.append("productTypeCd", detailType);
+
+    $('input[name="product-size"]').each(function() {
+      const id = $(this).attr('id');
+      const value = $(this).val();
+      formData.append(`sizeTypes[${id}]`, value);
+    });
+
+    console.log(sizeType);
+
+
     formData.append("sizeMap", JSON.stringify(sizeType)); // 객체를 문자열로 변환하여 FormData에 추가
 
     $.ajax({

@@ -1,5 +1,6 @@
 package com.shop.service;
 
+import com.shop.common.FileUtil;
 import com.shop.common.ModelMapperUtil;
 import com.shop.domain.File;
 import com.shop.domain.Product;
@@ -12,11 +13,13 @@ import com.shop.repository.ProductFileRepository;
 import com.shop.repository.ProductRepository;
 import com.shop.repository.ProductStockRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -25,6 +28,10 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class ProductService {
+    @Value("${root.path}")
+    private String rootPath;
+    @Value("${image.upload.path}")
+    private String imageUploadPath;
     private final ProductRepository productRepository;
     private final ProductStockRepository productStockRepository;
     private final FileRepository fileRepository;
@@ -78,9 +85,8 @@ public class ProductService {
     /**
      * 상품정보 저장
      * @param productDTO
-     * @param fileDTO
      */
-    public void saveProductInfo(ProductDTO productDTO, FileDTO fileDTO){
+    public void saveProductInfo(ProductDTO productDTO, MultipartFile[] imageFileList){
         // 현재 날짜와 시간 취득
         LocalDateTime nowdatetime = LocalDateTime.now();
         Product product = new Product();
@@ -102,13 +108,22 @@ public class ProductService {
                     .collect(Collectors.toList());
             productStockRepository.saveAll(productStockList);
 
-            File file = new File();
-            file.CreateFile("파일", productDTO.getFilePth(),"jpg");
-            fileRepository.save(file);
-
-            ProductFile productFile = new ProductFile();
-            productFile.createProductFile(product,"030101",file);
-            productFileRepository.save(productFile);
+            // 상품 이미지 사진 저장
+            for(int i = 0; i < imageFileList.length; i++){
+                File file = new File();
+                String fileClsCd = "030102";
+                if(imageFileList[i].getSize() > 0){
+                    FileUtil.saveFile(imageFileList[i],rootPath+imageUploadPath);
+                    file.CreateFile(imageFileList[i].getOriginalFilename(), imageUploadPath + "/" + imageFileList[i].getOriginalFilename(),"jpg");
+                }
+                fileRepository.save(file);
+                if(i==0){
+                    fileClsCd = "030101";
+                }
+                ProductFile productFile = new ProductFile();
+                productFile.createProductFile(product,fileClsCd,file);
+                productFileRepository.save(productFile);
+            }
         }
     }
 
