@@ -1,28 +1,35 @@
 package com.shop.controller;
 
-import com.shop.domain.Cart;
 import com.shop.domain.enums.ProductType;
 import com.shop.domain.enums.SizeType;
-import com.shop.dto.CartDTO;
 import com.shop.dto.FileDTO;
 import com.shop.dto.MemberDTO;
 import com.shop.dto.ProductDTO;
 import com.shop.service.MemberService;
 import com.shop.service.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
+import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/myPage")
 public class MyPageController {
+
+    @Value("${image.upload.path}")
+    private String imageUploadPath;
     private final MemberService memberService;
     private final ProductService productService;
 
@@ -49,7 +56,7 @@ public class MyPageController {
     @RequestMapping("/getMyProductInfo")
     public String getMyProductInfo(Model model, ProductDTO product){
         ProductDTO productDTO = new ProductDTO();
-        ProductType myProductType = null;
+        ProductType myProductType = ProductType.CARDIGAN;
 
         if(product.getProductSeq() > 0){
             productDTO = productService.selectProductInfo(product.getProductSeq());
@@ -66,13 +73,16 @@ public class MyPageController {
     /**
      * 내 상품 등록
      * @param productDTO
-     * @param fileDTO
      * @return
      */
     @RequestMapping("/saveMyProduct")
-    public ResponseEntity<Void> saveMyProduct(ProductDTO productDTO, FileDTO fileDTO) {
+    public ResponseEntity<Void> saveMyProduct(ProductDTO productDTO, FileDTO fileDTO, @RequestParam Map<String, String> sizeMap
+            , @RequestParam("file-img1") MultipartFile file1, @RequestParam("file-img2") MultipartFile file2
+            , @RequestParam("file-img3") MultipartFile file3, @RequestParam("file-img4") MultipartFile file4) throws IOException {
         String memberId = SecurityContextHolder.getContext().getAuthentication().getName();
         MemberDTO member = memberService.selectMemberById(memberId);
+        File destFile = new File(imageUploadPath + "/" + file1.getOriginalFilename());
+        file1.transferTo(destFile);
         productDTO.setProductType(ProductType.of(productDTO.getProductTypeCd()));
         productDTO.setSellerSeq(member.getMemberSeq());
         productService.saveProductInfo(productDTO, fileDTO);

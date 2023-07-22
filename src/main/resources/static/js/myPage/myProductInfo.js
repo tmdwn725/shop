@@ -29,14 +29,24 @@ function getImageFiles(e) {
   });
 }
 
+// 이미지 파일 추가
 function addImageFile(id, e, file) {
     const div = document.getElementById(id);
-    const imgElements = div.querySelectorAll('img'); // div 요소 안의 모든 img 요소를 선택합니다.
-    const img = document.createElement('img');
-    img.setAttribute('src', e.target.result);
-    img.setAttribute('class', "product-image");
-    img.setAttribute('data-file', file.name);
-    div.appendChild(img);
+    const imgElements = div.querySelector('img'); // div 요소 안의 모든 img 요소를 선택합니다.
+
+    // 이미지가 이미 존재하는지 확인합니다.
+    if (imgElements != null) {
+        // 이미지의 src 속성을 변경합니다.
+        $(imgElements[0]).attr('src', e.target.result);
+        $(imgElements[0]).attr('data-file', file.name);
+    } else {
+        // 이미지가 없으면 새로 생성하여 추가합니다.
+        const img = document.createElement('img');
+        img.setAttribute('src', e.target.result);
+        img.setAttribute('class', "product-image");
+        img.setAttribute('data-file', file.name);
+        div.appendChild(img);
+    }
 }
 
 const realUpload = document.querySelector('.real-upload');
@@ -64,8 +74,8 @@ function onProductTypeChange(value) {
     const options = $('#product-detail-type option');
 
     for(var i = 0; i < options.length; i++) {
-        var option = options[i];
-        var parentCategory = option.getAttribute('name');
+        const option = options[i];
+        const parentCategory = option.getAttribute('name');
 
         if (parentCategory === value) {
             option.style.display = 'block';
@@ -91,6 +101,8 @@ function saveProductInfo() {
     const imagePath = $("#upload-img1 img").attr("src");
     const type = $("#product-type").val();
     const detailType = $("#product-detail-type").val();
+    const imageForm = document.getElementById('product-image-form');
+    let formData = new FormData(imageForm);
     let sizeType = {};
 
     $('input[name="product-size"]').each(function() {
@@ -101,17 +113,18 @@ function saveProductInfo() {
 
     console.log(sizeType);
 
+    formData.append("productName", name);
+    formData.append("productContent", content);
+    formData.append("price", price);
+    formData.append("productTypeCd", detailType);
+    formData.append("sizeMap", JSON.stringify(sizeType)); // 객체를 문자열로 변환하여 FormData에 추가
+
     $.ajax({
         type: "POST",
         url: "/myPage/saveMyProduct",
-        data:{
-            productName : name,
-            productContent : content,
-            price : price,
-            filePth : "/img/product/related/rp-4.jpg",
-            productTypeCd : detailType,
-            sizeTypes : sizeType
-        },
+        contentType: false, // 필수: FormData를 사용하기 때문에 false로 설정
+        processData: false, // 필수: FormData를 사용하기 때문에 false로 설정
+        data:formData,
         dataType: "json",
         success: function(res){
             alert("등록되었습니다.");

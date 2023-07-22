@@ -39,5 +39,9 @@ jwt:
  accessTokenExpireTime: 300000
  refreshTokenExpireTime: 1209600000
 
+# 이미지 업로드 경로 설정
+image:
+ upload:
+  path: C:/shop/ShopProject/src/main/resources/static/img/shop
 
 

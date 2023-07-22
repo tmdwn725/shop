@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <meta name="description" content="Ashion Template">
@@ -86,7 +86,7 @@
         <div class="checkout__form">
             <div class="row">
                 <div>
-                    <h5>Billing detail</h5>
+                    <h5>상품 등록 화면</h5>
                     <div class="row">
                         <input id="product-seq" type="hidden"  th:value="${product.productSeq}">
                         <div class="col-lg-9 col-md-6 col-sm-6">
@@ -104,30 +104,34 @@
                         <div class="col-lg-12">
                             <p>상품사진 <span>*</span></p>
                         </div>
-                        <div class="col-lg-3 col-md-4 col-sm-4">
-                            <input type="file" id="file-img1" class="real-upload" accept="image/*" required multiple>
-                            <div class="upload" id="upload-img1">
-                                <img th:if="${product.productFileList.size > 0}" th:src="'/' +${product.productFileList[0].file.filePth}" alt="">
+                        <form id="product-image-form" onsubmit="return false;" enctype="multipart/form-data">
+                            <div class="row" style="margin-left: 0px;">
+                                <div class="col-lg-3 col-md-6 col-sm-6">
+                                    <input type="file" id="file-img1" name="file-img1" class="real-upload" accept="image/*" required multiple>
+                                    <div class="upload" id="upload-img1">
+                                        <img th:if="${product.productFileList.size > 0}" th:src="'/' +${product.productFileList[0].file.filePth}" alt="">
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-6 col-sm-6">
+                                    <input type="file" id="file-img2" name="file-img2" class="real-upload1" accept="image/*" required multiple>
+                                    <div class="upload1" id="upload-img2">
+                                        <img th:if="${product.productFileList.size > 1}" th:src="'/' +${product.productFileList[1].file.filePth}" alt="">
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-6 col-sm-6">
+                                    <input type="file" id="file-img3" name="file-img3" class="real-upload2" accept="image/*" required multiple>
+                                    <div class="upload2" id="upload-img3">
+                                        <img th:if="${product.productFileList.size > 2}" th:src="'/' +${product.productFileList[2].file.filePth}" alt="">
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-6 col-sm-6">
+                                    <input type="file" id="file-img4" name="file-img4" class="real-upload3" accept="image/*" required multiple>
+                                    <div class="upload3" id="upload-img4">
+                                        <img th:if="${product.productFileList.size > 3}" th:src="'/' +${product.productFileList[3].file.filePth}" alt="">
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                       <div class="col-lg-3 col-md-4 col-sm-4">
-                            <input type="file" id="file-img2" class="real-upload1" accept="image/*" required multiple>
-                            <div class="upload1" id="upload-img2">
-                                <img th:if="${product.productFileList.size > 1}" th:src="'/' +${product.productFileList[1].file.filePth}" alt="">
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-4 col-sm-4">
-                            <input type="file" id="file-img3" class="real-upload2" accept="image/*" required multiple>
-                            <div class="upload2" id="upload-img3">
-                                <img th:if="${product.productFileList.size > 2}" th:src="'/' +${product.productFileList[2].file.filePth}" alt="">
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-4 col-sm-4">
-                            <input type="file" id="file-img4" class="real-upload3" accept="image/*" required multiple>
-                            <div class="upload3" id="upload-img4">
-                                <img th:if="${product.productFileList.size > 3}" th:src="'/' +${product.productFileList[3].file.filePth}" alt="">
-                            </div>
-                        </div>
+                        </form>
                         <div class="col-lg-12"><p/></div>
                         <br/>
                         <div class="col-lg-12">
@@ -170,15 +174,15 @@
                         <div class="col-lg-12">
                             <div class="checkout" style="display: inline-block;">
                                 <p>사이즈 <span>*</span></p>
-                                <div th:if="${product.productStockList.isEmpty()}" th:each="sizeType : ${sizeType}" style="display: inline-block;">
+                                <div th:if="${product.productStockList.isEmpty()}" th:each="sizeType : ${sizeType}" style="margin-left:10px; display: inline-block;">
                                     <span th:text="${sizeType.code} + ': '"></span>
-                                    <input type="number" th:id="${sizeType.code}" name="product-size" style="width: 60px;" min="0" max="100" value="0">
+                                    <input type="number" th:id="${sizeType.code}" class="product-size" name="product-size" style="width: 60px;" min="0" max="100" value="0">
                                     <span>개&nbsp;&nbsp;</span>
                                 </div>
-                                <div th:unless="${product.productStockList.isEmpty()}" th:each="stock : ${product.productStockList}" style="display: inline-block;">
+                                <div th:unless="${product.productStockList.isEmpty()}" th:each="stock : ${product.productStockList}" style="margin-left:10px; display: inline-block;">
                                     <span th:text="${stock.productSize} + ': '"></span>
-                                    <input type="number" th:id="${stock.productSize}" name="product-size" style="width: 60px;" min="0" max="100" th:value="${stock.productCount}">
-                                    <span>개&nbsp;&nbsp;</span>
+                                    <input type="number" th:id="${stock.productSize}" class="product-size" name="product-size" min="0" max="100" th:value="${stock.productCount}">
+                                    <span>개  </span>
                                 </div>
                             </div>
                         </div>
