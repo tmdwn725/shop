@@ -10,6 +10,5 @@ import java.util.List;
 public interface ProductConfig {
     Page<Product> selectProductList(Pageable pageable, Long sellerSeq);
     Product selectProduct(Long productSeq);
-
     void updateProductInfo(Product product);
 }

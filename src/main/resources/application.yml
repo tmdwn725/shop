@@ -43,7 +43,7 @@ root:
  path: C:/shop/ShopProject/src/main/resources/static/
 # 이미지 업로드 경로 설정
 image:
- upload:
-  path: img/shop
+ product:
+  path: img/product
 
 

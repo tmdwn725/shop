@@ -22,7 +22,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,12 +32,13 @@ import java.util.stream.Collectors;
 public class ProductService {
     @Value("${root.path}")
     private String rootPath;
-    @Value("${image.upload.path}")
+    @Value("${image.product.path}")
     private String imageUploadPath;
     private final ProductRepository productRepository;
     private final ProductStockRepository productStockRepository;
     private final FileRepository fileRepository;
     private final ProductFileRepository productFileRepository;
+
 
 
     /**
@@ -90,12 +93,37 @@ public class ProductService {
         // 현재 날짜와 시간 취득
         LocalDateTime nowdatetime = LocalDateTime.now();
         Product product = new Product();
-        product.createProduct(productDTO.getSellerSeq(), productDTO.getProductName(), productDTO.getProductContent(), productDTO.getProductType(), productDTO.getPrice(),nowdatetime);
-        if(product.getProductSeq() > 0){
-            // 상품정보 수정
+        product.createProduct(productDTO.getSellerSeq(), productDTO.getProductName(), productDTO.getProductContent(), productDTO.getProductType(), productDTO.getPrice(),nowdatetime, nowdatetime);
+
+        // 상품정보 수정
+        if(productDTO.getProductSeq() > 0){
             productRepository.updateProductInfo(product);
-        }else{
-            // 상품정보 등록
+            for (Map.Entry<String, String> entry : productDTO.getSizeTypes().entrySet()) {
+                productStockRepository.updateProductStockCount(product.getProductSeq(),entry.getKey(),Integer.parseInt(entry.getValue()));
+            }
+
+            Arrays.stream(imageFileList)
+                .filter(imageFile -> imageFile.getSize() > 0)
+                .forEach(imageFile -> {
+                    String fileClsCd = "030102";
+                    String filePth = imageUploadPath + "/" + product.getProductSeq();
+                    // index 구하기
+                    int index = Arrays.asList(imageFileList).indexOf(imageFile);
+                    if (index == 0) {
+                        fileClsCd = "030101";
+                    }
+                    // 기준 상품 파일 삭제
+                    productFileRepository.deleteProductFile(product.getProductSeq(),fileClsCd,index+1);
+                    FileUtil.saveFile(imageFile, rootPath + filePth);
+                    File fileInfo = new File();
+                    fileInfo.CreateFile(imageFile.getSize(), imageFile.getOriginalFilename(), filePth + "/" + imageFile.getOriginalFilename(), "jpg");
+                    fileRepository.save(fileInfo);
+
+                    ProductFile productFile = new ProductFile();
+                    productFile.createProductFile(product, fileClsCd, fileInfo, index+1);
+                    productFileRepository.save(productFile);
+                });
+        }else{ // 상품정보 등록
             productRepository.save(product);
             List<ProductStock> productStockList = productDTO.getSizeTypes().entrySet().stream()
                     .map(entry -> {
@@ -109,21 +137,23 @@ public class ProductService {
             productStockRepository.saveAll(productStockList);
 
             // 상품 이미지 사진 저장
-            for(int i = 0; i < imageFileList.length; i++){
-                File file = new File();
-                String fileClsCd = "030102";
-                if(imageFileList[i].getSize() > 0){
-                    FileUtil.saveFile(imageFileList[i],rootPath+imageUploadPath);
-                    file.CreateFile(imageFileList[i].getOriginalFilename(), imageUploadPath + "/" + imageFileList[i].getOriginalFilename(),"jpg");
-                }
-                fileRepository.save(file);
-                if(i==0){
-                    fileClsCd = "030101";
-                }
-                ProductFile productFile = new ProductFile();
-                productFile.createProductFile(product,fileClsCd,file);
-                productFileRepository.save(productFile);
-            }
+            Arrays.stream(imageFileList)
+                .filter(imageFile -> imageFile.getSize() > 0)
+                .forEach(imageFile -> {
+                    String fileClsCd = "030102";
+                    FileUtil.saveFile(imageFile, rootPath + imageUploadPath + "/" + product.getProductSeq());
+                    File fileInfo = new File();
+                    fileInfo.CreateFile(imageFile.getSize(), imageFile.getOriginalFilename(), imageUploadPath + "/" + imageFile.getOriginalFilename(), "jpg");
+                    fileRepository.save(fileInfo);
+                    // index 구하기
+                    int index = Arrays.asList(imageFileList).indexOf(imageFile);
+                    if (index == 0) {
+                        fileClsCd = "030101";
+                    }
+                    ProductFile productFile = new ProductFile();
+                    productFile.createProductFile(product, fileClsCd, fileInfo, index+1);
+                    productFileRepository.save(productFile);
+                });
         }
     }
 

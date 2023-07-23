@@ -22,9 +22,12 @@ public class ProductFile {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_file_seq", referencedColumnName = "file_seq", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private File file;
-    public void createProductFile(Product product, String fileClsCd, File file){
+    @Column(name ="odr")
+    private int odr;
+    public void createProductFile(Product product, String fileClsCd, File file, int odr){
         this.product = product;
         this.fileClsCd = fileClsCd;
-        this.file =file;
+        this.file = file;
+        this.odr = odr;
     }
 }

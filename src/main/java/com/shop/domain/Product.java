@@ -33,6 +33,8 @@ public class Product {
     private int price;
     @Column(name = "reg_dt")
     private LocalDateTime regDt;
+    @Column(name = "mod_dt")
+    private LocalDateTime modDt;
     @JsonManagedReference
     @OneToMany(mappedBy = "product", cascade = CascadeType.PERSIST)
     private List<ProductFile> productFileList;
@@ -41,12 +43,13 @@ public class Product {
     private List<ProductStock> productStockList;
     @Transient
     private String filePth;
-    public void createProduct(Long sellerSeq, String productName ,String productContent, ProductType productType, int price, LocalDateTime regDt){
+    public void createProduct(Long sellerSeq, String productName ,String productContent, ProductType productType, int price, LocalDateTime regDt, LocalDateTime modDt){
         this.sellerSeq = sellerSeq;
         this.productName = productName;
         this.productContent = productContent;
         this.productType = productType;
         this.price = price;
         this.regDt = regDt;
+        this.modDt = modDt;
     }
 }
