@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ProductService {
     @Value("${root.path}")
-    private String rootPath;
+    private String rootPth;
     @Value("${image.product.path}")
     private String imageUploadPath;
     private final ProductRepository productRepository;
@@ -114,9 +114,9 @@ public class ProductService {
                     }
                     // 기준 상품 파일 삭제
                     productFileRepository.deleteProductFile(product.getProductSeq(),fileClsCd,index+1);
-                    FileUtil.saveFile(imageFile, rootPath + filePth);
+                    String saveFilePth = FileUtil.saveFile(imageFile, rootPth, filePth);
                     File fileInfo = new File();
-                    fileInfo.CreateFile(imageFile.getSize(), imageFile.getOriginalFilename(), filePth + "/" + imageFile.getOriginalFilename(), "jpg");
+                    fileInfo.CreateFile(imageFile.getSize(), imageFile.getOriginalFilename(), saveFilePth, "jpg");
                     fileRepository.save(fileInfo);
 
                     ProductFile productFile = new ProductFile();
@@ -140,11 +140,15 @@ public class ProductService {
             Arrays.stream(imageFileList)
                 .filter(imageFile -> imageFile.getSize() > 0)
                 .forEach(imageFile -> {
+
+                    String filePth = imageUploadPath + "/" + product.getProductSeq();
                     String fileClsCd = "030102";
-                    FileUtil.saveFile(imageFile, rootPath + imageUploadPath + "/" + product.getProductSeq());
+
+                    String saveFilePth = FileUtil.saveFile(imageFile, rootPth, filePth);
                     File fileInfo = new File();
-                    fileInfo.CreateFile(imageFile.getSize(), imageFile.getOriginalFilename(), imageUploadPath + "/" + imageFile.getOriginalFilename(), "jpg");
+                    fileInfo.CreateFile(imageFile.getSize(), imageFile.getOriginalFilename(), saveFilePth, "jpg");
                     fileRepository.save(fileInfo);
+
                     // index 구하기
                     int index = Arrays.asList(imageFileList).indexOf(imageFile);
                     if (index == 0) {

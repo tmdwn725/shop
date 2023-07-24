@@ -2,13 +2,11 @@ package com.shop.controller;
 
 import com.shop.domain.enums.ProductType;
 import com.shop.domain.enums.SizeType;
-import com.shop.dto.FileDTO;
 import com.shop.dto.MemberDTO;
 import com.shop.dto.ProductDTO;
 import com.shop.service.MemberService;
 import com.shop.service.ProductService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,17 +15,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/myPage")
 public class MyPageController {
-
     private final MemberService memberService;
     private final ProductService productService;
 

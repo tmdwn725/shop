@@ -105,6 +105,7 @@ function saveProductInfo() {
     let formData = new FormData(imageForm);
     let sizeType = {};
 
+    formData.append("productSeq", seq);
     formData.append("productName", name);
     formData.append("productContent", content);
     formData.append("price", price);
@@ -128,7 +129,8 @@ function saveProductInfo() {
         processData: false, // 필수: FormData를 사용하기 때문에 false로 설정
         data:formData,
         dataType: "json",
-        success: function(res){
+        success: function(response){
+            console.log("등록");
             alert("등록되었습니다.");
         }
     });

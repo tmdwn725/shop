@@ -180,6 +180,9 @@
   border-radius: 2px;
   margin-bottom: 25px;
   font-size: 14px;
+  padding-top: 10px;
+  padding-left: 10px;
+  color: #666666;
 }
 
 /* 상품종류 */
