@@ -2,9 +2,9 @@ package com.shop.repository.impl;
 
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.core.types.dsl.NumberPath;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.shop.domain.*;
+import com.shop.domain.enums.ProductType;
 import com.shop.repository.custom.ProductConfig;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -26,12 +26,12 @@ public class ProductRepositoryImpl implements ProductConfig {
      * @param pageable
      * @return
      */
-    public Page<Product> selectProductList(Pageable pageable, Long sellerSeq){
+    public Page<Product> selectProductList(Pageable pageable, Long sellerSeq, ProductType productType){
         QueryResults<Product> productList = queryFactory
                 .selectFrom(qProduct)
                 .join(qProduct.productFileList, qProductFile)
                 .join(qProductFile.file, qFile)
-                .where(eqSellerSeq(sellerSeq))
+                .where(eqSellerSeq(sellerSeq),eqProductType(productType))
                 .orderBy(qProduct.regDt.desc(), qProduct.productSeq.asc()) // 최신순으로 정렬
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize()) // 최대 8개만 조회
@@ -39,6 +39,20 @@ public class ProductRepositoryImpl implements ProductConfig {
         List<Product> content = productList.getResults();
         long total = productList.getTotal();
         return new PageImpl<>(content, pageable, total);
+    }
+
+    private BooleanExpression eqSellerSeq(long sellerSeq) {
+        if (sellerSeq == 0) {
+            return null;
+        }
+        return qProduct.sellerSeq.eq(sellerSeq);
+    }
+
+    private BooleanExpression eqProductType(ProductType productType) {
+        if (productType == null) {
+            return null;
+        }
+        return qProduct.productType.in(productType.getChildCategories());
     }
 
     /**
@@ -55,13 +69,6 @@ public class ProductRepositoryImpl implements ProductConfig {
                 .where(qProduct.productSeq.eq(productSeq))
                 .fetchOne();
         return productInfo;
-    }
-
-    private BooleanExpression eqSellerSeq(long sellerSeq) {
-        if (sellerSeq == 0) {
-            return null;
-        }
-        return qProduct.sellerSeq.eq(sellerSeq);
     }
 
     public void updateProductInfo(Product product){

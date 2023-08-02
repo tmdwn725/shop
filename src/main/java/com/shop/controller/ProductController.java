@@ -27,16 +27,18 @@ public class ProductController {
     private final MemberService memberService;
     private final CartService cartService;
     @RequestMapping("/product")
-    public String getProductList(@RequestParam("page") int page, Model model) {
-        Page<ProductDTO> productList = productService.selectProductList(page,6);
+    public String getProductList(@RequestParam("page") int page,  @RequestParam("type") String type,Model model) {
+        Page<ProductDTO> productList = productService.selectProductList(page,6,ProductType.of(type));
         model.addAttribute("productList", productList);
         model.addAttribute("productType", Arrays.asList(ProductType.values()));
+        model.addAttribute("type",type);
         return "product/productList";
     }
     @RequestMapping("/productInfo")
     public String productInfo(Model model, ProductDTO productDTO){
         ProductDTO product = productService.selectProductInfo(productDTO.getProductSeq());
         model.addAttribute("product",product);
+        model.addAttribute("type",product.getProductType().getParentCategory().get().getCode());
         return "product/product-details";
     }
 

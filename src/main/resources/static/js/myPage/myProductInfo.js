@@ -128,10 +128,45 @@ function saveProductInfo() {
         contentType: false, // 필수: FormData를 사용하기 때문에 false로 설정
         processData: false, // 필수: FormData를 사용하기 때문에 false로 설정
         data:formData,
-        dataType: "json",
         success: function(response){
             console.log("등록");
             alert("등록되었습니다.");
+            window.location.href = "http://localhost:8081/myPage/getMyProductList";
+        },
+        error: function(xhr, status, error) {
+            alert("삭제에 실패했습니다.");
         }
     });
+}
+
+function addSize() {
+    var sizeNameInput = document.getElementById("sizeName");
+    var sizeName = sizeNameInput.value.trim();
+    sizeNameInput.value = '';
+
+    if (sizeName === '') {
+        alert("사이즈명을 입력해주세요.");
+        return;
+    }
+
+    var sizeListDiv = document.getElementById("sizeList");
+    var newEntry = document.createElement("div");
+    newEntry.style.marginLeft = "10px";
+    newEntry.style.display = "inline-block";
+
+    // 새로운 사이즈명 텍스트 생성
+    var sizeNameText = document.createElement("span");
+    sizeNameText.innerText = sizeName;
+    newEntry.appendChild(sizeNameText);
+
+    // 사이즈 개수를 입력할 수 있는 input 생성
+    var quantityInput = document.createElement("input");
+    quantityInput.type = "number";
+    quantityInput.min = "0";
+    quantityInput.max = "100";
+    quantityInput.classList.add("product-size");
+    quantityInput.name="product-size"
+    newEntry.appendChild(quantityInput);
+
+    sizeListDiv.appendChild(newEntry);
 }

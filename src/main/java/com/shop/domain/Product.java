@@ -43,7 +43,10 @@ public class Product {
     private List<ProductStock> productStockList;
     @Transient
     private String filePth;
-    public void createProduct(Long sellerSeq, String productName ,String productContent, ProductType productType, int price, LocalDateTime regDt, LocalDateTime modDt){
+    public void createProduct(Long productSeq, Long sellerSeq, String productName ,String productContent, ProductType productType, int price, LocalDateTime regDt, LocalDateTime modDt){
+        if(productSeq > 0L){
+            this.productSeq = productSeq;
+        }
         this.sellerSeq = sellerSeq;
         this.productName = productName;
         this.productContent = productContent;

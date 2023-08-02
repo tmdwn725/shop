@@ -6,6 +6,7 @@ import com.shop.domain.File;
 import com.shop.domain.Product;
 import com.shop.domain.ProductFile;
 import com.shop.domain.ProductStock;
+import com.shop.domain.enums.ProductType;
 import com.shop.dto.FileDTO;
 import com.shop.dto.ProductDTO;
 import com.shop.repository.FileRepository;
@@ -47,9 +48,9 @@ public class ProductService {
      * @param limit
      * @return
      */
-    public Page<ProductDTO> selectProductList(int start, int limit){
+    public Page<ProductDTO> selectProductList(int start, int limit, ProductType productType){
         PageRequest pageRequest = PageRequest.of(start-1, limit);
-        Page<Product> result = productRepository.selectProductList(pageRequest, 0L);
+        Page<Product> result = productRepository.selectProductList(pageRequest, 0L,productType);
         int total = result.getTotalPages();
         pageRequest = PageRequest.of((total-1), limit);
         List<ProductDTO> list = ModelMapperUtil.mapAll(result.getContent(), ProductDTO.class);
@@ -76,7 +77,7 @@ public class ProductService {
      */
     public Page<ProductDTO> selectMyProductList(int start, int limit, Long MemberSeq){
         PageRequest pageRequest = PageRequest.of(start-1, limit);
-        Page<Product> result = productRepository.selectProductList(pageRequest, MemberSeq);
+        Page<Product> result = productRepository.selectProductList(pageRequest, MemberSeq,null);
         int total = result.getTotalPages();
         if (total > 0) {
             pageRequest = PageRequest.of((total-1), limit);
@@ -89,11 +90,12 @@ public class ProductService {
      * 상품정보 저장
      * @param productDTO
      */
+    @Transactional
     public void saveProductInfo(ProductDTO productDTO, MultipartFile[] imageFileList){
         // 현재 날짜와 시간 취득
         LocalDateTime nowdatetime = LocalDateTime.now();
         Product product = new Product();
-        product.createProduct(productDTO.getSellerSeq(), productDTO.getProductName(), productDTO.getProductContent(), productDTO.getProductType(), productDTO.getPrice(),nowdatetime, nowdatetime);
+        product.createProduct(productDTO.getProductSeq(), productDTO.getSellerSeq(), productDTO.getProductName(), productDTO.getProductContent(), productDTO.getProductType(), productDTO.getPrice(),nowdatetime, nowdatetime);
 
         // 상품정보 수정
         if(productDTO.getProductSeq() > 0){
