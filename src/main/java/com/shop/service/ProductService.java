@@ -101,7 +101,14 @@ public class ProductService {
         if(productDTO.getProductSeq() > 0){
             productRepository.updateProductInfo(product);
             for (Map.Entry<String, String> entry : productDTO.getSizeTypes().entrySet()) {
-                productStockRepository.updateProductStockCount(product.getProductSeq(),entry.getKey(),Integer.parseInt(entry.getValue()));
+                ProductStock productStock = productStockRepository.selectProductStock(product.getProductSeq(),entry.getKey());
+                if(productStock != null){
+                    productStockRepository.updateProductStockCount(product.getProductSeq(),entry.getKey(),Integer.parseInt(entry.getValue()));
+                }else{
+                    ProductStock ps = new ProductStock();
+                    ps.createProductStock(product, entry.getKey(), Integer.parseInt(entry.getValue()));
+                    productStockRepository.save(ps);
+                }
             }
 
             Arrays.stream(imageFileList)
