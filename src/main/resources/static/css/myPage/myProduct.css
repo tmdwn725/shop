@@ -206,3 +206,16 @@
   height: 265px; /* 세로 높이를 265px로 고정합니다. */
   object-fit: cover; /* 이미지가 지정한 크기에 맞게 잘리지 않도록 cover 속성을 설정합니다. */
 }
+.size-name{
+   border: 1px solid #e1e1e1;
+   height: 40px;
+   width: 45%;
+}
+
+.size-list{
+  margin-top: 10px;
+}
+
+.size-btn{
+  margin-left: 5px;
+}

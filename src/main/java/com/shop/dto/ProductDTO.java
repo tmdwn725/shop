@@ -30,4 +30,5 @@ public class ProductDTO {
     private List<ProductStock> productStockList = new ArrayList<>();
     private String filePth;
     private Map<String,String> sizeTypes = new HashMap<>();
+    private String sizeType;
 }

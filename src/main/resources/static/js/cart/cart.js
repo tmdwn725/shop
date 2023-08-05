@@ -12,7 +12,6 @@ function increaseQuantity(element, cartSeq){
     const totalText = new Intl.NumberFormat('ko-KR', { style: 'currency', currency: 'KRW' }).format(totalPrice);
     $("#totalSubText").text(totalText);
     $("#totalText").text(totalText);
-
     // 상품수변경
     creaseProductQuantity(cartSeq, value);
 }

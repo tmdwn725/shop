@@ -91,7 +91,7 @@ function onProductTypeChange(value) {
 }
 
 function saveProductInfo() {
-    let seq = $("#product-seq").val()
+    let seq = $("#product-seq").val();
     if(seq == ''){
         seq = 0;
     }
@@ -140,8 +140,8 @@ function saveProductInfo() {
 }
 
 function addSize() {
-    var sizeNameInput = document.getElementById("sizeName");
-    var sizeName = sizeNameInput.value.trim();
+    const sizeNameInput = document.getElementById("size-name");
+    const sizeName = sizeNameInput.value.trim();
     sizeNameInput.value = '';
 
     if (sizeName === '') {
@@ -149,24 +149,61 @@ function addSize() {
         return;
     }
 
-    var sizeListDiv = document.getElementById("sizeList");
-    var newEntry = document.createElement("div");
+    if(document.getElementById(sizeName)){
+        alert("동일한 사이즈가 존재합니다.");
+        return;
+    }
+
+    const sizeListDiv = document.getElementById("sizeList");
+    const newEntry = document.createElement("div");
     newEntry.style.marginLeft = "10px";
     newEntry.style.display = "inline-block";
 
     // 새로운 사이즈명 텍스트 생성
-    var sizeNameText = document.createElement("span");
-    sizeNameText.innerText = sizeName;
+    const sizeNameText = document.createElement("span");
+    sizeNameText.innerText = sizeName + ': ';
     newEntry.appendChild(sizeNameText);
 
     // 사이즈 개수를 입력할 수 있는 input 생성
-    var quantityInput = document.createElement("input");
+    const quantityInput = document.createElement("input");
     quantityInput.type = "number";
-    quantityInput.min = "0";
-    quantityInput.max = "100";
     quantityInput.classList.add("product-size");
     quantityInput.name="product-size"
+    quantityInput.id=sizeName
+    quantityInput.min = "0";
+    quantityInput.max = "100";
     newEntry.appendChild(quantityInput);
 
+    // 삭제 버튼 생성
+    const removeButton = document.createElement('button');
+    removeButton.textContent = '삭제';
+    removeButton.classList.add("size-btn");
+    // 버튼에 onclick 이벤트 처리기 추가
+    removeButton.onclick = function() {
+      // 이벤트 핸들러에서 인자를 변수로 사용하려면 클로저를 이용한다.
+      handleClick(sizeName);
+    };
+
+    // 버튼을 버튼 컨테이너에 추가
+    newEntry.appendChild(removeButton);
     sizeListDiv.appendChild(newEntry);
+}
+
+// 상품 재고 삭제
+function removeSize(productSize){
+  const productSeq = $("#product-seq").val();
+  $.ajax({
+    url: "/cart/removeCartInfo",
+    type: "DELETE",
+    data:{
+      productSeq: productSeq,
+      sizeType: productSize
+    },
+    success: function(response) {
+      alert("삭제하였습니다.");
+    },
+    error: function(xhr, status, error) {
+      alert("삭제에 실패했습니다.");
+    }
+  });
 }

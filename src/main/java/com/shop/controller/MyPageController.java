@@ -1,11 +1,13 @@
 package com.shop.controller;
 
+import com.shop.domain.ProductStock;
 import com.shop.domain.enums.ProductType;
 import com.shop.domain.enums.SizeType;
 import com.shop.dto.MemberDTO;
 import com.shop.dto.ProductDTO;
 import com.shop.service.MemberService;
 import com.shop.service.ProductService;
+import com.shop.service.ProductStockService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +26,7 @@ import java.util.Arrays;
 public class MyPageController {
     private final MemberService memberService;
     private final ProductService productService;
+    private final ProductStockService productStockService;
 
     /**
      * 내 상품관리목록 조회
@@ -87,6 +90,16 @@ public class MyPageController {
     @RequestMapping("/removeProduct")
     public ResponseEntity<Void> removeProduct(ProductDTO product) {
         productService.removeProduct(product);
+        return ResponseEntity.ok().build();
+    }
+    /**
+     * 내 상품 재고 삭제
+     * @param product
+     * @return
+     */
+    @RequestMapping("/removeProductStock")
+    public ResponseEntity<Void> removeProductStock(ProductDTO product) {
+        productStockService.deleteProductStock(product);
         return ResponseEntity.ok().build();
     }
 }
