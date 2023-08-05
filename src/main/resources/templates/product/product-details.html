@@ -149,24 +149,7 @@
                                     </div>
                                 </li>
                                 <li>
-                                    <span>Available color:</span>
-                                    <div class="color__checkbox">
-                                        <label for="red">
-                                            <input type="radio" name="color__radio" id="red" checked>
-                                            <span class="checkmark"></span>
-                                        </label>
-                                        <label for="black">
-                                            <input type="radio" name="color__radio" id="black">
-                                            <span class="checkmark black-bg"></span>
-                                        </label>
-                                        <label for="grey">
-                                            <input type="radio" name="color__radio" id="grey">
-                                            <span class="checkmark grey-bg"></span>
-                                        </label>
-                                    </div>
-                                </li>
-                                <li>
-                                    <span>Available size:</span>
+                                    <span>사이즈:</span>
                                     <div class="size__btn">
                                         <label th:each="stock : ${product.productStockList}" class="active">
                                             <input name="size" type="radio" th:id="${stock.productSize}+ '-btn'" th:value="${stock.productStockSeq}">

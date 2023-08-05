@@ -145,7 +145,7 @@
                                             th:if="${productType.getParentCategory().isEmpty()}"
                                             th:value="${productType}"
                                             th:text="${productType.value}"
-                                            th:selected="${productType.code} == ${myProductType.getParentCategory()}">
+                                            th:selected="${productType} == ${myProductType.getParentCategory().get()}">
                                     </option>
                                 </select>
                             </div>
@@ -160,7 +160,8 @@
                                             th:unless="${productType.getParentCategory().isEmpty()}"
                                             th:value="${productType.code}"
                                             th:name="${productType.getParentCategory().get()}"
-                                            th:text="${productType.value}">
+                                            th:text="${productType.value}"
+                                            th:selected="${productType} == ${myProductType}">>
                                     </option>
                                 </select>
                             </div>
@@ -176,7 +177,7 @@
                                     <div th:each="stock : ${product.productStockList}" style="margin-left:10px; display: inline-block;">
                                         <span th:text="${stock.productSize} + ': '"></span>
                                         <input type="number" th:id="${stock.productSize}" class="product-size" name="product-size" min="0" max="100" th:value="${stock.productCount}">
-                                        <button class="size-btn" th:onclick="'removeSize(' + ${stock.productSize} + ')'">삭제</button>
+                                        <button class="size-btn" th:data-parameter="${stock.productSize}" th:onclick="removeSize(this.getAttribute('data-parameter'))">삭제</button>
                                     </div>
                                 </div>
                             </div>

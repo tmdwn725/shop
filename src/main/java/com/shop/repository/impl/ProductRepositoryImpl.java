@@ -31,7 +31,7 @@ public class ProductRepositoryImpl implements ProductConfig {
                 .selectFrom(qProduct)
                 .join(qProduct.productFileList, qProductFile)
                 .join(qProductFile.file, qFile)
-                .where(eqSellerSeq(sellerSeq),eqProductType(productType))
+                .where(eqSellerSeq(sellerSeq),eqProductType(productType),qProductFile.fileClsCd.eq("030101"))
                 .orderBy(qProduct.regDt.desc(), qProduct.productSeq.asc()) // 최신순으로 정렬
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize()) // 최대 8개만 조회

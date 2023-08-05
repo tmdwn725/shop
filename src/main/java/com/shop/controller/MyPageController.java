@@ -1,8 +1,6 @@
 package com.shop.controller;
 
-import com.shop.domain.ProductStock;
 import com.shop.domain.enums.ProductType;
-import com.shop.domain.enums.SizeType;
 import com.shop.dto.MemberDTO;
 import com.shop.dto.ProductDTO;
 import com.shop.service.MemberService;
@@ -34,10 +32,10 @@ public class MyPageController {
      * @return
      */
     @RequestMapping("/getMyProductList")
-    public String getMyProductList(Model model){
+    public String getMyProductList(Model model, @RequestParam(value="page", required = false, defaultValue="1") int page){
         String memberId = SecurityContextHolder.getContext().getAuthentication().getName();
         MemberDTO member = memberService.selectMemberById(memberId);
-        Page<ProductDTO> myProductList = productService.selectMyProductList(1,10, member.getMemberSeq());
+        Page<ProductDTO> myProductList = productService.selectMyProductList(page,10, member.getMemberSeq());
         model.addAttribute("myProductList", myProductList);
         return "myPage/myProductList";
     }

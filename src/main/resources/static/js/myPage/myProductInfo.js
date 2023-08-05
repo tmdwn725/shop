@@ -119,7 +119,6 @@ function saveProductInfo() {
 
     console.log(sizeType);
 
-
     formData.append("sizeMap", JSON.stringify(sizeType)); // 객체를 문자열로 변환하여 FormData에 추가
 
     $.ajax({
@@ -191,19 +190,24 @@ function addSize() {
 
 // 상품 재고 삭제
 function removeSize(productSize){
-  const productSeq = $("#product-seq").val();
-  $.ajax({
-    url: "/cart/removeCartInfo",
-    type: "DELETE",
-    data:{
-      productSeq: productSeq,
-      sizeType: productSize
-    },
-    success: function(response) {
-      alert("삭제하였습니다.");
-    },
-    error: function(xhr, status, error) {
-      alert("삭제에 실패했습니다.");
+    if(!confirm("재고를 삭제하시겠습니까?")){
+        return;
     }
-  });
+
+    const productSeq = $("#product-seq").val();
+    $.ajax({
+        url: "/myPage/removeProductStock",
+        type: "DELETE",
+        data:{
+            productSeq: productSeq,
+            sizeType: productSize
+        },
+        success: function(response) {
+            alert("삭제하였습니다.");
+            location.reload(true);
+         },
+        error: function(xhr, status, error) {
+            alert("삭제에 실패했습니다.");
+        }
+    });
 }
