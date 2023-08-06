@@ -17,4 +17,5 @@ public class CartDTO {
     private String productName;
     private String productSize;
     private int price;
+    private List<String> cartSeqList =  new ArrayList();
 }

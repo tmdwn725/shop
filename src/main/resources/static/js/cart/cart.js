@@ -1,49 +1,52 @@
-/**
-상품수 증가
-*/
-function increaseQuantity(element, cartSeq){
+// 상품수 계산
+function setTotalPrice(fn, element, cartSeq){
+    const totalPrice = fn(element, cartSeq, parseInt($("#totalPrice").val()));
+    if(totalPrice == 0){
+        return
+    }
+    $("#totalPrice").val(totalPrice);
+    const totalText = new Intl.NumberFormat('ko-KR', { style: 'currency', currency: 'KRW' }).format(totalPrice);
+    $("#totalSubText").text(totalText);
+    $("#totalText").text(totalText);
+}
+
+// 상품수 증가
+function increaseQuantity(element, cartSeq, totalPrice){
     const input = $(element).prev();
     const value = parseInt(input.val()) + 1;
     const total = $("#price"+cartSeq).val() * value;
-    const totalPrice = parseInt($("#totalPrice").val()) + parseInt($("#price"+cartSeq).val());
+
+    totalPrice = totalPrice + parseInt($("#price"+cartSeq).val());
     const formattedTotal = new Intl.NumberFormat('ko-KR', { style: 'currency', currency: 'KRW' }).format(total);
     $('#total'+cartSeq).text(formattedTotal);
-    $("#totalPrice").val(totalPrice);
-    const totalText = new Intl.NumberFormat('ko-KR', { style: 'currency', currency: 'KRW' }).format(totalPrice);
-    $("#totalSubText").text(totalText);
-    $("#totalText").text(totalText);
+
     // 상품수변경
     creaseProductQuantity(cartSeq, value);
+
+    return totalPrice;
 }
 
-/**
-상품수 감소
-*/
-function decreaseQuantity(element,cartSeq){
+// 상품수 감소
+function decreaseQuantity(element,cartSeq, totalPrice){
     const input = $(element).next();
-    let value = parseInt(input.val());
-    if (value > 1) {
-        value = value - 1;
-    }else{
-       return;
+    const value = parseInt(input.val()) > 1 ? parseInt(input.val()) - 1 : 0;
+    // 상품은 0개 이상이어야 함
+    if(value == 0){
+        return 0
     }
     const total = $("#price"+cartSeq).val() * value;
-    const totalPrice = parseInt($("#totalPrice").val()) - parseInt($("#price"+cartSeq).val());
+
+    totalPrice = totalPrice - parseInt($("#price"+cartSeq).val());
     const formattedTotal =new Intl.NumberFormat('ko-KR', { style: 'currency', currency: 'KRW' }).format(total);
     $('#total'+cartSeq).text(formattedTotal);
-    $("#totalPrice").val(totalPrice);
-
-    const totalText = new Intl.NumberFormat('ko-KR', { style: 'currency', currency: 'KRW' }).format(totalPrice);
-    $("#totalSubText").text(totalText);
-    $("#totalText").text(totalText);
 
     // 상품수변경
     creaseProductQuantity(cartSeq, value);
+
+    return totalPrice;
 }
 
-/**
-장바구니 삭제
-*/
+// 장바구니 삭제
 function removeCartInfo(cartSeq){
     $.ajax({
         url: "/cart/removeCartInfo",
@@ -59,9 +62,7 @@ function removeCartInfo(cartSeq){
     });
 }
 
-/**
-상품수 변경
-*/
+//상품수 변경
 function creaseProductQuantity(cartSeq, quantity){
     $.ajax({
         type: "POST",

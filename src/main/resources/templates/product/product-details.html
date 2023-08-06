@@ -205,20 +205,111 @@
                                     nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium
                                 quis, sem.</p>
                             </div>
-                            <div class="tab-pane" id="tabs-3" role="tabpanel">
-                                <h6>Reviews ( 2 )</h6>
-                                <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut loret fugit, sed
-                                    quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt loret.
-                                    Neque porro lorem quisquam est, qui dolorem ipsum quia dolor si. Nemo enim ipsam
-                                    voluptatem quia voluptas sit aspernatur aut odit aut loret fugit, sed quia ipsu
-                                    consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Nulla
-                                consequat massa quis enim.</p>
-                                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget
-                                    dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes,
-                                    nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium
-                                quis, sem.</p>
+                            <div class="tab-pane" id="tabs-3" style="border-top: 1px solid;border-bottom: 1px solid;border-left: 1px dashed;border-right: 1px groove;padding: 10px;">
+                                <p class="article_review_detail">
+                                    <span class="info_event_line">EVENT</span>
+                                    <span id="reviewEventText" class="info_review_detail">스타일후기 작성 시 2,000원의 적립금을 드립니다.(직접 촬영한 전신 사진 필수)</span>
+                                </p>
+                                <p class="article_review_select">
+                                    <select id="reviewSelectSort" class="review_select_sort" onchange="ReviewSort.apiCall(this.value)">
+                                        <option value="new" selected="selected">최신순</option>
+                                        <option value="comment_cnt_desc">댓글 순</option>
+                                        <option value="up_cnt_desc">추천 순</option>
+                                        <option value="goods_est_desc">높은 평점 순</option>
+                                        <option value="goods_est_asc">낮은 평점 순</option>
+                                    </select>
+                                </p>
+                                <!-- //리스트-->
+                                <div class="review-list-wrap" id="reviewListFragment">
+                                    <div class="review-list" style="border-top: 1px solid;border-bottom: 1px solid;border-left: 1px dashed;border-right: 1px groove;padding: 10px;">
+                                        <div class="review-profile">
+                                            <a href="#" class="review-profile__link">
+                                            </a>
+                                            <div class="review-profile__text-wrap">
+                                                <div class="review-profile__text">
+                                                    <p class="review-profile__name">LV.5 장미꽃밭</p>
+                                                    <p class="review-profile__date">6일 전</p>
+                                                    <div class="rating">
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="review-goods-information">
+                                            <div class="review-goods-information__thumbnail">
+                                                <img src="/img/product/details/thumb-2.jpg" alt="유니온블루(UNION BLUE) SUNDAY SHIRT (GRAY) 후기">
+                                            </div>
+                                            <div class="review-goods-information__item">
+                                                <p class="review-goods-information__option-wrap">
+                                                    <span class="review-goods-information__option">S</span>구매
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="review-contents" >
+                                            <div class="review-contents__text">역시 믿고사는 유니온블루의 런드리셔츠입니다. 그냥 원하는 색만 고르세요. 퀄리티 핏 등 다른 모든것은 이미 완성돼있습니다. 가을되면 흰셔츠 하나 더 쟁여둘 예정입니다.</div>
+
+                                            <div class="review-evaluation">
+
+                                            </div>
+                                            <span class="p_name" style="display: none;">SUNDAY SHIRT (GRAY)</span>
+                                        </div>
+                                    </div>
+                                    <div class="review-list" style="border-top: 1px solid;border-bottom: 1px solid;border-left: 1px dashed;border-right: 1px groove;padding: 10px;">
+                                        <div class="review-profile">
+                                            <a href="#" class="review-profile__link">
+                                            </a>
+                                            <div class="review-profile__text-wrap">
+                                                <div class="review-profile__text">
+                                                    <p class="review-profile__name">LV.5 장미꽃밭</p>
+                                                    <p class="review-profile__date">6일 전</p>
+                                                    <div class="rating">
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                    </div>
+                                            </div>
+                                        </div>
+                                        <div class="review-goods-information">
+                                            <div class="review-goods-information__thumbnail">
+                                                <img src="/img/product/details/thumb-2.jpg" alt="유니온블루(UNION BLUE) SUNDAY SHIRT (GRAY) 후기">
+                                            </div>
+                                            <div class="review-goods-information__item">
+                                                <p class="review-goods-information__option-wrap">
+                                                    <span class="review-goods-information__option">S</span>구매
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="review-contents">
+                                            <div class="review-contents__text">역시 믿고사는 유니온블루의 런드리셔츠입니다. 그냥 원하는 색만 고르세요. 퀄리티 핏 등 다른 모든것은 이미 완성돼있습니다. 가을되면 흰셔츠 하나 더 쟁여둘 예정입니다.</div>
+                                            <div class="review-evaluation">
+                                            </div>
+                                            <span class="p_name" style="display: none;">SUNDAY SHIRT (GRAY)</span>
+                                        </div>
+                                    </div>
+                                    <!-- //paging -->
+
+                                    <div class="nslist_bottom">
+                                        <div class="box_page_msg">
+                                            10 페이지 중 1 페이지
+                                        </div>
+                                        <div class="pagination textRight">
+                                            <div class="wrapper">
+                                                <a class="fa fa-angle-double-left paging-btn btn first" href="javascript:void(0);" onclick="ReviewPage.goFistPage(1, 1); return false;"></a>
+                                                <a class="fa fa-angle-left paging-btn btn prev" href="javascript:void(0);" onclick="ReviewPage.goPreviousPage(1, 1); return false;"></a>
+                                                <a href="javascript:void(0);" class="paging-btn btn active" onclick="ReviewPage.goPage(1); return false;">1</a><a href="javascript:void(0);" class="paging-btn btn" onclick="ReviewPage.goPage(2); return false;">2</a><a href="javascript:void(0);" class="paging-btn btn" onclick="ReviewPage.goPage(3); return false;">3</a><a href="javascript:void(0);" class="paging-btn btn" onclick="ReviewPage.goPage(4); return false;">4</a><a href="javascript:void(0);" class="paging-btn btn" onclick="ReviewPage.goPage(5); return false;">5</a>
+                                                <a class="fa fa-angle-right paging-btn btn next" href="javascript:void(0)" onclick="ReviewPage.goNextPage(null, 5, 10); return false;"></a>
+                                                <a class="fa fa-angle-double-right paging-btn btn last" onclick="ReviewPage.goLastPage(1, 5, 10); return false;" href="javascript:void(0)"></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
                     </div>
                 </div>
             </div>

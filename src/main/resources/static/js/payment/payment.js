@@ -2,10 +2,15 @@ function getPayment(){
     //가맹점 식별코드
     IMP.init("imp17552170");
     const memberNm = $("#memberNm").val();
-    const address = $("#address").val() + $("#detailAddress").val();
+    const address = $("#address").val() + " " + $("#detailAddress").val();
     const telNo = $("#telNo").val();
     const email = $("#email").val();
     const totalPrice = $("#totalPrice").val();
+    const cartElements = document.getElementsByName("cart-seq");
+    const cartSeqList = [];
+    for (const input of cartElements) {
+        cartSeqList.push(input.value);
+    }
 
     IMP.request_pay({
         pg : 'html5_inicis',
@@ -24,12 +29,12 @@ function getPayment(){
     	    var msg = '결제가 완료되었습니다.';
     	    $.ajax({
                 type: "POST",
-                url: "/saveOrderInfo",
+                url: "/payment/saveOrderInfo",
                 data:{
-                    memberId : 'sjmoon',
                     totalPrice : totalPrice,
                     paymentType : 'C',
-                    productSeqList : productSeqList,
+                    address : address,
+                    cartSeqList : cartSeqList
                 },
                 dataType: "json",
                 success: function(){

@@ -15,15 +15,19 @@ public class Payment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name ="payment_seq")
     private Long paymentSeq;
-    @OneToMany(mappedBy = "payment", cascade = CascadeType.PERSIST)
-    private List<OrderInfo> orderInfoList = new ArrayList<>();
-    @Column(name="payment_date")
-    private LocalDateTime paymentDate;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="order_info_seq", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    private OrderInfo orderInfo;
     @Column(name="total_price")
     private int totalPrice;
     @Column(name="payment_type")
     private PaymentType paymentType;
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="member_seq", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
-    private Member member;
+    @Column(name="payment_date")
+    private LocalDateTime paymentDate;
+
+    public void createPayment(int totalPrice, PaymentType paymentType, LocalDateTime paymentDate){
+        this.totalPrice = totalPrice;
+        this.paymentType = paymentType;
+        this.paymentDate = paymentDate;
+    }
 }

@@ -5,8 +5,8 @@ function getImageFiles(e) {
     const imagePreview = document.querySelector('.image-preview');
     const docFrag = new DocumentFragment();
 
-    if ([...files].length >= 7) {
-        alert('이미지는 최대 6개 까지 업로드가 가능합니다.');
+    if ([...files].length >= 4) {
+        alert('이미지는 최대 4개 까지 업로드가 가능합니다.');
         return;
     }
 
@@ -190,24 +190,22 @@ function addSize() {
 
 // 상품 재고 삭제
 function removeSize(productSize){
-    if(!confirm("재고를 삭제하시겠습니까?")){
-        return;
+    if(confirm("재고를 삭제하시겠습니까?")){
+        const productSeq = $("#product-seq").val();
+        $.ajax({
+            url: "/myPage/removeProductStock",
+            type: "DELETE",
+            data:{
+                productSeq: productSeq,
+                sizeType: productSize
+            },
+            success: function(response) {
+                alert("삭제하였습니다.");
+                location.reload(true);
+             },
+            error: function(xhr, status, error) {
+                alert("삭제에 실패했습니다.");
+            }
+        });
     }
-
-    const productSeq = $("#product-seq").val();
-    $.ajax({
-        url: "/myPage/removeProductStock",
-        type: "DELETE",
-        data:{
-            productSeq: productSeq,
-            sizeType: productSize
-        },
-        success: function(response) {
-            alert("삭제하였습니다.");
-            location.reload(true);
-         },
-        error: function(xhr, status, error) {
-            alert("삭제에 실패했습니다.");
-        }
-    });
 }

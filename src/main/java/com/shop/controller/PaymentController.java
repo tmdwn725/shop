@@ -2,8 +2,11 @@ package com.shop.controller;
 
 import com.shop.dto.CartDTO;
 import com.shop.dto.MemberDTO;
+import com.shop.dto.PaymentDTO;
 import com.shop.service.MemberService;
+import com.shop.service.PaymentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("/payment")
 public class PaymentController {
     private final MemberService memberService;
-
+    private final PaymentService paymentService;
     /**
      * 상품 결제창 조회
      * @param model
@@ -35,5 +38,11 @@ public class PaymentController {
         model.addAttribute("myCartList",cartDTO.getCartList());
         model.addAttribute("totalPrice",totalPrice);
         return "payment/payment";
+    }
+    @RequestMapping(value = "/saveOrderInfo")
+    public ResponseEntity<Void> saveOrderInfo(PaymentDTO payment){
+        String memberId = SecurityContextHolder.getContext().getAuthentication().getName();
+        paymentService.savePayment(payment,memberId);
+        return ResponseEntity.ok().build();
     }
 }

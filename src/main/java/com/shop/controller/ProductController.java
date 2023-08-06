@@ -41,7 +41,6 @@ public class ProductController {
         model.addAttribute("type",product.getProductType().getParentCategory().get().getCode());
         return "product/product-details";
     }
-
     /**
      * 장바구니 추가
      * @param model

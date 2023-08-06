@@ -17,9 +17,23 @@ public class OrderInfo {
     private ProductStock productStock;
     @Column(name ="quantity")
     private int quantity;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "payment_seq")
+    @Column(name ="address")
+    private String address;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="payment_seq", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Payment payment;
     @Column(name ="order_date")
     private LocalDateTime orderDate;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="member_seq", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    private Member member;
+
+    public void createOrderInfo(ProductStock productStock, int quantity, String address, Payment payment, LocalDateTime orderDate, Member member){
+        this.productStock = productStock;
+        this.quantity = quantity;
+        this.address = address;
+        this.payment = payment;
+        this.orderDate = orderDate;
+        this.member = member;
+    }
 }
