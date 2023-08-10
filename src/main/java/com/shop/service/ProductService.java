@@ -48,9 +48,9 @@ public class ProductService {
      * @param limit
      * @return
      */
-    public Page<ProductDTO> selectProductList(int start, int limit, ProductType productType){
+    public Page<ProductDTO> selectProductList(int start, int limit, ProductType productType, String searchStr){
         PageRequest pageRequest = PageRequest.of(start-1, limit);
-        Page<Product> result = productRepository.selectProductList(pageRequest, 0L,productType);
+        Page<Product> result = productRepository.selectProductList(pageRequest, 0L,productType,searchStr);
         int total = result.getTotalPages();
         pageRequest = PageRequest.of((total-1), limit);
         List<ProductDTO> list = ModelMapperUtil.mapAll(result.getContent(), ProductDTO.class);
@@ -77,7 +77,7 @@ public class ProductService {
      */
     public Page<ProductDTO> selectMyProductList(int start, int limit, Long MemberSeq){
         PageRequest pageRequest = PageRequest.of(start-1, limit);
-        Page<Product> result = productRepository.selectProductList(pageRequest, MemberSeq,null);
+        Page<Product> result = productRepository.selectProductList(pageRequest, MemberSeq,null, null);
         int total = result.getTotalPages();
         if (total > 0) {
             pageRequest = PageRequest.of((total-1), limit);

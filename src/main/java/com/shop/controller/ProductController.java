@@ -27,8 +27,14 @@ public class ProductController {
     private final MemberService memberService;
     private final CartService cartService;
     @RequestMapping("/product")
-    public String getProductList(@RequestParam("page") int page,  @RequestParam("type") String type,Model model) {
-        Page<ProductDTO> productList = productService.selectProductList(page,6,ProductType.of(type));
+    public String getProductList(@RequestParam(value="page",required = false, defaultValue="1") int page
+            , @RequestParam(value="type",required = false, defaultValue="") String type
+            ,  @RequestParam(value="searchStr",required = false, defaultValue="") String searchStr,Model model) {
+        ProductType productType = null;
+        if(type.length() > 0){
+            productType = ProductType.of(type);
+        }
+        Page<ProductDTO> productList = productService.selectProductList(page,6,productType, searchStr);
         model.addAttribute("productList", productList);
         model.addAttribute("productType", Arrays.asList(ProductType.values()));
         model.addAttribute("type",type);

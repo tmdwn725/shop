@@ -26,12 +26,14 @@ public class ProductRepositoryImpl implements ProductConfig {
      * @param pageable
      * @return
      */
-    public Page<Product> selectProductList(Pageable pageable, Long sellerSeq, ProductType productType){
+    public Page<Product> selectProductList(Pageable pageable, Long sellerSeq, ProductType productType, String searchStr){
         QueryResults<Product> productList = queryFactory
                 .selectFrom(qProduct)
                 .join(qProduct.productFileList, qProductFile)
                 .join(qProductFile.file, qFile)
-                .where(eqSellerSeq(sellerSeq),eqProductType(productType),qProductFile.fileClsCd.eq("030101"))
+                .where(eqSellerSeq(sellerSeq)
+                        ,eqProductType(productType),qProductFile.fileClsCd.eq("030101")
+                        ,searchProductName(searchStr))
                 .orderBy(qProduct.regDt.desc(), qProduct.productSeq.asc()) // 최신순으로 정렬
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize()) // 최대 8개만 조회
@@ -53,6 +55,13 @@ public class ProductRepositoryImpl implements ProductConfig {
             return null;
         }
         return qProduct.productType.in(productType.getChildCategories());
+    }
+
+    private BooleanExpression searchProductName(String searchStr) {
+        if (searchStr == null) {
+            return null;
+        }
+        return qProduct.productName.contains(searchStr);
     }
 
     /**
