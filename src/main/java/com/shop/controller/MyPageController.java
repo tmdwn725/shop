@@ -1,9 +1,12 @@
 package com.shop.controller;
 
+import com.shop.domain.OrderInfo;
 import com.shop.domain.enums.ProductType;
 import com.shop.dto.MemberDTO;
+import com.shop.dto.OrderInfoDTO;
 import com.shop.dto.ProductDTO;
 import com.shop.service.MemberService;
+import com.shop.service.OrderInfoService;
 import com.shop.service.ProductService;
 import com.shop.service.ProductStockService;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +28,7 @@ public class MyPageController {
     private final MemberService memberService;
     private final ProductService productService;
     private final ProductStockService productStockService;
+    private final OrderInfoService orderInfoService;
 
     /**
      * 내 상품관리목록 조회
@@ -99,5 +103,12 @@ public class MyPageController {
     public ResponseEntity<Void> removeProductStock(ProductDTO product) {
         productStockService.deleteProductStock(product);
         return ResponseEntity.ok().build();
+    }
+    @RequestMapping("/getMyOrderList")
+    public String getMyOrderList(Model model, @RequestParam(value="page", required = false, defaultValue="1") int page) {
+        String memberId = SecurityContextHolder.getContext().getAuthentication().getName();
+        Page<OrderInfoDTO> myOrderList = orderInfoService.selectOrderInfoList(page, 10,memberId);
+        model.addAttribute("myProductList", myOrderList);
+        return "myPage/myOrderList";
     }
 }

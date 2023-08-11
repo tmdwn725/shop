@@ -15,9 +15,6 @@ public class Payment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name ="payment_seq")
     private Long paymentSeq;
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="order_info_seq", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
-    private OrderInfo orderInfo;
     @Column(name="total_price")
     private int totalPrice;
     @Column(name="payment_type")
