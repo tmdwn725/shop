@@ -108,7 +108,7 @@ public class MyPageController {
     public String getMyOrderList(Model model, @RequestParam(value="page", required = false, defaultValue="1") int page) {
         String memberId = SecurityContextHolder.getContext().getAuthentication().getName();
         Page<OrderInfoDTO> myOrderList = orderInfoService.selectOrderInfoList(page, 10,memberId);
-        model.addAttribute("myProductList", myOrderList);
+        model.addAttribute("myOrderList", myOrderList);
         return "myPage/myOrderList";
     }
 }
