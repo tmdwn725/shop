@@ -17,8 +17,7 @@ public class Review {
     @JoinColumn(name = "order_info_seq", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private OrderInfo orderInfo;
     @OneToOne(fetch = FetchType.LAZY)
-    @Column(name="review_file_seq")
-    @JoinColumn(name = "file_seq", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    @JoinColumn(name = "review_file_seq", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private File file;
     @Column(name ="title")
     private String title;
