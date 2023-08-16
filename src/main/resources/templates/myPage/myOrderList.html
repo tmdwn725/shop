@@ -115,7 +115,7 @@
                                     <td class="order-price" th:text="${#numbers.formatDecimal(order.productStock.product.price, 0, 'COMMA', 0, 'POINT')} + '원'"/>
                                     <td class="order-manage-button">
                                         <a href="/myPage/getMyProductInfo?productSeq=0">배송내역</a>
-                                        <a href="/myPage/getMyProductInfo?productSeq=0">리뷰작성</a>
+                                        <a th:href="'/myPage/getMyReviewInfo?orderInfoSeq=' + ${order.orderInfoSeq}">리뷰작성</a>
                                     </td>
                                     <!--<td class="cart__close"><span class="icon_close" th:onclick="'removeMyProduct(' + ${order.productStock.product.productSeq} + ')'"></span></td>-->
                                 </tr>

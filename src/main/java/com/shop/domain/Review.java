@@ -19,8 +19,6 @@ public class Review {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "review_file_seq", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private File file;
-    @Column(name ="title")
-    private String title;
     @Column(name ="content")
     private String content;
     @Column(name ="score")

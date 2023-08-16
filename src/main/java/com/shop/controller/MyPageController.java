@@ -5,10 +5,8 @@ import com.shop.domain.enums.ProductType;
 import com.shop.dto.MemberDTO;
 import com.shop.dto.OrderInfoDTO;
 import com.shop.dto.ProductDTO;
-import com.shop.service.MemberService;
-import com.shop.service.OrderInfoService;
-import com.shop.service.ProductService;
-import com.shop.service.ProductStockService;
+import com.shop.dto.ReviewDTO;
+import com.shop.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +27,7 @@ public class MyPageController {
     private final ProductService productService;
     private final ProductStockService productStockService;
     private final OrderInfoService orderInfoService;
-
+    private final ReviewService reviewService;
     /**
      * 내 상품관리목록 조회
      * @param model
@@ -104,11 +102,39 @@ public class MyPageController {
         productStockService.deleteProductStock(product);
         return ResponseEntity.ok().build();
     }
+
+    /**
+     * 내 주문 내역 조회
+     * @param model
+     * @param page
+     * @return
+     */
     @RequestMapping("/getMyOrderList")
     public String getMyOrderList(Model model, @RequestParam(value="page", required = false, defaultValue="1") int page) {
         String memberId = SecurityContextHolder.getContext().getAuthentication().getName();
         Page<OrderInfoDTO> myOrderList = orderInfoService.selectOrderInfoList(page, 10,memberId);
         model.addAttribute("myOrderList", myOrderList);
         return "myPage/myOrderList";
+    }
+
+    /**
+     * 내 리뷰 관리 화면
+     * @param model
+     * @return
+     */
+    @RequestMapping("/getMyReviewInfo")
+    public String getMyReviewInfo(Model model, OrderInfoDTO orderInfoDTO) {
+        model.addAttribute("orderInfo", orderInfoDTO);
+        ReviewDTO reviewInfo = reviewService.findReviewInfo(orderInfoDTO);
+        model.addAttribute("reviewInfo",reviewInfo);
+        return "myPage/myReviewInfo";
+    }
+
+    @RequestMapping("/saveMyReview")
+    public ResponseEntity<Void> saveMyReview(@RequestParam("file-img1") MultipartFile file1, @RequestParam("file-img2") MultipartFile file2
+            , @RequestParam("file-img3") MultipartFile file3, @RequestParam("file-img4") MultipartFile file4) throws IOException {
+        String memberId = SecurityContextHolder.getContext().getAuthentication().getName();
+        MemberDTO member = memberService.selectMemberById(memberId);
+        return ResponseEntity.ok().build();
     }
 }
