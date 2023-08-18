@@ -123,9 +123,12 @@ public class MyPageController {
      * @return
      */
     @RequestMapping("/getMyReviewInfo")
-    public String getMyReviewInfo(Model model, OrderInfoDTO orderInfoDTO) {
-        model.addAttribute("orderInfo", orderInfoDTO);
+    public String getMyReviewInfo(Model model, OrderInfoDTO orderInfoDTO, ProductDTO productDTO) {
+        ProductDTO product =  productService.selectProductInfo(productDTO.getProductSeq());
         ReviewDTO reviewInfo = reviewService.findReviewInfo(orderInfoDTO);
+        product.setSizeType(productDTO.getSizeType());
+        model.addAttribute("product",product);
+        model.addAttribute("orderInfo", orderInfoDTO);
         model.addAttribute("reviewInfo",reviewInfo);
         return "myPage/myReviewInfo";
     }

@@ -50,24 +50,34 @@ function addImageFile(id, e, file) {
 }
 
 const realUpload = document.querySelector('.real-upload');
-const realUpload1 = document.querySelector('.real-upload1');
-const realUpload2 = document.querySelector('.real-upload2');
-const realUpload3 = document.querySelector('.real-upload3');
 
-const upload = document.querySelector('.upload');
-const upload1 = document.querySelector('.upload1');
-const upload2 = document.querySelector('.upload2');
-const upload3 = document.querySelector('.upload3');
+//별점 마킹 모듈 프로토타입으로 생성
+function Rating(){};
+Rating.prototype.rate = 0;
+Rating.prototype.setRate = function(newrate){
+    //별점 마킹 - 클릭한 별 이하 모든 별 체크 처리
+    this.rate = newrate;
+    let items = document.querySelectorAll('.rate-radio');
+    items.forEach(function(item, idx){
+        if(idx < newrate){
+            item.checked = true;
+        }else{
+            item.checked = false;
+        }
+    });
+}
+let rating = new Rating();//별점 인스턴스 생성
 
-upload.addEventListener('click', () => realUpload.click());
-upload1.addEventListener('click', () => realUpload1.click());
-upload2.addEventListener('click', () => realUpload2.click());
-upload3.addEventListener('click', () => realUpload3.click());
+document.addEventListener('DOMContentLoaded', function(){
+    //별점선택 이벤트 리스너
+    document.querySelector('.rating').addEventListener('click',function(e){
+        let elem = e.target;
+        if(elem.classList.contains('rate-radio')){
+            rating.setRate(parseInt(elem.value));
+        }
+    })
+});
 
-realUpload.addEventListener('change', getImageFiles);
-realUpload1.addEventListener('change', getImageFiles);
-realUpload2.addEventListener('change', getImageFiles);
-realUpload3.addEventListener('change', getImageFiles);
 
 function saveMyReview() {
     let seq = $("#order-info-seq").val();
@@ -78,13 +88,14 @@ function saveMyReview() {
     const content = $("#review-content").val();
     const imagePath = $("#upload-img1 img").attr("src");
     const imageForm = document.getElementById('product-image-form');
+    const rate = $('input[name=rating]:checked').val();
     let formData = new FormData(imageForm);
     let sizeType = {};
 
     formData.append("orderSeq", seq);
     formData.append("content", content);
 
-    $.ajax({
+    /*$.ajax({
         type: "POST",
         url: "/myPage/saveMyReview",
         contentType: false, // 필수: FormData를 사용하기 때문에 false로 설정
@@ -98,5 +109,5 @@ function saveMyReview() {
         error: function(xhr, status, error) {
             alert("삭제에 실패했습니다.");
         }
-    });
+    });*/
 }
