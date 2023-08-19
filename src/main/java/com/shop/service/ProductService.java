@@ -7,7 +7,6 @@ import com.shop.domain.Product;
 import com.shop.domain.ProductFile;
 import com.shop.domain.ProductStock;
 import com.shop.domain.enums.ProductType;
-import com.shop.dto.FileDTO;
 import com.shop.dto.ProductDTO;
 import com.shop.repository.FileRepository;
 import com.shop.repository.ProductFileRepository;

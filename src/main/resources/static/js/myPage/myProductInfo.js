@@ -2,13 +2,6 @@ function getImageFiles(e) {
     const uploadFiles = [];
     const files = e.currentTarget.files;
     const imageId = this.id;
-    const imagePreview = document.querySelector('.image-preview');
-    const docFrag = new DocumentFragment();
-
-    if ([...files].length >= 4) {
-        alert('이미지는 최대 4개 까지 업로드가 가능합니다.');
-        return;
-    }
 
     // 파일 타입 검사
     [...files].forEach(file => {
@@ -37,8 +30,8 @@ function addImageFile(id, e, file) {
     // 이미지가 이미 존재하는지 확인합니다.
     if (imgElements != null) {
         // 이미지의 src 속성을 변경합니다.
-        $(imgElements[0]).attr('src', e.target.result);
-        $(imgElements[0]).attr('data-file', file.name);
+        $(imgElements).attr('src', e.target.result);
+        $(imgElements).attr('data-file', file.name);
     } else {
         // 이미지가 없으면 새로 생성하여 추가합니다.
         const img = document.createElement('img');

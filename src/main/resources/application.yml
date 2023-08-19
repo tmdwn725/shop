@@ -47,5 +47,8 @@ root:
 image:
  product:
   path: img/product
+ review:
+  path: img/review
+
 
 

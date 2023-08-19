@@ -1,7 +1,9 @@
 package com.shop.dto;
 
+import com.shop.domain.File;
 import com.shop.domain.ProductStock;
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 
@@ -12,5 +14,7 @@ public class ReviewDTO {
     private String content;
     private int score;
     private LocalDateTime reviewDate;
+    private File file;
     private ProductStock productStock;
+    private MultipartFile imgFile;
 }

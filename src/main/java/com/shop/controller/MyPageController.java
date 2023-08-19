@@ -133,11 +133,20 @@ public class MyPageController {
         return "myPage/myReviewInfo";
     }
 
+    /**
+     * 리뷰 등록
+     * @param file
+     * @param reviewDTO
+     * @return
+     * @throws IOException
+     */
     @RequestMapping("/saveMyReview")
-    public ResponseEntity<Void> saveMyReview(@RequestParam("file-img1") MultipartFile file1, @RequestParam("file-img2") MultipartFile file2
-            , @RequestParam("file-img3") MultipartFile file3, @RequestParam("file-img4") MultipartFile file4) throws IOException {
+    public ResponseEntity<Void> saveMyReview(@RequestParam("file-img") MultipartFile file, ReviewDTO reviewDTO) throws IOException {
         String memberId = SecurityContextHolder.getContext().getAuthentication().getName();
         MemberDTO member = memberService.selectMemberById(memberId);
+        reviewDTO.setImgFile(file);
+
+        reviewService.saveReviewInfo(reviewDTO);
         return ResponseEntity.ok().build();
     }
 }

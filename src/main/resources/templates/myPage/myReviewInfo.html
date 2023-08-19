@@ -103,16 +103,10 @@
                         <div class="col-lg-12 review_rating">
                             <div class="rating">
                                 <!-- 해당 별점을 클릭하면 해당 별과 그 왼쪽의 모든 별의 체크박스에 checked 적용 -->
-                                <input type="checkbox" name="rating" id="rating1" value="1" class="rate-radio" title="1점">
-                                <label for="rating1"></label>
-                                <input type="checkbox" name="rating" id="rating2" value="2" class="rate-radio" title="2점">
-                                <label for="rating2"></label>
-                                <input type="checkbox" name="rating" id="rating3" value="3" class="rate-radio" title="3점" >
-                                <label for="rating3"></label>
-                                <input type="checkbox" name="rating" id="rating4" value="4" class="rate-radio" title="4점">
-                                <label for="rating4"></label>
-                                <input type="checkbox" name="rating" id="rating5" value="5" class="rate-radio" title="5점">
-                                <label for="rating5"></label>
+                                <th:block th:each="starNum : ${#numbers.sequence(1, 5)}">
+                                    <input type="checkbox" name="rating" th:id="'rating' + ${starNum}" th:value="${starNum}" class="rate-radio" th:title="${starNum + '점'}" th:checked="${starNum <= reviewInfo.score}" />
+                                    <label th:for="'rating' + ${starNum}"></label>
+                                </th:block>
                             </div>
                         </div>
                         <div class="col-lg-12">
@@ -131,6 +125,9 @@
                         <div class="col-lg-12">
                             <form id="product-image-form" onsubmit="return false;" enctype="multipart/form-data">
                                 <input type="file" id="file-img" name="file-img" class="real-upload" accept="image/*" required multiple>
+                                <div class="upload" id="upload-img">
+                                    <img th:if="${reviewInfo.file != null}" th:src="'/' +${reviewInfo.file.filePth}" alt="">
+                                </div>
                             </form>
                         </div>
                         <button type="button" class="site-btn review-btn" id="save-btn" onclick="saveMyReview()">리뷰등록</button>
