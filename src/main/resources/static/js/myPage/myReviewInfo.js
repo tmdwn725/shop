@@ -1,24 +1,7 @@
-function getImageFiles(e) {
-    const uploadFiles = [];
-    const file = e.currentTarget.files[0];
+// 이이지 업로드 모듈 생성
+function UploadImage(){};
 
-    // 파일 타입 검사
-    if (!file.type.match("image/.*")) {
-      alert('이미지 파일만 업로드가 가능합니다.');
-      return
-    }
-
-    // 이미지 파일 변경
-    uploadFiles.push(file);
-    const reader = new FileReader();
-    reader.onload = (e) => {
-        addImageFile('upload-img',e, file);
-    };
-    reader.readAsDataURL(file);
-}
-
-// 이미지 파일 추가
-function addImageFile(id, e, file) {
+UploadImage.prototype.addImageFile = function(id, e, file){
     const div = document.getElementById(id);
     const imgElement = div.querySelector('img'); // div 요소 안의 모든 img 요소를 선택합니다.
 
@@ -36,15 +19,12 @@ function addImageFile(id, e, file) {
         div.appendChild(img);
     }
 }
+//
+let uploadImage = new UploadImage();
 
-const realUpload = document.querySelector('.real-upload');
-const upload = document.querySelector('.upload');
-upload.addEventListener('click', () => realUpload.click());
-realUpload.addEventListener('change', getImageFiles);
-
-
-//별점 마킹 모듈 프로토타입으로 생성
+// 평점 모듈 생성
 function Rating(){};
+
 Rating.prototype.rate = 0;
 Rating.prototype.setRate = function(newrate){
     //별점 마킹 - 클릭한 별 이하 모든 별 체크 처리
@@ -58,7 +38,8 @@ Rating.prototype.setRate = function(newrate){
         }
     });
 }
-let rating = new Rating();//별점 인스턴스 생성
+
+let rating = new Rating(); //별점 인스턴스 생성
 
 document.addEventListener('DOMContentLoaded', function(){
     //별점선택 이벤트 리스너
@@ -68,13 +49,43 @@ document.addEventListener('DOMContentLoaded', function(){
             rating.setRate(parseInt(elem.value));
         }
     })
+
+    // 이미지 업로드 리스너
+    const realUpload = document.querySelector('.real-upload');
+    const upload = document.querySelector('.upload');
+    upload.addEventListener('click', () => realUpload.click());
+
+    realUpload.addEventListener('change',function(e) {
+         const uploadFiles = [];
+         const file = e.currentTarget.files[0];
+
+         // 파일 타입 검사
+         if (!file.type.match("image/.*")) {
+           alert('이미지 파일만 업로드가 가능합니다.');
+           return
+         }
+
+         // 이미지 파일 변경
+         uploadFiles.push(file);
+         const reader = new FileReader();
+         reader.onload = (e) => {
+             uploadImage.addImageFile('upload-img',e, file);
+         };
+        reader.readAsDataURL(file);
+    })
 });
 
 
 function saveMyReview() {
-    let seq = $("#order-info-seq").val();
-    if(seq == ''){
-        seq = 0;
+    let orderSeq = $("#order-info-seq").val();
+    let reviewSeq = $("#review-seq").val();
+
+    if(orderSeq == ''){
+        orderSeq = 0;
+    }
+
+    if(reviewSeq == ''){
+        reviewSeq = 0;
     }
 
     const content = $("#review-content").val();
@@ -84,7 +95,8 @@ function saveMyReview() {
     let formData = new FormData(imageForm);
     let sizeType = {};
 
-    formData.append("orderSeq", seq);
+    formData.append("orderSeq", orderSeq);
+    formData.append("reviewSeq", reviewSeq);
     formData.append("content", content);
     formData.append("score", rate);
 

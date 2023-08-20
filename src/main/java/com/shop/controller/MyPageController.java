@@ -1,6 +1,5 @@
 package com.shop.controller;
 
-import com.shop.domain.OrderInfo;
 import com.shop.domain.enums.ProductType;
 import com.shop.dto.MemberDTO;
 import com.shop.dto.OrderInfoDTO;
@@ -41,7 +40,6 @@ public class MyPageController {
         model.addAttribute("myProductList", myProductList);
         return "myPage/myProductList";
     }
-
     /**
      * 내상품상세정보 조회
      * @param model
@@ -63,7 +61,6 @@ public class MyPageController {
         model.addAttribute("productType", Arrays.asList(ProductType.values()));
         return "myPage/myProductInfo";
     }
-
     /**
      * 내 상품 등록
      * @param productDTO
@@ -81,7 +78,6 @@ public class MyPageController {
         productService.saveProductInfo(productDTO, fileList);
         return ResponseEntity.ok().build();
     }
-
     /**
      * 내 상품 삭제
      * @param product
@@ -102,7 +98,6 @@ public class MyPageController {
         productStockService.deleteProductStock(product);
         return ResponseEntity.ok().build();
     }
-
     /**
      * 내 주문 내역 조회
      * @param model
@@ -116,7 +111,6 @@ public class MyPageController {
         model.addAttribute("myOrderList", myOrderList);
         return "myPage/myOrderList";
     }
-
     /**
      * 내 리뷰 관리 화면
      * @param model
@@ -142,10 +136,7 @@ public class MyPageController {
      */
     @RequestMapping("/saveMyReview")
     public ResponseEntity<Void> saveMyReview(@RequestParam("file-img") MultipartFile file, ReviewDTO reviewDTO) throws IOException {
-        String memberId = SecurityContextHolder.getContext().getAuthentication().getName();
-        MemberDTO member = memberService.selectMemberById(memberId);
         reviewDTO.setImgFile(file);
-
         reviewService.saveReviewInfo(reviewDTO);
         return ResponseEntity.ok().build();
     }

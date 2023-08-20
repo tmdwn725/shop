@@ -5,9 +5,11 @@ import com.shop.domain.enums.ProductType;
 import com.shop.dto.CartDTO;
 import com.shop.dto.MemberDTO;
 import com.shop.dto.ProductDTO;
+import com.shop.dto.ReviewDTO;
 import com.shop.service.CartService;
 import com.shop.service.MemberService;
 import com.shop.service.ProductService;
+import com.shop.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -24,8 +26,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ProductController {
     private final ProductService productService;
-    private final MemberService memberService;
     private final CartService cartService;
+    private final ReviewService reviewService;
     @RequestMapping("/product")
     public String getProductList(@RequestParam(value="page",required = false, defaultValue="1") int page
             , @RequestParam(value="type",required = false, defaultValue="") String type
@@ -43,7 +45,9 @@ public class ProductController {
     @RequestMapping("/productInfo")
     public String productInfo(Model model, ProductDTO productDTO){
         ProductDTO product = productService.selectProductInfo(productDTO.getProductSeq());
+        Page<ReviewDTO> reviewList = reviewService.selectReviewList(1,3,productDTO.getProductSeq());
         model.addAttribute("product",product);
+        model.addAttribute("reviewList",reviewList);
         model.addAttribute("type",product.getProductType().getParentCategory().get().getCode());
         return "product/product-details";
     }
