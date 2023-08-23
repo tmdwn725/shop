@@ -17,4 +17,5 @@ public class ReviewDTO {
     private File file;
     private ProductStock productStock;
     private MultipartFile imgFile;
+    private OrderInfoDTO orderInfo;
 }

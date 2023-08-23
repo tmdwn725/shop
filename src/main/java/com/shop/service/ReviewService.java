@@ -73,11 +73,20 @@ public class ReviewService {
         reviewRepository.save(review);
     }
 
+    /**
+     * 상퓸 리뷰 목록
+     * @param start
+     * @param limit
+     * @param productSeq
+     * @return
+     */
     public Page<ReviewDTO> selectReviewList(int start, int limit,Long productSeq){
         PageRequest pageRequest = PageRequest.of(start-1, limit);
         Page<Review> result = reviewRepository.selectReviewList(pageRequest,productSeq);
         int total = result.getTotalPages();
-        pageRequest = PageRequest.of((total-1), limit);
+        if (total > 0) {
+            pageRequest = PageRequest.of((total-1), limit);
+        }
         List<ReviewDTO> list = ModelMapperUtil.mapAll(result.getContent(), ReviewDTO.class);
         return new PageImpl<>(list, pageRequest, total);
     }

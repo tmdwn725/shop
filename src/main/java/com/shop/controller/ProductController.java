@@ -43,9 +43,9 @@ public class ProductController {
         return "product/productList";
     }
     @RequestMapping("/productInfo")
-    public String productInfo(Model model, ProductDTO productDTO){
+    public String productInfo(@RequestParam(value="page",required = false, defaultValue="1") int page, Model model, ProductDTO productDTO){
         ProductDTO product = productService.selectProductInfo(productDTO.getProductSeq());
-        Page<ReviewDTO> reviewList = reviewService.selectReviewList(1,3,productDTO.getProductSeq());
+        Page<ReviewDTO> reviewList = reviewService.selectReviewList(page,3,productDTO.getProductSeq());
         model.addAttribute("product",product);
         model.addAttribute("reviewList",reviewList);
         model.addAttribute("type",product.getProductType().getParentCategory().get().getCode());
