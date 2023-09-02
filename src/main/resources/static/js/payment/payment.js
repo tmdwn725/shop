@@ -11,7 +11,7 @@ function getPayment(){
     for (const input of cartElements) {
         cartSeqList.push(input.value);
     }
-
+     console.log("문승주1");
     IMP.request_pay({
         pg : 'html5_inicis',
         pay_method : 'card',
@@ -22,17 +22,19 @@ function getPayment(){
         buyer_name : memberNm,
         buyer_tel : telNo,
         buyer_addr : address,
-        buyer_postcode : '123-456',
-        m_redirect_url : 'http://localhost:8081/main'
+        buyer_postcode : '123-456'
     }, function(rsp) { // callback 로직
+        console.log("문승주2");
     	 if ( rsp.success ) {
+    	    console.log("문승주3");
     	    var msg = '결제가 완료되었습니다.';
+    	    console.log("문승주4");
     	    $.ajax({
                 type: "POST",
                 url: "/payment/saveOrderInfo",
                 data:{
                     totalPrice : totalPrice,
-                    paymentType : 'C',
+                    payType : 'CARD',
                     address : address,
                     cartSeqList : cartSeqList
                 },

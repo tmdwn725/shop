@@ -5,6 +5,7 @@ import com.shop.domain.Cart;
 import com.shop.domain.Member;
 import com.shop.domain.OrderInfo;
 import com.shop.domain.Payment;
+import com.shop.domain.enums.PaymentType;
 import com.shop.dto.PaymentDTO;
 import com.shop.repository.CartRepository;
 import com.shop.repository.MemberRepository;
@@ -15,8 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -26,6 +25,12 @@ public class PaymentService {
     private final OrderInfoRepository orderInfoRepository;
     private final MemberRepository memberRepository;
     private final CartRepository cartRepository;
+
+    /**
+     * 결제 정보 저장
+     * @param paymentDTO
+     * @param memberId
+     */
     @Transactional
     public void savePayment(PaymentDTO paymentDTO, String memberId){
         // 현재 날짜와 시간 취득
@@ -35,7 +40,7 @@ public class PaymentService {
         for(String cartSeq : paymentDTO.getCartSeqList()){
             Optional<Cart> cart = cartRepository.findById(Long.parseLong(cartSeq));
             Payment payment = new Payment();
-            payment.createPayment(cart.get().getProductStock().getProduct().getPrice() * cart.get().getQuantity(), paymentDTO.getPaymentType(),nowDateTime);
+            payment.createPayment(cart.get().getProductStock().getProduct().getPrice() * cart.get().getQuantity(), PaymentType.valueOf(paymentDTO.getPayType()),nowDateTime);
             paymentRepository.save(payment);
 
             OrderInfo orderInfo = new OrderInfo();

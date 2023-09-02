@@ -39,7 +39,13 @@ public class PaymentController {
         model.addAttribute("totalPrice",totalPrice);
         return "payment/payment";
     }
-    @RequestMapping(value = "/saveOrderInfo")
+
+    /**
+     * 주문 정보 저장
+     * @param payment
+     * @return
+     */
+    @RequestMapping(value = "/saveOrderInfo", method = {RequestMethod.POST, RequestMethod.GET})
     public ResponseEntity<Void> saveOrderInfo(PaymentDTO payment){
         String memberId = SecurityContextHolder.getContext().getAuthentication().getName();
         paymentService.savePayment(payment,memberId);

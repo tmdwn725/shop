@@ -17,6 +17,7 @@ public class PaymentDTO {
     private LocalDateTime paymentDate;
     private int totalPrice;
     private PaymentType paymentType;
+    private String payType;
     private MemberDTO member;
     private String address;
     private List<String> cartSeqList = new ArrayList();
