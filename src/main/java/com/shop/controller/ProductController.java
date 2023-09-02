@@ -24,11 +24,12 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("/product")
 public class ProductController {
     private final ProductService productService;
     private final CartService cartService;
     private final ReviewService reviewService;
-    @RequestMapping("/product")
+    @RequestMapping("/getProductList")
     public String getProductList(@RequestParam(value="page",required = false, defaultValue="1") int page
             , @RequestParam(value="type",required = false, defaultValue="") String type
             ,  @RequestParam(value="searchStr",required = false, defaultValue="") String searchStr,Model model) {
@@ -42,8 +43,25 @@ public class ProductController {
         model.addAttribute("type",type);
         return "product/productList";
     }
-    @RequestMapping("/productInfo")
+
+    /**
+     * 상품 상세 정보 조회
+     * @param page
+     * @param model
+     * @param productDTO
+     * @return
+     */
+    @RequestMapping("/getProductInfo")
     public String productInfo(@RequestParam(value="page",required = false, defaultValue="1") int page, Model model, ProductDTO productDTO){
+        ProductDTO product = productService.selectProductInfo(productDTO.getProductSeq());
+        Page<ReviewDTO> reviewList = reviewService.selectReviewList(page,3,productDTO.getProductSeq());
+        model.addAttribute("product",product);
+        model.addAttribute("reviewList",reviewList);
+        model.addAttribute("type",product.getProductType().getParentCategory().get().getCode());
+        return "product/product-details";
+    }
+    @RequestMapping("/getReviewList")
+    public String getReviewList(@RequestParam(value="page",required = false, defaultValue="1") int page, Model model, ProductDTO productDTO){
         ProductDTO product = productService.selectProductInfo(productDTO.getProductSeq());
         Page<ReviewDTO> reviewList = reviewService.selectReviewList(page,3,productDTO.getProductSeq());
         model.addAttribute("product",product);

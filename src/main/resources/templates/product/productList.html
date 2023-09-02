@@ -172,7 +172,7 @@
                     <div class="row">
                         <div class="col-lg-4 col-md-6" th:each="product : ${productList}">
                             <div class="product__item">
-                                <div class="product__item__pic set-bg" th:onclick="|location.href='@{/productInfo?productSeq=}${product.productSeq}'|" th:attr="data-setbg=${product.productFileList[0].file.filePth}">
+                                <div class="product__item__pic set-bg" th:onclick="|location.href='@{/product/getProductInfo?productSeq=}${product.productSeq}'|" th:attr="data-setbg='/' + ${product.productFileList[0].file.filePth}">
                                     <div class="label new">New</div>
                                     <ul class="product__hover">
                                         <li><a href="img/shop/shop-1.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
@@ -206,63 +206,6 @@
         </div>
     </section>
     <!-- Shop Section End -->
-
-    <!-- Instagram Begin -->
-    <div class="instagram">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-2 col-md-4 col-sm-4 p-0">
-                    <div class="instagram__item set-bg" data-setbg="img/instagram/insta-1.jpg">
-                        <div class="instagram__text">
-                            <i class="fa fa-instagram"></i>
-                            <a href="#">@ ashion_shop</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-2 col-md-4 col-sm-4 p-0">
-                    <div class="instagram__item set-bg" data-setbg="img/instagram/insta-2.jpg">
-                        <div class="instagram__text">
-                            <i class="fa fa-instagram"></i>
-                            <a href="#">@ ashion_shop</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-2 col-md-4 col-sm-4 p-0">
-                    <div class="instagram__item set-bg" data-setbg="img/instagram/insta-3.jpg">
-                        <div class="instagram__text">
-                            <i class="fa fa-instagram"></i>
-                            <a href="#">@ ashion_shop</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-2 col-md-4 col-sm-4 p-0">
-                    <div class="instagram__item set-bg" data-setbg="img/instagram/insta-4.jpg">
-                        <div class="instagram__text">
-                            <i class="fa fa-instagram"></i>
-                            <a href="#">@ ashion_shop</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-2 col-md-4 col-sm-4 p-0">
-                    <div class="instagram__item set-bg" data-setbg="img/instagram/insta-5.jpg">
-                        <div class="instagram__text">
-                            <i class="fa fa-instagram"></i>
-                            <a href="#">@ ashion_shop</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-2 col-md-4 col-sm-4 p-0">
-                    <div class="instagram__item set-bg" data-setbg="img/instagram/insta-6.jpg">
-                        <div class="instagram__text">
-                            <i class="fa fa-instagram"></i>
-                            <a href="#">@ ashion_shop</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Instagram End -->
 
     <!-- Footer Section Begin -->
     <th:block th:replace="common/footer :: footFragment"></th:block>

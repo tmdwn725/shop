@@ -77,7 +77,7 @@ h6 {
 p {
 	font-size: 14px;
 	font-family: "Montserrat", sans-serif;
-	color: #666666;
+	color: #e9ecef;
 	font-weight: 400;
 	line-height: 24px;
 	margin: 0 0 15px 0;
@@ -1065,12 +1065,12 @@ ol {
 
 .categories__text h1 {
 	font-family: "Cookie", cursive;
-	color: #111111;
+	color: #fff;
 	margin-bottom: 5px;
 }
 
 .categories__text h4 {
-	color: #111111;
+	color: #fff;
 	font-weight: 700;
 }
 
@@ -1080,7 +1080,7 @@ ol {
 
 .categories__text a {
 	font-size: 14px;
-	color: #111111;
+	color: #fff;
 	text-transform: uppercase;
 	font-weight: 600;
 	position: relative;

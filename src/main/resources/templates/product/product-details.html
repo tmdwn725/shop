@@ -84,7 +84,7 @@
                     <div class="product__details__pic">
                         <div class="product__details__pic__left product__thumb nice-scroll">
                             <a class="pt active" href="#product-1">
-                                <img th:src="${product.productFileList[0].file.filePth}" alt="">
+                                <img th:src="'/' + ${product.productFileList[0].file.filePth}" alt="">
                             </a>
                             <a class="pt" href="#product-2">
                                 <img src="/img/product/details/thumb-2.jpg" alt="">
@@ -98,7 +98,7 @@
                         </div>
                         <div class="product__details__slider__content">
                             <div class="product__details__pic__slider owl-carousel">
-                                <img data-hash="product-1" class="product__big__img" th:src="${product.productFileList[0].file.filePth}"alt="">
+                                <img data-hash="product-1" class="product__big__img" th:src="'/' + ${product.productFileList[0].file.filePth}"alt="">
                                 <img data-hash="product-2" class="product__big__img" src="/img/product/details/product-3.jpg" alt="">
                                 <img data-hash="product-3" class="product__big__img" src="/img/product/details/product-2.jpg" alt="">
                                 <img data-hash="product-4" class="product__big__img" src="/img/product/details/product-4.jpg" alt="">
@@ -253,62 +253,16 @@
                                             <div class="review-contents__text" style="font-size:20px;" th:text="${review.content}"/>
                                         </div>
                                     </div>
-                                    <!--<div class="review-list" style="border-top: 1px solid;border-bottom: 1px solid;border-left: 1px dashed;border-right: 1px groove;padding: 10px;">
-                                        <div class="review-profile">
-                                            <a href="#" class="review-profile__link">
-                                            </a>
-                                            <div class="review-profile__text-wrap">
-                                                <div class="review-profile__text">
-                                                    <p class="review-profile__name">LV.5 장미꽃밭</p>
-                                                    <p class="review-profile__date">6일 전</p>
-                                                    <div class="rating">
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                    </div>
-                                            </div>
-                                        </div>
-                                        <div class="review-goods-information">
-                                            <div class="review-goods-information__thumbnail">
-                                                <img src="/img/product/details/thumb-2.jpg" alt="유니온블루(UNION BLUE) SUNDAY SHIRT (GRAY) 후기">
-                                            </div>
-                                            <div class="review-goods-information__item">
-                                                <p class="review-goods-information__option-wrap">
-                                                    <span class="review-goods-information__option">S</span>구매
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div class="review-contents">
-                                            <div class="review-contents__text">역시 믿고사는 유니온블루의 런드리셔츠입니다. 그냥 원하는 색만 고르세요. 퀄리티 핏 등 다른 모든것은 이미 완성돼있습니다. 가을되면 흰셔츠 하나 더 쟁여둘 예정입니다.</div>
-                                            <div class="review-evaluation">
-                                            </div>
-                                            <span class="p_name" style="display: none;">SUNDAY SHIRT (GRAY)</span>
-                                        </div>
-                                    </div>-->
                                     <!-- //paging -->
 
                                     <div class="nslist_bottom">
                                         <div class="col-lg-12 text-center">
                                             <div class="pagination__option">
                                                 <a th:each="page : ${#numbers.sequence(1, reviewList.totalPages)}"
-                                                   th:href="@{/myPage/getMyReviewInfo(page=${page})}"
+                                                   th:href="@{/product/getReviewList(page=${page},productSeq=${product.productSeq})}"
                                                    th:class="${reviewList.number+1 == page ? 'active' : ''}">[[${page}]]</a>
                                             </div>
                                         </div>
-                                        <!--<div class="box_page_msg">
-                                            10 페이지 중 1 페이지
-                                        </div>
-                                        <div class="pagination textRight">
-                                            <div class="wrapper">
-                                                <a class="fa fa-angle-double-left paging-btn btn first" href="javascript:void(0);" onclick="ReviewPage.goFistPage(1, 1); return false;"></a>
-                                                <a class="fa fa-angle-left paging-btn btn prev" href="javascript:void(0);" onclick="ReviewPage.goPreviousPage(1, 1); return false;"></a>
-                                                <a href="javascript:void(0);" class="paging-btn btn active" onclick="ReviewPage.goPage(1); return false;">1</a><a href="javascript:void(0);" class="paging-btn btn" onclick="ReviewPage.goPage(2); return false;">2</a><a href="javascript:void(0);" class="paging-btn btn" onclick="ReviewPage.goPage(3); return false;">3</a><a href="javascript:void(0);" class="paging-btn btn" onclick="ReviewPage.goPage(4); return false;">4</a><a href="javascript:void(0);" class="paging-btn btn" onclick="ReviewPage.goPage(5); return false;">5</a>
-                                                <a class="fa fa-angle-right paging-btn btn next" href="javascript:void(0)" onclick="ReviewPage.goNextPage(null, 5, 10); return false;"></a>
-                                                <a class="fa fa-angle-double-right paging-btn btn last" onclick="ReviewPage.goLastPage(1, 5, 10); return false;" href="javascript:void(0)"></a>
-                                            </div>
-                                        </div>-->
                                     </div>
                                 </div>
                             </div>
