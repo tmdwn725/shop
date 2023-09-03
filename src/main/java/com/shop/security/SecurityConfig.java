@@ -71,7 +71,6 @@ public class SecurityConfig {
         http.csrf().disable();
         http.authorizeHttpRequests()
                 .mvcMatchers("/login").permitAll()
-                .mvcMatchers("/member/**").hasRole("USER")
                 .anyRequest().authenticated();
         http.formLogin()
                 .loginPage("/login")

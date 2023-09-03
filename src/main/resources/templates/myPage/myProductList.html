@@ -6,7 +6,7 @@
     <meta name="keywords" content="Ashion, unica, creative, html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Ashion | Template</title>
+    <title>MoonShop</title>
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
@@ -23,6 +23,7 @@
     <link th:href="@{/css/slicknav.min.css}" rel="stylesheet">
     <link th:href="@{/css/style.css}" rel="stylesheet">
     <link th:href="@{/css/myPage/myProduct.css}" rel="stylesheet">
+    <link th:href="@{/css/common/side.css}" rel="stylesheet">
 
 </head>
 
@@ -59,6 +60,10 @@
     <!-- Header Section Begin -->
     <th:block th:replace="common/header :: headFragment"></th:block>
     <!-- Header Section End -->
+
+    <!-- SideBar Section Begin-->
+    <th:block th:replace="common/side :: sideFragment"></th:block>
+    <!-- SideBar Section End -->
 
     <!-- Breadcrumb Begin -->
     <div class="breadcrumb-option">
@@ -211,6 +216,7 @@
     <script type="text/javascript" th:src="@{/js/owl.carousel.min.js}"></script>
     <script type="text/javascript" th:src="@{/js/jquery.nicescroll.min.js}"></script>
     <script type="text/javascript" th:src="@{/js/main.js}"></script>
+    <script type="text/javascript" th:src="@{/js/common/side.js}"></script>
     <script type="text/javascript" th:src="@{/js/myPage/myProduct.js}"></script>
 </body>
 

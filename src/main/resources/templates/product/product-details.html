@@ -208,7 +208,7 @@
                             <div class="tab-pane" id="tabs-3" style="overflow:auto; height:600px; border-top: 1px solid;border-bottom: 1px solid;border-left: 1px dashed;border-right: 1px groove;padding: 10px;">
                                 <p class="article_review_detail">
                                     <span class="info_event_line">EVENT</span>
-                                    <span id="reviewEventText" class="info_review_detail">스타일후기 작성 시 2,000원의 적립금을 드립니다.(직접 촬영한 전신 사진 필수)</span>
+                                    <span id="reviewEventText" style="color:black;" class="info_review_detail">스타일후기 작성 시 2,000원의 적립금을 드립니다.(직접 촬영한 전신 사진 필수)</span>
                                 </p>
                                 <p class="article_review_select">
                                     <select id="reviewSelectSort" class="review_select_sort" onchange="ReviewSort.apiCall(this.value)">
@@ -226,8 +226,8 @@
                                             <a href="#" class="review-profile__link"></a>
                                             <div class="review-profile__text-wrap">
                                                 <div class="review-profile__text">
-                                                    <p class="review-profile__name" style="text-align:right;" th:text="${#temporals.format(review.reviewDate, 'yyyy-MM-dd')}"/>
-                                                    <p class="review-profile__date" style="font-size:20px;"  th:text="${review.orderInfo.member.name}"/>
+                                                    <p class="review-profile__name" style="color:black;text-align:right;" th:text="${#temporals.format(review.reviewDate, 'yyyy-MM-dd')}"/>
+                                                    <p class="review-profile__date" style="color:black;font-size:20px;"  th:text="${review.orderInfo.member.name}"/>
                                                     <div class="rating">
                                                         <i class="fa fa-star" th:if="${review.score > 0}"></i>
                                                         <i class="fa fa-star" th:if="${review.score > 1}"></i>
