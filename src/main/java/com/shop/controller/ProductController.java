@@ -67,7 +67,7 @@ public class ProductController {
         model.addAttribute("product",product);
         model.addAttribute("reviewList",reviewList);
         model.addAttribute("type",product.getProductType().getParentCategory().get().getCode());
-        return "product/product-details";
+        return "product/productReview";
     }
     /**
      * 장바구니 추가
