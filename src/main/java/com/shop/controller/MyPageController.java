@@ -27,6 +27,15 @@ public class MyPageController {
     private final ProductStockService productStockService;
     private final OrderInfoService orderInfoService;
     private final ReviewService reviewService;
+
+    @RequestMapping("/getMyPage")
+    public String getMyPage(Model model){
+        String memberId = SecurityContextHolder.getContext().getAuthentication().getName();
+        MemberDTO member = memberService.selectMemberById(memberId);
+        model.addAttribute("member", member);
+        return "myPage/myPage";
+    }
+
     /**
      * 내 상품관리목록 조회
      * @param model
