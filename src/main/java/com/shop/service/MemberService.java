@@ -5,11 +5,14 @@ import com.shop.domain.Member;
 import com.shop.dto.MemberDTO;
 import com.shop.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.ArrayList;
@@ -33,6 +36,16 @@ public class MemberService implements UserDetailsService {
         return dto;
     }
 
-    
-
+    /**
+     * 비밀번호 변경
+     * @param memberDTO
+     * @return
+     */
+    @Transactional
+    public long changeMyPassword(MemberDTO memberDTO) {
+        long result = 0;
+        Member member = new Member();
+        result = memberRepository.updatePassword(memberDTO.getMemberId(), memberDTO.getNewPassword());
+        return result;
+    }
 }

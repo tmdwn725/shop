@@ -4,6 +4,7 @@ var numberRegExp = new RegExp("[0-9]");
 var symbolRegExp = new RegExp("\\W");
 
 <!-- profile -->
+// 프로필 이미지 클릭
 $("#change-profile-image-btn").click(function (e) {
     e.preventDefault();
     $("#profile-image-area").css("display", "none");
@@ -64,6 +65,7 @@ $("#change-password-btn").click(function (e) {
     $("#change-password-area").css("display", "");
 });
 
+// 비밀번호 ㅂ녀경 취소 버튼 클릭
 $("#change-password-cancel-btn").click(function (e) {
     e.preventDefault();
     $("#password").val('');
@@ -128,6 +130,7 @@ $("#password").keyup(function (e) {
     }
 });
 
+// 신규 비밀번호 입력
 $("#newPassword").keyup(function (e) {
     e.preventDefault();
     var newPassword = $("#newPassword");
@@ -179,6 +182,7 @@ $("#newPassword").keyup(function (e) {
     return true;
 });
 
+// 신규 비밀번호 재입력
 $("#confirmPassword").keyup(function (e) {
     e.preventDefault();
     var password = $("#password");
@@ -201,6 +205,63 @@ $("#confirmPassword").keyup(function (e) {
     }
 });
 
+// 비밀번호 변경
+$("#change-password-finish-btn").click(function (e) {
+    e.preventDefault();
+
+    var password = $("#password").val();
+    var newPassword = $("#newPassword").val();
+    var confirmPassword = $("#confirmPassword").val();
+
+    if (password === '') {
+        alert('현재 비밀번호를 입력해주세요.');
+        return false;
+    }
+
+    if (password.length < 4) {
+        alert('비밀번호 4자 이상이여야합니다.');
+        return false;
+    }
+
+    if (newPassword !== confirmPassword) {
+        alert('신규 비밀번호와 재입력 비밀번호가 같지 않습니다.');
+        $("#confirmPassword").val('');
+        $("#newPassword").val('');
+        $("#change-password-finish-btn").attr('class', 'n-btn btn-sm btn-accent disabled');
+        $("#change-password-finish-btn").prop('disabled', true);
+        $("#new-password-invalid").text('');
+        $("#valid-newPassword").text('');
+        return false;
+    }
+
+    if (password === newPassword) {
+        alert('현재 비밀번호와 신규 비밀번호가 동일합니다.');
+        $("#newPassword").val('');
+        $("#confirmPassword").val('');
+        $("#change-password-finish-btn").attr('class', 'n-btn btn-sm btn-accent disabled');
+        $("#change-password-finish-btn").prop('disabled', true);
+        $("#new-password-invalid").text('');
+        $("#valid-newPassword").text('');
+        return false;
+    }
+
+    if (confirm('비밀번호를 변경하시겠습니까?')) {
+        $.ajax({
+            type: "POST",
+            url: "/myPage/changePassword",
+            dataType: "json", // 예상되는 응답 형식을 JSON으로 지정
+            data:{"password" : password, "newPassword" : newPassword},
+            success: function(response){
+                alert(response.message);
+            },
+            error: function(xhr, status, error) {
+                alert("변경중 오류가 발생했습니다.");
+            }
+        });
+    }
+});
+
+//
 $("#change-nickName-btn").click(function (e) {
     e.preventDefault();
     $("#currentNickName").show();
