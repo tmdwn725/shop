@@ -3,9 +3,12 @@ server:
 spring:
  datasource:
   driverClassName: org.mariadb.jdbc.Driver
-  url: jdbc:mariadb://3.112.49.158:3306/shop?useUnicode=true&characterEncoding=utf-8
+  url: jdbc:mariadb://mariadb.c8xo5djcwfzm.us-east-1.rds.amazonaws.com:3306/ShopProject?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
   username: sjmoon
-  password: 1234
+  password: sjmoon1234
+  #url: jdbc:mariadb://localhost:3306/shop_db?characterEncoding=UTF-8&serverTimezone=UTC
+  #username: root
+  #password: 1234
  devtools:
    livereload:
     enabled: true
@@ -32,7 +35,7 @@ spring:
   host: smtp.gmail.com
   port: 587
   username: tmdwn752@naver.com
-  password: azcyjeynvhbrvjin
+  password: ifmskapactelaxvs
   properties:
    mail:
     smtp:
