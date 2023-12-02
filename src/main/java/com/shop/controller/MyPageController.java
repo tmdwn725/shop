@@ -36,6 +36,8 @@ public class MyPageController {
     private final ReviewService reviewService;
     private final PasswordEncoder passwordEncoder;
 
+    private final MailService mailService;
+
     @RequestMapping("/getMyPage")
     public String getMyPage(Model model){
         String memberId = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -82,6 +84,16 @@ public class MyPageController {
 
         // JSON 응답을 클라이언트에 보냄
         response.getWriter().write(jsonResponse);
+    }
+    @RequestMapping("sendEmail")
+    public void emailSend(HttpServletRequest request, HttpServletResponse response, MemberDTO memberDTO){
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+
+        Map<String, String> responseData = new HashMap<>();
+        long result = 0;
+        boolean passwordCheck = false;
+        int number = mailService.sendMail(memberDTO.getEmail());
     }
 
     /**

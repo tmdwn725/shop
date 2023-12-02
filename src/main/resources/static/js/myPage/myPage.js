@@ -253,6 +253,9 @@ $("#change-password-finish-btn").click(function (e) {
             data:{"password" : password, "newPassword" : newPassword},
             success: function(response){
                 alert(response.message);
+                if(response.result === 'success') {
+                    location.href = "myPage/getMyPage"
+                }
             },
             error: function(xhr, status, error) {
                 alert("변경중 오류가 발생했습니다.");
@@ -319,6 +322,40 @@ $("#email").keyup(function (e) {
         $("#send-authentication-email").prop('disabled', true);
     }
 });
+
+ $("#send-authentication-email").click(function (e) {
+    e.preventDefault();
+    const email = $("#email");
+    const emailValue = email.val();
+
+    if (!isValidEmail(emailValue)) {
+        alert('이메일 주소가 올바르지 않습니다.');
+        return false;
+    } else {
+        if (confirm('인증 메일을 발송하시겠습니까??')) {
+
+            $.ajax({
+                type: "POST",
+                url: "/myPage/sendEmail",
+                dataType: "json", // 예상되는 응답 형식을 JSON으로 지정
+                data:{'email': emailValue},
+                success: function(response){
+                    alert(responseData.message);
+                    $("#send-authentication-email").attr('class', 'n-btn btn-sm btn-accent');
+                    $("#send-authentication-email").prop('disabled', false);
+                },
+                error: function(xhr, status, error) {
+                    alert("변경중 오류가 발생했습니다.");
+                }
+            });
+        }
+    }
+});
+
+function isValidEmail(email) {
+    const emailRegex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+    return emailRegex.test(email);
+}
 
 function checkFourConsecutiveChar(password) {
     for (var i = 0; i < password.length - 3; i++) {
