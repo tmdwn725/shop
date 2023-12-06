@@ -39,6 +39,10 @@ public class Product {
     @OneToMany(mappedBy = "product", cascade = CascadeType.PERSIST)
     private List<ProductStock> productStockList;
     @Transient
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="heartSeq")
+    private Heart heart;
+    @Transient
     private String filePth;
     public void createProduct(Long productSeq, Long sellerSeq, String productName ,String productContent, ProductType productType, int price, LocalDateTime regDt, LocalDateTime modDt){
         if(productSeq > 0L){

@@ -31,4 +31,5 @@ public class ProductDTO {
     private String filePth;
     private Map<String,String> sizeTypes = new HashMap<>();
     private String sizeType;
+    private HeartDTO heart;
 }

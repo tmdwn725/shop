@@ -29,6 +29,15 @@ public class ProductController {
     private final ProductService productService;
     private final CartService cartService;
     private final ReviewService reviewService;
+
+    /**
+     * 상품 목록 조회
+     * @param page
+     * @param type
+     * @param searchStr
+     * @param model
+     * @return
+     */
     @RequestMapping("/getProductList")
     public String getProductList(@RequestParam(value="page",required = false, defaultValue="1") int page
             , @RequestParam(value="type",required = false, defaultValue="") String type
@@ -60,6 +69,14 @@ public class ProductController {
         model.addAttribute("type",product.getProductType().getParentCategory().get().getCode());
         return "product/product-details";
     }
+
+    /**
+     * 리뷰목록 조회
+     * @param page
+     * @param model
+     * @param productDTO
+     * @return
+     */
     @RequestMapping("/getReviewList")
     public String getReviewList(@RequestParam(value="page",required = false, defaultValue="1") int page, Model model, ProductDTO productDTO){
         ProductDTO product = productService.selectProductInfo(productDTO.getProductSeq());
@@ -69,6 +86,7 @@ public class ProductController {
         model.addAttribute("type",product.getProductType().getParentCategory().get().getCode());
         return "product/productReview";
     }
+
     /**
      * 장바구니 추가
      * @param model
@@ -82,8 +100,23 @@ public class ProductController {
         return ResponseEntity.ok().build();
     }
 
+    /**
+     * 상품종류 목록 조회
+     * @param parentProductType
+     * @return
+     */
     @RequestMapping("/getChildProductType")
     public List<ProductType> getChildProductType(@RequestParam("parentProductType") ProductType parentProductType) {
         return parentProductType.getChildCategories();
+    }
+
+    /**
+     * 좋아요 저장
+     * @param productDTO
+     */
+    @RequestMapping("/saveLikeInfo")
+    public void saveLikeInfo(ProductDTO productDTO){
+        String memberId = SecurityContextHolder.getContext().getAuthentication().getName();
+        productService.savelikeInfo(productDTO, memberId);
     }
 }

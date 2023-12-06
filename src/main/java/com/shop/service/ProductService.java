@@ -2,16 +2,10 @@ package com.shop.service;
 
 import com.shop.common.FileUtil;
 import com.shop.common.ModelMapperUtil;
-import com.shop.domain.File;
-import com.shop.domain.Product;
-import com.shop.domain.ProductFile;
-import com.shop.domain.ProductStock;
+import com.shop.domain.*;
 import com.shop.domain.enums.ProductType;
 import com.shop.dto.ProductDTO;
-import com.shop.repository.FileRepository;
-import com.shop.repository.ProductFileRepository;
-import com.shop.repository.ProductRepository;
-import com.shop.repository.ProductStockRepository;
+import com.shop.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -38,6 +32,9 @@ public class ProductService {
     private final ProductStockRepository productStockRepository;
     private final FileRepository fileRepository;
     private final ProductFileRepository productFileRepository;
+    private final MemberRepository memberRepository;
+    private final HeartRepository heartRepository;
+
     /**
      * 상품목록조회
      * @param start
@@ -131,14 +128,14 @@ public class ProductService {
         }else{ // 상품정보 등록
             productRepository.save(product);
             List<ProductStock> productStockList = productDTO.getSizeTypes().entrySet().stream()
-                    .map(entry -> {
-                        String sizeType = entry.getKey();
-                        String quantity = entry.getValue();
-                        ProductStock ps = new ProductStock();
-                        ps.createProductStock(product, sizeType, Integer.parseInt(quantity));
-                        return ps;
-                    })
-                    .collect(Collectors.toList());
+                .map(entry -> {
+                    String sizeType = entry.getKey();
+                    String quantity = entry.getValue();
+                    ProductStock ps = new ProductStock();
+                    ps.createProductStock(product, sizeType, Integer.parseInt(quantity));
+                    return ps;
+                })
+                .collect(Collectors.toList());
             productStockRepository.saveAll(productStockList);
 
             // 상품 이미지 사진 저장
@@ -178,5 +175,24 @@ public class ProductService {
         productFileRepository.deleteAll(product.getProductFileList());
         productStockRepository.deleteAll(productStockList);
         productRepository.delete(product);
+    }
+
+    /**
+     * 좋아요 수정/삭제
+     * @param productDTO
+     * @param memberId
+     */
+    @Transactional
+    public void savelikeInfo(ProductDTO productDTO, String memberId) {
+        Heart heart = new Heart();
+        Member member = memberRepository.fingByMemberId(memberId);
+        Product product = productRepository.findById(productDTO.getProductSeq()).get();
+        heart.createHeart(member, product);
+        // 좋아요 취소시 삭제
+        if(productDTO.getHeart() != null) {
+            heartRepository.delete(heart);
+        }else {
+            heartRepository.save(heart);
+        }
     }
 }

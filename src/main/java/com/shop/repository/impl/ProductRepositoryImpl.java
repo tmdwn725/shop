@@ -20,6 +20,7 @@ public class ProductRepositoryImpl implements ProductConfig {
     QProductStock qProductStock = QProductStock.productStock;
     QProductFile qProductFile = QProductFile.productFile;
     QFile qFile = QFile.file;
+    QHeart qHeart = QHeart.heart;
 
     /**
      * 상품목록조회
@@ -64,6 +65,13 @@ public class ProductRepositoryImpl implements ProductConfig {
         return qProduct.productName.contains(searchStr);
     }
 
+    private BooleanExpression eqHeart(Heart heart) {
+        if (heart == null) {
+            return null;
+        }
+        return qProduct.eq(qHeart.product);
+    }
+
     /**
      * 상품정보조회
      * @param productSeq
@@ -72,6 +80,7 @@ public class ProductRepositoryImpl implements ProductConfig {
     public Product selectProduct(Long productSeq){
         Product productInfo = queryFactory
                 .selectFrom(qProduct)
+                .leftJoin(qHeart).on(qProduct.eq(qHeart.product))
                 .join(qProduct.productStockList, qProductStock)
                 .join(qProduct.productFileList, qProductFile)
                 .join(qProductFile.file, qFile)

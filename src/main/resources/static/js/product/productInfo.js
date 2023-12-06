@@ -42,3 +42,21 @@ function addCart(){
         }
     });
 }
+
+const likeEle = document.getElementsByClassName("likeIcn")[0];
+
+likeEle.addEventListener('click', function(){
+    const spanEle = likeEle.querySelector('span');
+    const productSeq = likeEle.getAttribute('id');
+    spanEle
+    $.ajax({
+        type: "get",
+        url: "/product/saveLikeInfo",
+        data: {
+            productSeq : productSeq
+        },
+        success: function(){
+       }
+    });
+});
+
