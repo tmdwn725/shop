@@ -183,16 +183,17 @@ public class ProductService {
      * @param memberId
      */
     @Transactional
-    public void savelikeInfo(ProductDTO productDTO, String memberId) {
+    public void updateHeartInfo(ProductDTO productDTO, String memberId) {
         Heart heart = new Heart();
         Member member = memberRepository.fingByMemberId(memberId);
         Product product = productRepository.findById(productDTO.getProductSeq()).get();
         heart.createHeart(member, product);
         // 좋아요 취소시 삭제
-        if(productDTO.getHeart() != null) {
-            heartRepository.delete(heart);
-        }else {
+        if("Y".equals(productDTO.getUpdateYn())) {
             heartRepository.save(heart);
+        }else {
+            heart = heartRepository.selectHeartInfo(heart);
+            heartRepository.delete(heart);
         }
     }
 }

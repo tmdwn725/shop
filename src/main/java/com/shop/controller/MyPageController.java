@@ -2,10 +2,7 @@ package com.shop.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shop.domain.enums.ProductType;
-import com.shop.dto.MemberDTO;
-import com.shop.dto.OrderInfoDTO;
-import com.shop.dto.ProductDTO;
-import com.shop.dto.ReviewDTO;
+import com.shop.dto.*;
 import com.shop.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -33,6 +30,7 @@ public class MyPageController {
     private final ProductService productService;
     private final ProductStockService productStockService;
     private final OrderInfoService orderInfoService;
+    private final HeartService heartService;
     private final ReviewService reviewService;
     private final PasswordEncoder passwordEncoder;
 
@@ -180,6 +178,7 @@ public class MyPageController {
         model.addAttribute("myOrderList", myOrderList);
         return "myPage/myOrderList";
     }
+
     /**
      * 내 리뷰 관리 화면
      * @param model
@@ -208,5 +207,19 @@ public class MyPageController {
         reviewDTO.setImgFile(file);
         reviewService.saveReviewInfo(reviewDTO);
         return ResponseEntity.ok().build();
+    }
+
+    /**
+     * 내 좋아요 리스트 조회
+     * @param model
+     * @param page
+     * @return
+     */
+    @RequestMapping("/getMyHeartList")
+    public String getMyHeartList(Model model, @RequestParam(value="page", required = false, defaultValue="1") int page){
+        String memberId = SecurityContextHolder.getContext().getAuthentication().getName();
+        Page<HeartDTO> myHeartList = heartService.selectHeartList(page, 10,memberId);
+        model.addAttribute("myHeartList", myHeartList);
+        return "myPage/myHeartList";
     }
 }

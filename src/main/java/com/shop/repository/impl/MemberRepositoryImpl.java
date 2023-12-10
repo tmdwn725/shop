@@ -12,7 +12,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class MemberRepositoryImpl implements MemberConfig {
     private final JPAQueryFactory queryFactory;
     QMember qmember = QMember.member;
-
     public Member fingByMemberId(String memberId) {
         return queryFactory.selectFrom(qmember)
                 .where(qmember.memberId.eq(memberId))

@@ -86,6 +86,8 @@ public class ReviewService {
         int total = result.getTotalPages();
         if (total > 0) {
             pageRequest = PageRequest.of((total-1), limit);
+        }else{
+            pageRequest = PageRequest.of(start-1, 1);;
         }
         List<ReviewDTO> list = ModelMapperUtil.mapAll(result.getContent(), ReviewDTO.class);
         return new PageImpl<>(list, pageRequest, total);

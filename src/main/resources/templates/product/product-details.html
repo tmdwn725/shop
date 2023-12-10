@@ -132,8 +132,8 @@
                             <a href="javascript:void(0);" onclick="addCart();"class="cart-btn"><span class="icon_bag_alt"></span>장바구니 추가</a>
                             <ul>
                                 <li>
-                                    <a href="#" class="likeIcn" th:id="${product.productSeq}">
-                                        <span th:if="${#strings.isEmpty(product.heart)}" class="icon_heart_alt"></span>
+                                    <a href="#" class="heartIcn" th:id="${product.productSeq}">
+                                        <span th:if="${product.heart == null}" class="icon_heart_alt"></span>
                                         <span th:if="${product.heart != null}" class="icon_heart" style="color:red;"></span>
                                     </a>
                                 </li>
@@ -382,6 +382,7 @@
     <script type="text/javascript" th:src="@{/js/jquery.nicescroll.min.js}"></script>
     <script type="text/javascript" th:src="@{/js/main.js}"></script>
     <script type="text/javascript" th:src="@{/js/product/productInfo.js}"></script>
+    <script type="text/javascript" th:src="@{/js/common/common.js}"></script>
     <!-- Js Plugins -->
 </body>
 </html>

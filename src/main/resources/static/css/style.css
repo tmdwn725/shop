@@ -591,6 +591,8 @@ ol {
 .trend__item {
 	overflow: hidden;
 	margin-bottom: 35px;
+	width:380px;
+	cursor: pointer;
 }
 
 .trend__item__pic {

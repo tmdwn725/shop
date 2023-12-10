@@ -15,7 +15,7 @@
             </select>
         </p>
         <!-- //리스트-->
-        <div class="review-list-wrap" id="reviewListFragment">
+        <div class="review-list-wrap" id="reviewListFragment" th:if="${reviewList.totalPages > 0}">
             <div class="review-list" th:each="review : ${reviewList}" style="border-top: 1px solid;border-bottom: 1px solid;border-left: 1px dashed;border-right: 1px groove;padding: 10px;">
                 <div class="review-profile">
                     <a href="#" class="review-profile__link"></a>
@@ -34,8 +34,7 @@
                     </div>
                     <div class="review-goods-information__item">
                         <p class="review-goods-information__option-wrap">
-                                                    <span class="review-goods-information__option"
-                                                          th:text="${review.orderInfo.productStock.product.productName} + ' ' +${review.orderInfo.productStock.productSize}">S</span>구매
+                            <span class="review-goods-information__option" th:text="${review.orderInfo.productStock.product.productName} + ' ' +${review.orderInfo.productStock.productSize}">S</span>구매
                         </p>
                     </div>
                 </div>
@@ -59,6 +58,9 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="review-list-wrap" th:if="${reviewList.totalPages == 0}">
+            등록된 후기가 없습니다.
         </div>
     </div>
 </th:block>

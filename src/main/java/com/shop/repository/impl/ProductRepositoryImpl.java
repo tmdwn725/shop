@@ -21,7 +21,6 @@ public class ProductRepositoryImpl implements ProductConfig {
     QProductFile qProductFile = QProductFile.productFile;
     QFile qFile = QFile.file;
     QHeart qHeart = QHeart.heart;
-
     /**
      * 상품목록조회
      * @param pageable
@@ -32,6 +31,7 @@ public class ProductRepositoryImpl implements ProductConfig {
                 .selectFrom(qProduct)
                 .join(qProduct.productFileList, qProductFile)
                 .join(qProductFile.file, qFile)
+                .leftJoin(qProduct.heart, qHeart)
                 .where(eqSellerSeq(sellerSeq)
                         ,eqProductType(productType),qProductFile.fileClsCd.eq("030101")
                         ,searchProductName(searchStr))
@@ -80,15 +80,19 @@ public class ProductRepositoryImpl implements ProductConfig {
     public Product selectProduct(Long productSeq){
         Product productInfo = queryFactory
                 .selectFrom(qProduct)
-                .leftJoin(qHeart).on(qProduct.eq(qHeart.product))
                 .join(qProduct.productStockList, qProductStock)
                 .join(qProduct.productFileList, qProductFile)
                 .join(qProductFile.file, qFile)
                 .where(qProduct.productSeq.eq(productSeq))
+                .leftJoin(qProduct.heart, qHeart)
                 .fetchOne();
         return productInfo;
     }
 
+    /**
+     *
+     * @param product
+     */
     public void updateProductInfo(Product product){
         queryFactory.update(qProduct)
                 .set(qProduct.productName, product.getProductName())

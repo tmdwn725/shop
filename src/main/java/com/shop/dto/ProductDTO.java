@@ -32,4 +32,5 @@ public class ProductDTO {
     private Map<String,String> sizeTypes = new HashMap<>();
     private String sizeType;
     private HeartDTO heart;
+    private String updateYn;
 }

@@ -38,9 +38,7 @@ public class Product {
     @JsonManagedReference
     @OneToMany(mappedBy = "product", cascade = CascadeType.PERSIST)
     private List<ProductStock> productStockList;
-    @Transient
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="heartSeq")
+    @OneToOne(mappedBy = "product")
     private Heart heart;
     @Transient
     private String filePth;

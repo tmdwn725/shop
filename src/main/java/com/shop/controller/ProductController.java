@@ -114,9 +114,10 @@ public class ProductController {
      * 좋아요 저장
      * @param productDTO
      */
-    @RequestMapping("/saveLikeInfo")
-    public void saveLikeInfo(ProductDTO productDTO){
+    @RequestMapping("/updateHeartInfo")
+    public ResponseEntity<Void> updateHeartInfo(ProductDTO productDTO){
         String memberId = SecurityContextHolder.getContext().getAuthentication().getName();
-        productService.savelikeInfo(productDTO, memberId);
+        productService.updateHeartInfo(productDTO, memberId);
+        return ResponseEntity.ok().build();
     }
 }
