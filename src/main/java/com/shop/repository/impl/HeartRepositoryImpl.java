@@ -6,6 +6,7 @@ import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.shop.domain.*;
 import com.shop.dto.HeartDTO;
+import com.shop.dto.QHeartDTO;
 import com.shop.repository.custom.HeartConfig;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -19,9 +20,9 @@ import java.util.List;
 public class HeartRepositoryImpl implements HeartConfig {
     private final JPAQueryFactory queryFactory;
     QHeart qHeart = QHeart.heart;
-    QHeart qHeart2 = QHeart.heart;
     QProduct qProduct = QProduct.product;
-    QProductStock qProductStock = QProductStock.productStock;
+    QProductFile qProductFile = QProductFile.productFile;
+    QFile qFile = QFile.file;
     /**
      * 좋아요 정보 조회
      * @param heart
@@ -34,17 +35,29 @@ public class HeartRepositoryImpl implements HeartConfig {
                 .fetchOne();
     }
     @EntityGraph(attributePaths = {"product"})
-    public Page<Heart> selectHeartList(Pageable pageable, Long memberSeq){
-        QueryResults<Heart> heartList = queryFactory
-                .selectFrom(qHeart)
-                .join(qHeart.product,qProduct)
-                .fetchJoin()
-                .where(qHeart.member.memberSeq.eq(memberSeq))
+    public Page<HeartDTO> selectHeartList(Pageable pageable, Long memberSeq){
+        QHeart subHeart = new QHeart("subHeart");
+        QueryResults<HeartDTO> heartList = queryFactory
+                .select(new QHeartDTO(qHeart.heartSeq,
+                        qProduct.productSeq,
+                        qProduct.productName,
+                        qProduct.price,
+                        qProductFile.file.filePth,
+                        JPAExpressions
+                                .select(subHeart.count())
+                                .from(subHeart)
+                                .where(subHeart.product.productSeq.eq(qProduct.productSeq))
+                        ))
+                .from(qProduct)
+                .join(qProduct.heartList,qHeart).on(qHeart.member.memberSeq.eq(memberSeq))
+                .join(qProduct.productFileList,qProductFile).on(qProductFile.fileClsCd.eq("030101"))
+                .join(qProductFile.file,qFile)
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetchResults();
-        List<Heart> content = heartList.getResults();
+        List<HeartDTO> content = heartList.getResults();
         long total = heartList.getTotal();
         return new PageImpl<>(content, pageable, total);
     }
 }
+

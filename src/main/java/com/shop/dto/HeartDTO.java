@@ -12,5 +12,19 @@ public class HeartDTO {
     private MemberDTO member;
     private ProductDTO product;
     private ProductStockDTO productStock;
+    private String productImgFlPth;
     private Long heartCnt;
+    public HeartDTO(){
+
+    }
+
+    @QueryProjection
+    public HeartDTO(Long heartSeq, Long productSeq, String productName, int price, String productImgFlPth, Long heartCnt){
+        this.heartSeq = heartSeq;
+        this.productSeq = productSeq;
+        this.productName = productName;
+        this.price = price;
+        this.productImgFlPth = productImgFlPth;
+        this.heartCnt = heartCnt;
+    }
 }

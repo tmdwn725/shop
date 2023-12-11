@@ -115,11 +115,12 @@ public class MyPageController {
      */
     @RequestMapping("/getMyProductInfo")
     public String getMyProductInfo(Model model, ProductDTO product){
+        String memberId = SecurityContextHolder.getContext().getAuthentication().getName();
         ProductDTO productDTO = new ProductDTO();
         ProductType myProductType = ProductType.CARDIGAN;
 
         if(product.getProductSeq() > 0){
-            productDTO = productService.selectProductInfo(product.getProductSeq());
+            productDTO = productService.selectProductInfo(product.getProductSeq(), memberId);
             myProductType = productDTO.getProductType();
         }
 
@@ -186,7 +187,8 @@ public class MyPageController {
      */
     @RequestMapping("/getMyReviewInfo")
     public String getMyReviewInfo(Model model, OrderInfoDTO orderInfoDTO, ProductDTO productDTO) {
-        ProductDTO product =  productService.selectProductInfo(productDTO.getProductSeq());
+        String memberId = SecurityContextHolder.getContext().getAuthentication().getName();
+        ProductDTO product =  productService.selectProductInfo(productDTO.getProductSeq(), memberId);
         ReviewDTO reviewInfo = reviewService.findReviewInfo(orderInfoDTO);
         product.setSizeType(productDTO.getSizeType());
         model.addAttribute("product",product);

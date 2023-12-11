@@ -21,17 +21,19 @@ public class ProductRepositoryImpl implements ProductConfig {
     QProductFile qProductFile = QProductFile.productFile;
     QFile qFile = QFile.file;
     QHeart qHeart = QHeart.heart;
+    QMember qMember = QMember.member;
     /**
      * 상품목록조회
      * @param pageable
      * @return
      */
-    public Page<Product> selectProductList(Pageable pageable, Long sellerSeq, ProductType productType, String searchStr){
+    public Page<Product> selectProductList(Pageable pageable, Long sellerSeq, Long memberSeq, ProductType productType, String searchStr){
         QueryResults<Product> productList = queryFactory
                 .selectFrom(qProduct)
                 .join(qProduct.productFileList, qProductFile)
                 .join(qProductFile.file, qFile)
-                .leftJoin(qProduct.heart, qHeart)
+                .leftJoin(qProduct.heartList, qHeart)
+                .on(qHeart.member.memberSeq.eq(memberSeq))
                 .where(eqSellerSeq(sellerSeq)
                         ,eqProductType(productType),qProductFile.fileClsCd.eq("030101")
                         ,searchProductName(searchStr))
@@ -77,14 +79,16 @@ public class ProductRepositoryImpl implements ProductConfig {
      * @param productSeq
      * @return
      */
-    public Product selectProduct(Long productSeq){
+    public Product selectProduct(Long productSeq, Long memberSeq){
         Product productInfo = queryFactory
                 .selectFrom(qProduct)
+                .leftJoin(qProduct.heartList, qHeart)
+                .on(qHeart.member.memberSeq.eq(memberSeq)) // 멤버와 관련된 하트만 가져오기
+                .on(qHeart.member.memberSeq.isNotNull())
                 .join(qProduct.productStockList, qProductStock)
                 .join(qProduct.productFileList, qProductFile)
                 .join(qProductFile.file, qFile)
                 .where(qProduct.productSeq.eq(productSeq))
-                .leftJoin(qProduct.heart, qHeart)
                 .fetchOne();
         return productInfo;
     }

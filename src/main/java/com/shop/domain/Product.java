@@ -38,8 +38,9 @@ public class Product {
     @JsonManagedReference
     @OneToMany(mappedBy = "product", cascade = CascadeType.PERSIST)
     private List<ProductStock> productStockList;
-    @OneToOne(mappedBy = "product")
-    private Heart heart;
+    @JsonManagedReference
+    @OneToMany(mappedBy = "product", cascade = CascadeType.PERSIST)
+    private List<Heart> heartList;
     @Transient
     private String filePth;
     public void createProduct(Long productSeq, Long sellerSeq, String productName ,String productContent, ProductType productType, int price, LocalDateTime regDt, LocalDateTime modDt){

@@ -32,12 +32,12 @@ public class HeartService {
     public Page<HeartDTO> selectHeartList(int start, int limit, String id) {
         Member member = memberRepository.fingByMemberId(id);
         PageRequest pageRequest = PageRequest.of(start-1, limit);
-        Page<Heart> result = heartRepository.selectHeartList(pageRequest,member.getMemberSeq());
+        Page<HeartDTO> result = heartRepository.selectHeartList(pageRequest,member.getMemberSeq());
         int total = result.getTotalPages();
         if (total > 0) {
             pageRequest = PageRequest.of((total-1), limit);
         }
-        List<HeartDTO> list = ModelMapperUtil.mapAll(result.getContent(), HeartDTO.class);
-        return new PageImpl<>(list, pageRequest, total);
+        //List<HeartDTO> list = ModelMapperUtil.mapAll(result.getContent(), HeartDTO.class);
+        return new PageImpl<>(result.getContent(), pageRequest, total);
     }
 }

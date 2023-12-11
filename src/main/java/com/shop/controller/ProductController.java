@@ -46,7 +46,8 @@ public class ProductController {
         if(type.length() > 0){
             productType = ProductType.of(type);
         }
-        Page<ProductDTO> productList = productService.selectProductList(page,6,productType, searchStr);
+        String memberId = SecurityContextHolder.getContext().getAuthentication().getName();
+        Page<ProductDTO> productList = productService.selectProductList(page,6,memberId, productType, searchStr);
         model.addAttribute("productList", productList);
         model.addAttribute("productType", Arrays.asList(ProductType.values()));
         model.addAttribute("type",type);
@@ -62,7 +63,8 @@ public class ProductController {
      */
     @RequestMapping("/getProductInfo")
     public String productInfo(@RequestParam(value="page",required = false, defaultValue="1") int page, Model model, ProductDTO productDTO){
-        ProductDTO product = productService.selectProductInfo(productDTO.getProductSeq());
+        String memberId = SecurityContextHolder.getContext().getAuthentication().getName();
+        ProductDTO product = productService.selectProductInfo(productDTO.getProductSeq(), memberId);
         Page<ReviewDTO> reviewList = reviewService.selectReviewList(page,3,productDTO.getProductSeq());
         model.addAttribute("product",product);
         model.addAttribute("reviewList",reviewList);
@@ -79,7 +81,8 @@ public class ProductController {
      */
     @RequestMapping("/getReviewList")
     public String getReviewList(@RequestParam(value="page",required = false, defaultValue="1") int page, Model model, ProductDTO productDTO){
-        ProductDTO product = productService.selectProductInfo(productDTO.getProductSeq());
+        String memberId = SecurityContextHolder.getContext().getAuthentication().getName();
+        ProductDTO product = productService.selectProductInfo(productDTO.getProductSeq(), memberId);
         Page<ReviewDTO> reviewList = reviewService.selectReviewList(page,3,productDTO.getProductSeq());
         model.addAttribute("product",product);
         model.addAttribute("reviewList",reviewList);

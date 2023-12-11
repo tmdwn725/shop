@@ -23,7 +23,7 @@ public class MainController {
     public String main(Model model) {
         String memberId = SecurityContextHolder.getContext().getAuthentication().getName();
         MemberDTO member = memberService.selectMemberById(memberId);
-        Page<ProductDTO> productList = productService.selectProductList(1,8,null, null);
+        Page<ProductDTO> productList = productService.selectProductList(1,8, memberId, null, null);
         model.addAttribute("member",member);
         model.addAttribute("productType",Arrays.asList(ProductType.values()));
         model.addAttribute("productList", productList.getContent());

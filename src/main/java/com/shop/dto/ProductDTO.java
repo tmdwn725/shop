@@ -28,9 +28,10 @@ public class ProductDTO {
     private String productTypeCd;
     private List<ProductFileDTO> productFileList = new ArrayList<>();
     private List<ProductStock> productStockList = new ArrayList<>();
+    private List<HeartDTO> heartList = new ArrayList<>();
     private String filePth;
     private Map<String,String> sizeTypes = new HashMap<>();
     private String sizeType;
-    private HeartDTO heart;
+    private HeartDTO heart = null;
     private String updateYn;
 }

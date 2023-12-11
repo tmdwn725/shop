@@ -85,12 +85,12 @@
         <div class="container">
             <div class="row">
                 <div class="trend__content" th:each="heart, i : ${myHeartList}">
-                    <div class="trend__item" th:onclick="|location.href='@{/product/getProductInfo?productSeq=}${heart.product.productSeq}'|">
+                    <div class="trend__item" th:onclick="|location.href='@{/product/getProductInfo?productSeq=}${heart.productSeq}'|">
                         <div class="trend__item__pic product__details__pic__left">
-                            <img th:src="'/' + ${heart.product.productFileList[0].file.filePth}" alt="">
+                            <img th:src="'/' + ${heart.productImgFlPth}" alt="">
                         </div>
                         <div class="trend__item__text">
-                            <h6 th:text="${heart.product.productName}" />
+                            <h6 th:text="${heart.productName}" />
                             <div class="rating">
                                 <i class="fa fa-star"></i>
                                 <i class="fa fa-star"></i>
@@ -98,7 +98,8 @@
                                 <i class="fa fa-star"></i>
                                 <i class="fa fa-star"></i>
                             </div>
-                            <div class="product__price" th:text="${#numbers.formatDecimal(heart.product.price, 0, 'COMMA', 0, 'POINT')} + '원'"/>
+                            <div class="product__price" th:text="${#numbers.formatDecimal(heart.price, 0, 'COMMA', 0, 'POINT')} + '원'"/>
+                            <span class="icon_heart" style="color:red;"></span><span th:text="${heart.heartCnt}" style="color: red; margin-left: 5px;"></span>
                         </div>
                     </div>
                 </div>

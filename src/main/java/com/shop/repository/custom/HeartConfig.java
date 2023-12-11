@@ -7,5 +7,5 @@ import org.springframework.data.domain.Pageable;
 
 public interface HeartConfig {
     Heart selectHeartInfo(Heart heart);
-    Page<Heart> selectHeartList(Pageable pageable, Long memberSeq);
+    Page<HeartDTO> selectHeartList(Pageable pageable, Long memberSeq);
 }
