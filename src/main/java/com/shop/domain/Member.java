@@ -2,11 +2,10 @@ package com.shop.domain;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.shop.dto.Role;
-import lombok.Data;
 import lombok.Getter;
-import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +23,8 @@ public class Member {
     private String name;
     @Column(name = "password")
     private String password;
+    @Column(name = "nick_name")
+    private String nickName;
     @Column(name = "email")
     private String email;
     @Column(name = "address")
@@ -32,20 +33,24 @@ public class Member {
     private String detailAddress;
     @Column(name = "tel_no")
     private String telNo;
+    @Column(name = "join_date")
+    private LocalDateTime joinDate;
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
     private Role role;
     @JsonManagedReference
     @OneToMany(mappedBy = "member", cascade = CascadeType.PERSIST)
     private List<Cart> cartList = new ArrayList<>();
-    public void craeteMember(String ... member){
+    public void craeteMember(LocalDateTime nowDate, String ... member){
         this.memberId = member[0];
         this.name = member[1];
         this.password = member[2];
-        this.email = member[3];
-        this.address = member[4];
-        this.detailAddress = member[5];
-        this.telNo = member[6];
+        this.nickName = member[3];
+        this.email = member[4];
+        this.address = member[5];
+        this.detailAddress = member[6];
+        this.telNo = member[7];
+        this.joinDate = nowDate;
         this.role = Role.USER;
     }
 }

@@ -4,6 +4,7 @@ import com.shop.common.FileUtil;
 import com.shop.common.ModelMapperUtil;
 import com.shop.domain.*;
 import com.shop.domain.enums.ProductType;
+import com.shop.dto.HeartDTO;
 import com.shop.dto.ProductDTO;
 import com.shop.repository.*;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,7 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -41,9 +43,10 @@ public class ProductService {
      * @param limit
      * @return
      */
-    public Page<ProductDTO> selectProductList(int start, int limit, ProductType productType, String searchStr){
+    public Page<ProductDTO> selectProductList(int start, int limit, String memberId, ProductType productType, String searchStr){
+        Member member = memberRepository.fingByMemberId(memberId);
         PageRequest pageRequest = PageRequest.of(start-1, limit);
-        Page<Product> result = productRepository.selectProductList(pageRequest, 0L,productType,searchStr);
+        Page<Product> result = productRepository.selectProductList(pageRequest, 0L, member.getMemberSeq(), productType,searchStr);
         int total = result.getTotalPages();
         pageRequest = PageRequest.of((total-1), limit);
         List<ProductDTO> list = ModelMapperUtil.mapAll(result.getContent(), ProductDTO.class);
@@ -55,9 +58,18 @@ public class ProductService {
      * @param productSeq
      * @return
      */
-    public ProductDTO selectProductInfo(Long productSeq){
-        Product productInfo = productRepository.selectProduct(productSeq);
+    public ProductDTO selectProductInfo(Long productSeq, String memberId){
+        Member member = memberRepository.fingByMemberId(memberId);
+        Product productInfo = productRepository.selectProduct(productSeq, member.getMemberSeq());
         ProductDTO product = ModelMapperUtil.map(productInfo, ProductDTO.class);
+        HeartDTO heart = Optional.ofNullable(product)
+                .map(ProductDTO::getHeartList)
+                .orElse(null)
+                .stream()
+                .filter(heartDTO -> heartDTO.getMember() != null && heartDTO.getMember().getMemberSeq() == member.getMemberSeq())
+                .findFirst()
+                .orElse(null);
+        product.setHeart(heart);
         return product;
     }
 
@@ -65,12 +77,12 @@ public class ProductService {
      * 내 상품관리목록 조회
      * @param start
      * @param limit
-     * @param MemberSeq
+     * @param memberSeq
      * @return
      */
-    public Page<ProductDTO> selectMyProductList(int start, int limit, Long MemberSeq){
+    public Page<ProductDTO> selectMyProductList(int start, int limit, Long memberSeq){
         PageRequest pageRequest = PageRequest.of(start-1, limit);
-        Page<Product> result = productRepository.selectProductList(pageRequest, MemberSeq,null, null);
+        Page<Product> result = productRepository.selectProductList(pageRequest, memberSeq, memberSeq, null, null);
         int total = result.getTotalPages();
         if (total > 0) {
             pageRequest = PageRequest.of((total-1), limit);
@@ -86,9 +98,9 @@ public class ProductService {
     @Transactional
     public void saveProductInfo(ProductDTO productDTO, MultipartFile[] imageFileList){
         // 현재 날짜와 시간 취득
-        LocalDateTime nowdatetime = LocalDateTime.now();
+        LocalDateTime nowDate = LocalDateTime.now();
         Product product = new Product();
-        product.createProduct(productDTO.getProductSeq(), productDTO.getSellerSeq(), productDTO.getProductName(), productDTO.getProductContent(), productDTO.getProductType(), productDTO.getPrice(),nowdatetime, nowdatetime);
+        product.createProduct(productDTO.getProductSeq(), productDTO.getSellerSeq(), productDTO.getProductName(), productDTO.getProductContent(), productDTO.getProductType(), productDTO.getPrice(),nowDate, null);
 
         // 상품정보 수정
         if(productDTO.getProductSeq() > 0){
@@ -118,7 +130,7 @@ public class ProductService {
                     productFileRepository.deleteProductFile(product.getProductSeq(),fileClsCd,index+1);
                     String saveFilePth = FileUtil.saveFile(imageFile, rootPth, filePth);
                     File fileInfo = new File();
-                    fileInfo.CreateFile(imageFile.getSize(), imageFile.getOriginalFilename(), saveFilePth, "jpg");
+                    fileInfo.CreateFile(imageFile.getSize(), nowDate, null, imageFile.getOriginalFilename(), saveFilePth, "jpg");
                     fileRepository.save(fileInfo);
 
                     ProductFile productFile = new ProductFile();
@@ -148,7 +160,7 @@ public class ProductService {
 
                     String saveFilePth = FileUtil.saveFile(imageFile, rootPth, filePth);
                     File fileInfo = new File();
-                    fileInfo.CreateFile(imageFile.getSize(), imageFile.getOriginalFilename(), saveFilePth, "jpg");
+                    fileInfo.CreateFile(imageFile.getSize(), nowDate, null, imageFile.getOriginalFilename(), saveFilePth, "jpg");
                     fileRepository.save(fileInfo);
 
                     // index 구하기
@@ -178,16 +190,17 @@ public class ProductService {
     }
 
     /**
-     * 좋아요 수정/삭제
+     * 좋아요 등록/삭제
      * @param productDTO
      * @param memberId
      */
     @Transactional
     public void updateHeartInfo(ProductDTO productDTO, String memberId) {
+        LocalDateTime nowDate = LocalDateTime.now();
         Heart heart = new Heart();
         Member member = memberRepository.fingByMemberId(memberId);
         Product product = productRepository.findById(productDTO.getProductSeq()).get();
-        heart.createHeart(member, product);
+        heart.createHeart(member, product, nowDate);
         // 좋아요 취소시 삭제
         if("Y".equals(productDTO.getUpdateYn())) {
             heartRepository.save(heart);

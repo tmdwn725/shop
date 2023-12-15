@@ -28,10 +28,10 @@ public class Product {
     private ProductType productType;
     @Column(name = "price")
     private int price;
-    @Column(name = "reg_dt")
-    private LocalDateTime regDt;
-    @Column(name = "mod_dt")
-    private LocalDateTime modDt;
+    @Column(name = "reg_date")
+    private LocalDateTime regDate;
+    @Column(name = "mod_date")
+    private LocalDateTime modDate;
     @JsonManagedReference
     @OneToMany(mappedBy = "product", cascade = CascadeType.PERSIST)
     private List<ProductFile> productFileList;
@@ -43,7 +43,7 @@ public class Product {
     private List<Heart> heartList;
     @Transient
     private String filePth;
-    public void createProduct(Long productSeq, Long sellerSeq, String productName ,String productContent, ProductType productType, int price, LocalDateTime regDt, LocalDateTime modDt){
+    public void createProduct(Long productSeq, Long sellerSeq, String productName ,String productContent, ProductType productType, int price, LocalDateTime regDate, LocalDateTime modDate){
         if(productSeq > 0L){
             this.productSeq = productSeq;
         }
@@ -52,7 +52,7 @@ public class Product {
         this.productContent = productContent;
         this.productType = productType;
         this.price = price;
-        this.regDt = regDt;
-        this.modDt = modDt;
+        this.regDate = regDate;
+        this.modDate = modDate;
     }
 }

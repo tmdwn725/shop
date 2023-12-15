@@ -23,13 +23,16 @@ public class Review {
     private String content;
     @Column(name ="score")
     private int score;
-    @Column(name ="review_date")
-    private LocalDateTime reviewDate;
-    public void createReview(OrderInfo orderInfo, File file, String content, int score, LocalDateTime reviewDate){
+    @Column(name ="reg_date")
+    private LocalDateTime regDate;
+    @Column(name ="mod_date")
+    private LocalDateTime modDate;
+    public void createReview(OrderInfo orderInfo, File file, String content, int score, LocalDateTime regDate, LocalDateTime modDate){
         this.orderInfo = orderInfo;
         this.file = file;
         this.content = content;
         this.score = score;
-        this.reviewDate = reviewDate;
+        this.regDate = regDate;
+        this.modDate = modDate;
     }
 }

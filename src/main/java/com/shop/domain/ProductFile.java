@@ -13,9 +13,9 @@ public class ProductFile {
     @Column(name ="product_file_seq")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long productFileSeq;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_seq")
     @JsonBackReference
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_seq", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Product product;
     @Column(name ="file_cls_cd")
     private String fileClsCd;

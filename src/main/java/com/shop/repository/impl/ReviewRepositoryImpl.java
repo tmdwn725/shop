@@ -35,7 +35,7 @@ public class ReviewRepositoryImpl implements ReviewConfig {
                 .join(qOrderInfo.productStock,qProductStock)
                 .join(qProductStock.product,qProduct)
                 .where(qProduct.productSeq.eq(productSeq))
-                .orderBy(qReview.reviewDate.desc())
+                .orderBy(qReview.modDate.desc().nullsLast(), qReview.regDate.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetchResults();

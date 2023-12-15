@@ -52,6 +52,7 @@ public class HeartRepositoryImpl implements HeartConfig {
                 .join(qProduct.heartList,qHeart).on(qHeart.member.memberSeq.eq(memberSeq))
                 .join(qProduct.productFileList,qProductFile).on(qProductFile.fileClsCd.eq("030101"))
                 .join(qProductFile.file,qFile)
+                .orderBy(qHeart.regDate.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetchResults();

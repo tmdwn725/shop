@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -21,8 +22,11 @@ public class Heart {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_seq", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Product product;
-    public void createHeart(Member member, Product product){
+    @Column(name = "reg_date")
+    private LocalDateTime regDate;
+    public void createHeart(Member member, Product product, LocalDateTime regDate){
         this.member = member;
         this.product = product;
+        this.regDate = regDate;
     }
 }

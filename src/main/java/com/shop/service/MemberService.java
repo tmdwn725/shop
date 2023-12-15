@@ -31,6 +31,13 @@ public class MemberService implements UserDetailsService {
                 .roles(member.getRole().name())
                 .build();
     }
+
+    /**
+     * id로 member 정보 조회
+     * @param id
+     * @return
+     */
+    
     public MemberDTO selectMemberById(String id) {
         MemberDTO dto = ModelMapperUtil.map(memberRepository.fingByMemberId(id), MemberDTO.class);
         return dto;

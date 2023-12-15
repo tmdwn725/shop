@@ -37,7 +37,7 @@ public class ProductRepositoryImpl implements ProductConfig {
                 .where(eqSellerSeq(sellerSeq)
                         ,eqProductType(productType),qProductFile.fileClsCd.eq("030101")
                         ,searchProductName(searchStr))
-                .orderBy(qProduct.regDt.desc(), qProduct.productSeq.asc()) // 최신순으로 정렬
+                .orderBy(qProduct.regDate.desc(), qProduct.productSeq.asc()) // 최신순으로 정렬
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize()) // 최대 8개만 조회
                 .fetchResults();

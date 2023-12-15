@@ -22,8 +22,8 @@ public class ProductDTO {
     private String productContent;
     private String rpImageSeq;
     private int price;
-    private LocalDateTime regDt;
-    private LocalDateTime modDt;
+    private LocalDateTime regDate;
+    private LocalDateTime modDate;
     private ProductType productType;
     private String productTypeCd;
     private List<ProductFileDTO> productFileList = new ArrayList<>();

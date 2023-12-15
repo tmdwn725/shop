@@ -57,18 +57,17 @@ public class ReviewService {
      */
     public void saveReviewInfo(ReviewDTO reviewDTO){
         // 현재 날짜와 시간 취득
-        LocalDateTime nowdatetime = LocalDateTime.now();
-
+        LocalDateTime nowDate = LocalDateTime.now();
         Review review = new Review();
         OrderInfo orderInfo = orderInfoRepository.findById(reviewDTO.getOrderSeq()).get();
 
         String filePth = imageUploadPath + "/" + reviewDTO.getOrderSeq();
         String saveFilePth = FileUtil.saveFile(reviewDTO.getImgFile(), rootPth, filePth);
         File fileInfo = new File();
-        fileInfo.CreateFile(reviewDTO.getImgFile().getSize(), reviewDTO.getImgFile().getOriginalFilename(), saveFilePth, "jpg");
+        fileInfo.CreateFile(reviewDTO.getImgFile().getSize(), nowDate, null, reviewDTO.getImgFile().getOriginalFilename(), saveFilePth, "jpg");
         fileRepository.save(fileInfo);
 
-        review.createReview(orderInfo,fileInfo,reviewDTO.getContent(),reviewDTO.getScore(),nowdatetime);
+        review.createReview(orderInfo,fileInfo,reviewDTO.getContent(),reviewDTO.getScore(),nowDate, null);
 
         reviewRepository.save(review);
     }

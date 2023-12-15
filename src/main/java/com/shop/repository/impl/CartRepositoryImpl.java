@@ -14,7 +14,6 @@ public class CartRepositoryImpl implements CartConfig {
     QCart qCart = QCart.cart;
     QMember qMember = QMember.member;
     QProductStock qProductStock = QProductStock.productStock;
-    QProduct qProduct = QProduct.product;
     public List<Cart> myCartList(Member member){
         return queryFactory
                 .select(Projections.fields(Cart.class,
@@ -29,7 +28,6 @@ public class CartRepositoryImpl implements CartConfig {
                 .where(qCart.member.eq(member))
                 .fetch();
     }
-
     public long updateProductQuantity(Long cartSeq, int quantity){
         return queryFactory.update(qCart).where(qCart.cartSeq.eq(cartSeq))
                 .set(qCart.quantity, quantity)

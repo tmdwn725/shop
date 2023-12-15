@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,10 +23,11 @@ public class CartService {
     private final MemberRepository memberRepository;
     private final ProductStockRepository productStockRepository;
     public void addCart(CartDTO cartDTO, String memberId){
+        LocalDateTime nowDate = LocalDateTime.now();
         Cart cart = new Cart();
         Member member = memberRepository.fingByMemberId(memberId);
         Optional<ProductStock> productStock = productStockRepository.findById(cartDTO.getProductStockSeq());
-        cart.createCart(member, productStock.get(), cartDTO.getQuantity());
+        cart.createCart(member, productStock.get(), cartDTO.getQuantity(), nowDate);
         cartRepository.save(cart);
     }
     public List<CartDTO> findMyCartList(String memberId){
